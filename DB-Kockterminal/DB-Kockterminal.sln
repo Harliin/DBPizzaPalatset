@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB-Kockterminal", "DB-Kockterminal\DB-Kockterminal.csproj", "{877671F4-F54F-4E14-AA3E-B815D118E457}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{877671F4-F54F-4E14-AA3E-B815D118E457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{877671F4-F54F-4E14-AA3E-B815D118E457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{877671F4-F54F-4E14-AA3E-B815D118E457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{877671F4-F54F-4E14-AA3E-B815D118E457}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {22269D95-4B2A-4D62-BCBD-2F09EB0BE798}
+	EndGlobalSection
+EndGlobal

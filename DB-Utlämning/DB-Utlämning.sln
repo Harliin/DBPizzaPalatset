@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB-Utlämning", "DB-Utlämning\DB-Utlämning.csproj", "{E87BC429-5E22-4154-BA0A-7E7682DBEDED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E87BC429-5E22-4154-BA0A-7E7682DBEDED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E87BC429-5E22-4154-BA0A-7E7682DBEDED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E87BC429-5E22-4154-BA0A-7E7682DBEDED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E87BC429-5E22-4154-BA0A-7E7682DBEDED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F93CFD9-112C-4E39-AC59-7E2D192D1224}
+	EndGlobalSection
+EndGlobal
