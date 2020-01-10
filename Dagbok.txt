@@ -2,6 +2,8 @@
  *Skriv vad ni gjort i denna fil.(med datum)*
 
 Pontus
+10/1-2020
+Påbörjade Menyerna i Beställningsterminalen, Pizza,sallad,pasta och dryck är i stort sett färdig, kommer fyllas ut när databasen kopplas in.
 
 Jonathan
 
