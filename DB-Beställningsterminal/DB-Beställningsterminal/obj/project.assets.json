@@ -8,23 +8,23 @@
     ".NETCoreApp,Version=v3.1": []
   },
   "packageFolders": {
-    "C:\\Users\\jonte\\.nuget\\packages\\": {},
+    "C:\\Users\\Jonathan Harlin\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jonte\\Documents\\GitHub\\DBPizzaPalatset\\DB-Beställningsterminal\\DB-Beställningsterminal\\DB-Beställningsterminal.csproj",
+      "projectUniqueName": "C:\\Users\\Jonathan Harlin\\Documents\\GitHub\\DBPizzaPalatset\\DB-Beställningsterminal\\DB-Beställningsterminal\\DB-Beställningsterminal.csproj",
       "projectName": "DB-Beställningsterminal",
-      "projectPath": "C:\\Users\\jonte\\Documents\\GitHub\\DBPizzaPalatset\\DB-Beställningsterminal\\DB-Beställningsterminal\\DB-Beställningsterminal.csproj",
-      "packagesPath": "C:\\Users\\jonte\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jonte\\Documents\\GitHub\\DBPizzaPalatset\\DB-Beställningsterminal\\DB-Beställningsterminal\\obj\\",
+      "projectPath": "C:\\Users\\Jonathan Harlin\\Documents\\GitHub\\DBPizzaPalatset\\DB-Beställningsterminal\\DB-Beställningsterminal\\DB-Beställningsterminal.csproj",
+      "packagesPath": "C:\\Users\\Jonathan Harlin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Jonathan Harlin\\Documents\\GitHub\\DBPizzaPalatset\\DB-Beställningsterminal\\DB-Beställningsterminal\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\jonte\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Jonathan Harlin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
