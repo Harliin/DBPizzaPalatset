@@ -6,6 +6,7 @@ Pontus
 Jonathan
 
 Thomas
+Började skriva på kassörprogrammet. Måste få till en bättre felhantering av användarens input. Fortsätter i helgen.
 
 Aata
 
