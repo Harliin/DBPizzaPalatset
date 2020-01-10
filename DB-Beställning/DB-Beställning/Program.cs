@@ -6,7 +6,8 @@ namespace DB_Beställning
     {
         static void Main(string[] args)
         {
-            
+            Menus meny = new Menus();
+            meny.PrintMenu();
         }
     }
 }
