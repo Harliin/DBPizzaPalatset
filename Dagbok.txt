@@ -1,16 +1,18 @@
 
  *Skriv vad ni gjort i denna fil.(med datum)*
 
-Pontus
+Pontus:
 10/1-2020
 Påbörjade Menyerna i Beställningsterminalen, Pizza,sallad,pasta och dryck är i stort sett färdig, kommer fyllas ut när databasen kopplas in.
 
-Jonathan
+Jonathan:
+10/1-2020
+Gjorde klart skalet för admin menyn.
 
-Thomas
+Thomas:
 10/1 2020
 Började skriva på kassörprogrammet. Måste få till en bättre felhantering av användarens input. Fortsätter i helgen.
 
-Aata
+Aata:
 
-Elchin
+Elchin:
