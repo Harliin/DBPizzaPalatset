@@ -26,7 +26,7 @@ namespace DB_Beställning
         public void PrintOrderMenu()
         {
             Console.Clear();
-            foreach(string item in MenuList.FoodMenu)
+            foreach (string item in MenuList.FoodMenu)
             {
                 Console.WriteLine(item);
             }
@@ -41,7 +41,11 @@ namespace DB_Beställning
                     PrintPastas();
                     break;
                 case '3':
-
+                    PrintSalads();
+                    break;
+                case '4':
+                    PrintDrinks();
+                    break;
                 default:
                     break;
             }
@@ -107,8 +111,7 @@ namespace DB_Beställning
         public void PrintPastas()
         {
             Console.Clear();
-
-            foreach(string item in MenuList.Pastas)
+            foreach (string item in MenuList.Pastas)
             {
                 Console.WriteLine(item);
             }
@@ -153,12 +156,13 @@ namespace DB_Beställning
         }
         public void PrintSalads()
         {
-            foreach(string item in MenuList.Salads)
+            Console.Clear();
+            foreach (string item in MenuList.Salads)
             {
                 Console.WriteLine(item);
             }
 
-           while(correctKey == false)
+            while (correctKey == false)
             {
                 key = Console.ReadKey(true).KeyChar;
                 switch (key)
@@ -172,10 +176,53 @@ namespace DB_Beställning
                     case '2':
                         Console.Clear();
                         Console.WriteLine("Chevresallad");
+                        correctKey = true;
                         break;
 
                     case '3':
                         PrintOrderMenu(); //Fortsätt handla
+                        correctKey = true;
+                        break;
+
+                    case '4': //Återgå till maträttsmenyn
+                        PrintMenu();
+                        correctKey = true;
+                        break;
+
+                    default:
+                        Console.Clear();
+                        foreach (string choices in MenuList.Salads)
+                        {
+                            Console.WriteLine(choices);
+                        }
+                        continue;
+                }
+            }
+        }
+        public void PrintDrinks()
+        {
+            Console.Clear();
+            foreach (string item in MenuList.Drinks)
+            {
+                Console.WriteLine(item);
+            }
+            while (correctKey == false)
+            {
+                key = Console.ReadKey(true).KeyChar;
+                switch (key)
+                {
+                    case '1':
+                        Console.WriteLine("Läsk");
+                        correctKey = true;
+                        break;
+
+                    case '2':
+                        Console.WriteLine("Öl");
+                        correctKey = true;
+                        break;
+
+                    case '3':
+                        Console.WriteLine("Vin");
                         correctKey = true;
                         break;
 
