@@ -1,14 +1,12 @@
 ﻿using System;
 
-namespace DB_Admin
+namespace DB_Kassörska
 {
     class Program
     {
         static void Main(string[] args)
         {
-
-            Console.WriteLine("Hej!");
-
+            Console.WriteLine("Hello World!");
         }
     }
 }
