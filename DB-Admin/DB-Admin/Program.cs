@@ -6,9 +6,7 @@ namespace DB_Admin
     {
         static void Main(string[] args)
         {
-
-            Console.WriteLine("Hej!");
-
+            Console.WriteLine("Hej!/Tage");
         }
     }
 }
