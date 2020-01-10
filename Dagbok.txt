@@ -6,6 +6,7 @@ Pontus
 Jonathan
 
 Thomas
+10/1 2020
 Började skriva på kassörprogrammet. Måste få till en bättre felhantering av användarens input. Fortsätter i helgen.
 
 Aata
