@@ -6,7 +6,7 @@ namespace DB_Beställning
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }
