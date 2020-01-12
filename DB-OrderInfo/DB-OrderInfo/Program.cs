@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace DB_OrderInfo
+﻿namespace DB_OrderInfo
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            MainMenu menu = new MainMenu();
+            menu.Run();
         }
     }
 }
