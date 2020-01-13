@@ -8,6 +8,8 @@ Påbörjade Menyerna i Beställningsterminalen, Pizza,sallad,pasta och dryck är
 Jonathan:
 10/1-2020
 Gjorde klart skalet för admin menyn.
+13-1-2020
+La till inloggningsfunktion
 
 Thomas:
 10/1 2020
