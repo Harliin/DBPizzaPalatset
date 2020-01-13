@@ -14,6 +14,5 @@ namespace DB_Kock
             this.Name = name;
         }
 
-
     }
 }

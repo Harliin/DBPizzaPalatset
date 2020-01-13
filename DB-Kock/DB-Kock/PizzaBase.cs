@@ -4,9 +4,12 @@ using System.Text;
 
 namespace DB_Kock
 {
-    public enum PizzaBase
+    public class PizzaBase
     {
-        Italiensk,
-        Amerikansk
+        //behöver vi ha eller inte?
+        public void GetCrust()
+        {
+            Console.WriteLine("Hänta basen från databasen");
+        }
     }
 }
