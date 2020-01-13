@@ -6,7 +6,24 @@ namespace DB_Admin
     {
         static void Main(string[] args)
         {
-            AdminStartMenu();
+            do
+            {
+                Console.Write("\nSkriv in lösenord:");
+                string password = Console.ReadLine();
+                if (password == "Admin123")
+                {
+                    AdminStartMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Fel lösenord");
+                    Console.ReadLine();
+                    Console.Clear();
+                }
+            } while (true);
+            
+            
+            
         }
 
         public static void AdminStartMenu()
