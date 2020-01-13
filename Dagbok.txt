@@ -8,15 +8,13 @@ Påbörjade Menyerna i Beställningsterminalen, Pizza,sallad,pasta och dryck är
 Jonathan:
 10/1-2020
 Gjorde klart skalet för admin menyn.
-13-1-2020
-La till inloggningsfunktion
 
 Thomas:
 10/1 2020
 Började skriva på kassörprogrammet. Måste få till en bättre felhantering av användarens input. Fortsätter i helgen.
-13/1 2020
-Började med Balsamiqskissen till admin-programmet
 
 Aata:
+11/1 2020
+Uppdaterar terminalen
 
 Elchin:
