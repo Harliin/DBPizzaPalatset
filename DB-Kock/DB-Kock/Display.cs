@@ -245,7 +245,8 @@ namespace DB_Kock
         public static void DrawConfirmationScreen()
         {
             Console.Clear();
-            Console.WriteLine("Maten serverad!");
+            Console.WriteLine("Skriver ut ordernummer...");
+            Orders.GetOrdernumber();
             System.Threading.Thread.Sleep(1500);
             DrawMultipleChoiceMenu();
         }
