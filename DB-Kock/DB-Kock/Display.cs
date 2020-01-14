@@ -6,7 +6,6 @@ namespace DB_Kock
 {
     public class Display
     {
-        public static object GlobalMethods { get; private set; }
 
         public static void DrawStartMenu()
         {
@@ -41,88 +40,152 @@ namespace DB_Kock
 
         public static void DrawMultipleChoiceMenu()
         {
-            Console.Clear();
+                Console.Clear();
+                Console.WriteLine("Välj den order som du vill tillaga");
+                Console.WriteLine("-------------\n");
+                Orders.GetOrder();
+                Console.WriteLine();
 
-            Console.WriteLine("Välj den order som du vill tillaga");
-            Console.WriteLine("-------------\n");
-            Orders.GetOrder();
-            Console.WriteLine();
+                Console.Write("Välj ordernummer: ");
+                int opt = Console.ReadKey(true).KeyChar - '0';
 
-            Console.Write("Välj ordernummer: ");
-            int opt = Convert.ToInt32(Console.ReadLine());
-            //eller char opt = Console.ReadKey(true).KeyChar;
+                switch (opt)
+                {
+                    case 1:
+                        Console.Clear();
+                        Console.WriteLine("Du har valt order # 1");
+                        Console.WriteLine();
+                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
+                        Console.WriteLine("------------------------");
+                        Console.WriteLine();
+                        Food.GetIngredients();
+                        Console.WriteLine();
+                        Console.WriteLine("------------------------");
+                        break;
 
+                    case 2:
+                        Console.Clear();
+                        Console.WriteLine("Du har valt order # 2");
+                        Console.WriteLine();
+                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
+                        Console.WriteLine("------------------------");
+                        Console.WriteLine();
+                        Food.GetIngredients();
+                        Console.WriteLine();
+                        Console.WriteLine("------------------------");
+                        break;
 
-            switch (opt)
+                    case 3:
+                        Console.Clear();
+                        Console.WriteLine("Du har valt order # 3");
+                        Console.WriteLine();
+                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
+                        Console.WriteLine("------------------------");
+                        Console.WriteLine();
+                        Food.GetIngredients();
+                        Console.WriteLine();
+                        Console.WriteLine("------------------------");
+                        break;
+
+                    case 4:
+                        Console.Clear();
+                        Console.WriteLine("Du har valt order # 4");
+                        Console.WriteLine();
+                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
+                        Console.WriteLine("------------------------");
+                        Console.WriteLine();
+                        Food.GetIngredients();
+                        Console.WriteLine();
+                        Console.WriteLine("------------------------");
+                        break;
+
+                    case 5:
+                        Console.Clear();
+                        Console.WriteLine("Du har valt order # 4");
+                        Console.WriteLine();
+                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
+                        Console.WriteLine("------------------------");
+                        Console.WriteLine();
+                        Food.GetIngredients();
+                        Console.WriteLine();
+                        Console.WriteLine("------------------------");
+                        break;
+
+                    case 6:
+                        Console.Clear();
+                        Console.WriteLine("Du har valt order # 5");
+                        Console.WriteLine();
+                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
+                        Console.WriteLine("------------------------");
+                        Console.WriteLine();
+                        Food.GetIngredients();
+                        Console.WriteLine();
+                        Console.WriteLine("------------------------");
+                        break;
+
+                    case 7:
+                        Console.Clear();
+                        Console.WriteLine("Du har valt order # 5");
+                        Console.WriteLine();
+                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
+                        Console.WriteLine("------------------------");
+                        Console.WriteLine();
+                        Food.GetIngredients();
+                        Console.WriteLine();
+                        Console.WriteLine("------------------------");
+                        break;
+
+                    default:
+                        DrawMultipleChoiceMenu();
+                        break;
+
+                }
+
+            bool correctKey = true;
+
+            do
             {
-                case 1:
-                    Console.Clear();
-                    Console.WriteLine("Du har valt order # 1");
-                    Console.WriteLine();
-                    Console.WriteLine("Denna rätt innehåller följande ingredienser:");
-                    Console.WriteLine("------------------------");
-                    Console.WriteLine();
-                    Pizza.GetIngredients();
-                    Console.WriteLine();
-                    Console.WriteLine("------------------------");
-                    break;
 
-                case 2:
-                    Console.Clear();
-                    Console.WriteLine("Du har valt order # 2");
-                    Console.WriteLine();
-                    Console.WriteLine("Denna rätt innehåller följande ingredienser:");
-                    Console.WriteLine("------------------------");
-                    Console.WriteLine();
-                    Pizza.GetIngredients();
-                    Console.WriteLine();
-                    Console.WriteLine("------------------------");
-                    break;
+                if (opt < 5 && opt > 0)
+                {
+                    Console.WriteLine("1. Stoppa in i ugn");
+                }
 
-                case 3:
-                    Console.Clear();
-                    Console.WriteLine("Du har valt order # 3");
-                    Console.WriteLine();
-                    Console.WriteLine("Denna rätt innehåller följande ingredienser:");
-                    Console.WriteLine("------------------------");
-                    Console.WriteLine();
-                    Pizza.GetIngredients();
-                    Console.WriteLine();
-                    Console.WriteLine("------------------------");
-                    break;
+                else if (opt > 4)
+                {
+                    Console.WriteLine("1. Tillaga");
+                }
 
-                case 4:
-                    Console.Clear();
-                    Console.WriteLine("Du har valt order # 4");
-                    Console.WriteLine();
-                    Console.WriteLine("Denna rätt innehåller följande ingredienser:");
-                    Console.WriteLine("------------------------");
-                    Console.WriteLine();
-                    Pizza.GetIngredients();
-                    Console.WriteLine();
-                    Console.WriteLine("------------------------");
-                    break;
 
-                default:
+                Console.WriteLine("2. Återgå");
+
+                int userInput = Console.ReadKey(true).KeyChar - '0';
+
+                if (userInput == 1 && opt < 5 && opt > 0)
+                {
+                    DrawCookPizzaMenu();
+                    correctKey = false;
+                }
+
+                else if (userInput == 1 && opt > 4)
+                {
+                    DrawCookSaladOrPastaMenu();
+                    correctKey = false;
+                }
+
+                if (userInput == 2)
+                {
                     DrawMultipleChoiceMenu();
-                    break;
+                    correctKey = false;
+                }
 
-            }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Skriv 1 eller 2");
+                }
 
-            Console.WriteLine("1. Stoppa in i ugn");
-            Console.WriteLine("2. Återgå");
-
-            int userInput = Console.ReadKey(true).KeyChar - '0';
-
-            if (userInput==1)
-            {
-                DrawCookPizzaMenu();
-            }
-
-            else if (userInput ==2)
-            {
-                DrawMultipleChoiceMenu();
-            }
+            } while (correctKey == true);
 
         }
         public static void DrawCookPizzaMenu()
@@ -155,6 +218,29 @@ namespace DB_Kock
                 }
             }
         }
+
+        public static void DrawCookSaladOrPastaMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Maten tillagas");
+            Console.WriteLine("-------------\n");
+
+            Console.WriteLine("Klicka Enter när du är färdig och redo att skicka maten till servering");
+
+            // väntar tills kocken bekräftat att maten är klar för servering
+            while (true)
+            {
+                char key = Console.ReadKey(true).KeyChar;
+                // om kocken klickar på enter så skickas hen tillbaka till startsidan för att kunna ta nya ordrar
+                if (key == 13)
+                {
+                    DrawConfirmationScreen();
+                    break;
+                }
+            }
+        }
+
+    
 
         public static void DrawConfirmationScreen()
         {

@@ -6,7 +6,7 @@ namespace DB_Kock
 {
    public class Orders
     {
-
+        //ordernummer och innehåll från databasen
         public static void GetOrder()
         {
             Console.WriteLine("*Hämta order från databasen*");

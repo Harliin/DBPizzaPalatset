@@ -9,9 +9,7 @@ namespace DB_Kock
         {
             Display.DrawStartMenu();
             Display.DrawMultipleChoiceMenu();
-   
         }
-           
-        
+          
     }
 }
