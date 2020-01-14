@@ -15,7 +15,9 @@ Började skriva på kassörprogrammet. Måste få till en bättre felhantering a
 
 Aata:
 11/1 2020
-Uppdaterar terminalen
+Uppdaterar terminalen.
+14/1 2020
+Uppdaterat terminal med sallad och pasta men den saknar fortfarande "logga ut" -knappen.
 
 Elchin:
 11/1 2020 
