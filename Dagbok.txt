@@ -18,3 +18,7 @@ Aata:
 Uppdaterar terminalen
 
 Elchin:
+11/1 2020 
+Började med Grupp 1 Bagareterminal. Redogjorde lite i kod. 
+14/1 2020 
+Gjorde om programmet. Skapade skelettprogrammet. Lämnade tomma metoder bara. 
