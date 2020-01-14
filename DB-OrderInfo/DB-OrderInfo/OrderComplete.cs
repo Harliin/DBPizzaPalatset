@@ -8,30 +8,17 @@ namespace DB_OrderInfo
      skriva ut alla färdiga ordrar och ta bort färdiga ordrar. */
     public class OrdersComplete
     {
-        public List<Customer> completeOrderID;
-
-        public OrdersComplete()
+        public void GetCompletedOrders()
         {
-            this.completeOrderID = new List<Customer>();
+            
         }
-
-        public void GetCompletedOrders(OrdersOngoing ordersOngoing)/*gör en pågående order till en färdig order,
-                                                                    genom att hämta ordern från pågående ordrar.*/
+        public void ShowCompletedOrders()
         {
-            completeOrderID.Add(ordersOngoing.FinishedOrder());
-            Console.Beep();
 
         }
-        public void ShowCompletedOrders()/*Skriver ut alla färdiga ordrar*/
+        public void RemoveCompleteOrders()
         {
-            foreach (var customer in completeOrderID)
-            {
-                Console.WriteLine($"#ID: {customer.ID}");
-            }
-        }
-        public void RemoveCompleteOrders()/*Tar bort en färdig order*/
-        {
-            completeOrderID.Remove(completeOrderID[0]);
+            
         }
     }
 }

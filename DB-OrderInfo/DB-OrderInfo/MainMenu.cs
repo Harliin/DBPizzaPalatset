@@ -1,62 +1,33 @@
 ﻿using System;
-using System.Threading;
 
 namespace DB_OrderInfo
 {
     class MainMenu
     {
-        OrdersOngoing onGoingOrders;
-        OrdersComplete completeOrders;
-        public MainMenu()
-        {
-            this.onGoingOrders = new OrdersOngoing();
-            this.completeOrders = new OrdersComplete();
-        }
-
         public void Run()
         {
-            string pizzalogo = "\tPIZZERIA PALATSET";
-            Console.WriteLine("_____________________________________________");
+            string pizzalogo = "\t|\tPIZZERIA PALATSET\t    |";
+            Console.WriteLine("\t ___________________________________");
+            Console.WriteLine("\t|                                   |");
             Console.WriteLine(pizzalogo);
-            Console.WriteLine("_____________________________________________");
+            Console.WriteLine("\t|___________________________________|");
 
             Console.WriteLine($"\nPågående ordrar\t\t\tKlara ordrar");
             Console.WriteLine($"");
-            int counterForCompleteOrder = 0;
-            int counterForRemoveCompleteOrder = 0;
+
             do
             {
                 GenerateNewOrder();
-
-                if (counterForCompleteOrder == 1) /*Orderlistorna fortsätter att öka och detta är inget vi hanterar i 
-                                                    denna version 1.0 av programmet. Detta åtgärdas i nästa version*/
-                {
-                    completeOrders.GetCompletedOrders(onGoingOrders);
-                    counterForCompleteOrder = -1;
-
-                    if (counterForRemoveCompleteOrder == 2)
-                    {
-                        completeOrders.RemoveCompleteOrders();
-                        counterForRemoveCompleteOrder = 0;
-                    }
-                    counterForRemoveCompleteOrder++;
-                }
-                PrintOrders();
-                counterForCompleteOrder++;
-
             } while (true);
         }
 
-        public void GenerateNewOrder()/*Simulerar att nya ordrar kommer in genom att söva tråden och sedan skapa nya ordrar.*/
+        public void GenerateNewOrder()
         {
-            Thread.Sleep(1000);
-            onGoingOrders.NewOrder();
+            // här ska genereras nykommande ordrar
         }
-
-        public void PrintOrders()/*Skriver ut pågående och klara ordrar till consolen.*/
+        public void CompleteOrder()
         {
-            onGoingOrders.ShowOngoingOrders();
-            completeOrders.ShowCompletedOrders();
+            // här ska färdiga ordrar
         }
     }
 }
