@@ -12,6 +12,8 @@ Gjorde klart skalet för admin menyn.
 Thomas:
 10/1 2020
 Började skriva på kassörprogrammet. Måste få till en bättre felhantering av användarens input. Fortsätter i helgen.
+14/1 2020
+Uppdaterade koden, nu finns det hantering av felinmatning
 
 Aata:
 11/1 2020
