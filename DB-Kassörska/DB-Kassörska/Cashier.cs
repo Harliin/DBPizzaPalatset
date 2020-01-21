@@ -62,8 +62,5 @@ namespace DB_Kassörska
         {
             Console.WriteLine("Markerar order som uthämtad i DB...");
         }
-
     }
-
-
 }
