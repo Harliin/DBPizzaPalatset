@@ -12,5 +12,10 @@ namespace DB_Kock
             Console.WriteLine("*Hämta order från databasen*");
         }
 
+        public static void GetOrdernumber()
+        {
+            Console.WriteLine("*Hämta ordernummer från databasen*");
+        }
+
     }
 }
