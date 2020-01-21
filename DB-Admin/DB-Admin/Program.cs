@@ -1,4 +1,5 @@
 ﻿using System;
+using Food;
 
 namespace DB_Admin
 {
@@ -7,6 +8,7 @@ namespace DB_Admin
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            var drink = new Drink();
         }
     }
 }
