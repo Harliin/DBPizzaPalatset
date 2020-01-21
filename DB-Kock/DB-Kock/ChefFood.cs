@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DB_Kock
 {
-    public class Food
+    public class ChefFood
     {
         //denna kan möjligen tas bort om pizza är kopplad till order
         public static void GetPizza()

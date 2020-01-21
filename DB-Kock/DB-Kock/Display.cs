@@ -58,7 +58,7 @@ namespace DB_Kock
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        Food.GetIngredients();
+                        ChefFood.GetIngredients();
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
@@ -70,7 +70,7 @@ namespace DB_Kock
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        Food.GetIngredients();
+                        ChefFood.GetIngredients();
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
@@ -82,7 +82,7 @@ namespace DB_Kock
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        Food.GetIngredients();
+                        ChefFood.GetIngredients();
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
@@ -94,7 +94,7 @@ namespace DB_Kock
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        Food.GetIngredients();
+                        ChefFood.GetIngredients();
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
@@ -106,7 +106,7 @@ namespace DB_Kock
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        Food.GetIngredients();
+                        ChefFood.GetIngredients();
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
@@ -118,7 +118,7 @@ namespace DB_Kock
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        Food.GetIngredients();
+                        ChefFood.GetIngredients();
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
@@ -130,7 +130,7 @@ namespace DB_Kock
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        Food.GetIngredients();
+                        ChefFood.GetIngredients();
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
