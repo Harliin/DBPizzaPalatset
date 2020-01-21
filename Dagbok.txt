@@ -12,6 +12,9 @@ Gjorde klart skalet för admin menyn.
 Skapade en loggin för admin
 15/1-2020
 Uppdaterade balsamiq skissen
+21/1-2020
+Skapade class library "Food", och gjorde några stored procedures. Skapade även Repository för admin terminal och la till
+logic för att visa nuvrande maträtter från servern i den.
 
 Thomas:
 10/1 2020
