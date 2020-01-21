@@ -15,7 +15,7 @@ namespace DB_Admin
                 string password = Console.ReadLine();
                 if (password == "Admin123")
                 {
-                    await AdminStartMenu();
+                    await AdminStartMenuAsync();
                 }
                 else
                 {
@@ -29,7 +29,7 @@ namespace DB_Admin
             
         }
 
-        public static async Task AdminStartMenu()
+        public static async Task AdminStartMenuAsync()
         {
             Console.Clear();
             Console.WriteLine("Välkommen Admin!");
@@ -39,15 +39,15 @@ namespace DB_Admin
             switch (adminChoice)
             {
                 case '1':
-                    await Employees.ManageEmployees();
+                    await Employees.ManageEmployeesAsync();
                     break;
                 case '2':
-                    await FoodMenu.ManageMenu();
+                    await FoodMenu.ManageMenuAsync();
                     break;
                 default:
                     Console.WriteLine("Fel inmatning!");
                     Console.ReadKey(true);
-                    await AdminStartMenu();
+                    await AdminStartMenuAsync();
                     break;
             }
         }
