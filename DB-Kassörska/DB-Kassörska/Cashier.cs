@@ -11,7 +11,7 @@ namespace DB_Kassörska
 {
 
     
-    class Cashier
+    class CashierRepository
     {
 
         private string ConnectionString { get; }
