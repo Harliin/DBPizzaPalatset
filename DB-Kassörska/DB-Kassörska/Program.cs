@@ -1,4 +1,5 @@
 ﻿using System;
+using Food;
 
 namespace DB_Kassörska
 {
@@ -9,6 +10,8 @@ namespace DB_Kassörska
             CashierRepository cashier = new CashierRepository();
 
             cashier.CashierManagement();
+
+            
         }
     }
 }
