@@ -1,3 +1,34 @@
 
  *Skriv vad ni gjort i denna fil.(med datum)*
 
+Pontus:
+10/1-2020
+Påbörjade Menyerna i Beställningsterminalen, Pizza,sallad,pasta och dryck är i stort sett färdig, kommer fyllas ut när databasen kopplas in.
+
+Jonathan:
+10/1-2020
+Gjorde klart skalet för admin menyn.
+13/1-2020
+Skapade en loggin för admin
+15/1-2020
+Uppdaterade balsamiq skissen
+
+Thomas:
+10/1 2020
+Började skriva på kassörprogrammet. Måste få till en bättre felhantering av användarens input. Fortsätter i helgen.
+14/1 2020
+Uppdaterade layouten och lade till hantering av felinmatning
+20/1 2020
+Började lägga in data i databasen
+
+Aata:
+11/1 2020
+Uppdaterar terminalen.
+14/1 2020
+Uppdaterat terminal med sallad och pasta men den saknar fortfarande "logga ut" -knappen.
+
+Elchin:
+11/1 2020 
+Började med Grupp 1 Bagareterminal. Redogjorde lite i kod. 
+14/1 2020 
+Gjorde om programmet. Skapade skelettprogrammet. Lämnade tomma metoder bara. 
