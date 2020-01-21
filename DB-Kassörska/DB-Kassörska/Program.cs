@@ -6,7 +6,7 @@ namespace DB_Kassörska
     {
         static void Main(string[] args)
         {
-            Cashier cashier = new Cashier();
+            CashierRepository cashier = new CashierRepository();
 
             cashier.CashierManagement();
         }
