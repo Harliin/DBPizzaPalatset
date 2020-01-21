@@ -15,11 +15,13 @@ namespace DB_Beställning
         static async Task Main(string[] args)
         {
             Menus meny = new Menus();
-            meny.PrintMenu();
-            foreach (Pizza pizza in await repo.Pizzas())
-            {
-                Console.WriteLine($"{pizza.ID} {pizza.Name} {pizza.Price}");
-            }
+            await meny.PrintMenu();
+
+            //var repo2 = new OrderRepository();
+            //foreach (Pizza pizza in await repo2.Pizzas())
+            //{
+            //    Console.WriteLine($"{pizza.ID}. {pizza.Name} {pizza.Price}");
+            //}
         }
     }
 }

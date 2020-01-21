@@ -13,11 +13,11 @@ namespace DB_Beställning
 {
     class Menus
     {
-        public OrderRepository repo = new OrderRepository();
+        
         bool correctKey { get; set; }
         char key;
 
-        public void PrintMenu()
+        public async Task PrintMenu()
         {
             while (correctKey == false)
             {
@@ -26,13 +26,14 @@ namespace DB_Beställning
                 key = Console.ReadKey(true).KeyChar;
                 if (key == 13)
                 {
-                    PrintOrderMenu();
+                    await PrintOrderMenu();
                     correctKey = true;
                 }
             }
         }
-        public async void PrintOrderMenu()
+        public async Task PrintOrderMenu()
         {
+            var repo = new OrderRepository();
             Console.Clear();
             foreach (string item in MenuList.FoodMenu)
             {
@@ -43,56 +44,73 @@ namespace DB_Beställning
             switch (key)
             {
                 case '1':
-                    await PrintPizzasAsync();
+                    Console.Clear();
+                    foreach (Pizza pizza in await repo.Pizzas())
+                    {
+                        Console.WriteLine($"{pizza.ID}. {pizza.Name} {pizza.Price}");
+                    }
                     break;
                 case '2':
-                    await PrintPastas();
+                    Console.Clear();
+                    foreach (Pasta pasta in await repo.Pastas())
+                    {
+                        Console.WriteLine($"{pasta.ID}. {pasta.Name} {pasta.Price} kr");
+                    }
                     break;
                 case '3':
-                    await PrintSalads();
+                    Console.Clear();
+                    foreach (Sallad sallad in await repo.Salads())
+                    {
+                        Console.WriteLine($"{sallad.ID}. {sallad.Name} {sallad.Price} kr");
+                    }
                     break;
                 case '4':
-                    await PrintDrinks();
+                    Console.Clear();
+                    foreach (Drink drink in await repo.Drinks())
+                    {
+                        Console.WriteLine($"{drink.ID}. {drink.Name} {drink.Price} kr");
+                    }
                     break;
                 default:
                     break;
             }
         }
-        public async Task PrintPizzasAsync()
-        {
-            Console.Clear();
-            foreach (Pizza pizza in await repo.Pizzas())
-            {
-                Console.WriteLine($"{pizza.ID} {pizza.Name} {pizza.Price}");
-            }
+        //public async Task PrintPizzasAsync()
+        //{
+        //    Console.Clear();
+        //    var repo = new OrderRepository();
+        //    foreach (Pizza pizza in await repo.Pizzas())
+        //    {
+        //        Console.WriteLine($"{pizza.ID} {pizza.Name} {pizza.Price}");
+        //    }
             
-        }
-        public async Task PrintPastas()
-        {
-            Console.Clear();
-            foreach (Pasta pasta in await repo.Pastas())
-            {
-                Console.WriteLine($"{pasta.ID} {pasta.Name} {pasta.Price}");
-            }
-            Console.ReadKey();
-        }
-        public async Task PrintSalads()
-        {
-            Console.Clear();
-            foreach (Sallad sallad in await repo.Salads())
-            {
-                Console.WriteLine($"{sallad.ID} {sallad.Name} {sallad.Price}");
-            }
-            Console.ReadKey();
-        }
-        public async Task PrintDrinks()
-        {
-            Console.Clear();
-            foreach (Drink drink in await repo.Drinks())
-            {
-                Console.WriteLine($"{drink.ID} {drink.Name} {drink.Price}");
-            }
-            Console.ReadKey();
-        }
+        //}
+        //public async Task PrintPastasAsync()
+        //{
+        //    Console.Clear();
+        //    var repo = new OrderRepository();
+        //    foreach (Pasta pasta in await repo.Pastas())
+        //    {
+        //        Console.WriteLine($"{pasta.ID} {pasta.Name} {pasta.Price}");
+        //    }
+        //}
+        //public async Task PrintSaladsAsync()
+        //{
+        //    Console.Clear();
+        //    var repo = new OrderRepository();
+        //    foreach (Sallad sallad in await repo.Salads())
+        //    {
+        //        Console.WriteLine($"{sallad.ID} {sallad.Name} {sallad.Price}");
+        //    }
+        //}
+        //public async Task PrintDrinksAsync()
+        //{
+        //    Console.Clear();
+        //    var repo = new OrderRepository();
+        //    foreach (Drink drink in await repo.Drinks())
+        //    {
+        //        Console.WriteLine($"{drink.ID} {drink.Name} {drink.Price}");
+        //    }
+        //}
     }
 }
