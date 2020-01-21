@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Food
 {
-    class Employee
+    public class Employee
     {
         public int ID { get; set; }
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Food
 {
-    class Receipt
+    public class Receipt
     {
         public string OrderInfo { get; set; }
         public int TotalPrice { get; set; }
