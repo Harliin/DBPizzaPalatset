@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Food;
 
 namespace DB_Kassörska
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Cashier cashier = new Cashier();
 
