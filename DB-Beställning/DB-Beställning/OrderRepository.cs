@@ -21,5 +21,6 @@ namespace DB_Beställning
             connection = new SqlConnection(connectionString);
             connection.Open();
         }
+
     }
 }
