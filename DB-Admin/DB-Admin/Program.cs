@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace DB_Admin
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             do
             {
@@ -12,7 +13,7 @@ namespace DB_Admin
                 string password = Console.ReadLine();
                 if (password == "Admin123")
                 {
-                    AdminStartMenu();
+                    await AdminStartMenu();
                 }
                 else
                 {
@@ -26,7 +27,7 @@ namespace DB_Admin
             
         }
 
-        public static void AdminStartMenu()
+        public static async Task AdminStartMenu()
         {
             Console.Clear();
             Console.WriteLine("Välkommen Admin!");
@@ -36,15 +37,15 @@ namespace DB_Admin
             switch (adminChoice)
             {
                 case '1':
-                    Employees.ManageEmployees();
+                    await Employees.ManageEmployees();
                     break;
                 case '2':
-                    FoodMenu.ManageMenu();
+                    await FoodMenu.ManageMenu();
                     break;
                 default:
                     Console.WriteLine("Fel inmatning!");
                     Console.ReadKey(true);
-                    AdminStartMenu();
+                    await AdminStartMenu();
                     break;
             }
         }
