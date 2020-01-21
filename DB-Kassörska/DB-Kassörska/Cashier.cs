@@ -33,14 +33,14 @@ namespace DB_Kassörska
             Console.SetCursorPosition(17, 6);
             Console.WriteLine("-----------------------------------");
             Console.SetCursorPosition(17, 7);
-            getCurrentOrders();
+            getOngoingOrders();
 
             Console.SetCursorPosition(67, 5);
             Console.WriteLine("Färdiga ordrar");
             Console.SetCursorPosition(67, 6);
             Console.WriteLine("-----------------------------------");
             Console.SetCursorPosition(67, 7);
-            getCompleteOrders();
+            getFinishedOrders();
 
             Console.SetCursorPosition(67, 25);
             Console.WriteLine("[1] Markera order som uthämtad");
@@ -64,14 +64,21 @@ namespace DB_Kassörska
             }
         }
 
-        public static void getCurrentOrders()
+        public static void getOngoingOrders()
         {
             Console.WriteLine("Hämtar från databasen...");
         }
 
-        public static void getCompleteOrders()
+        public async Task<Food.Order> GetFinishedOrders()
         {
-            Console.WriteLine("Hämtar från databasen...");
+            var finishedOrders = (await connection.QueryAsync<Food.Order>("getFinishedOrders", commandType: System.Data.CommandType.StoredProcedure));
+
+            foreach (var finishedOrder in finishedOrders)
+            {
+                Console.WriteLine(finishedOrder); 
+            }
+            
+            return finishedOrders;
         }
 
         public static void markOrderAsCollected()
