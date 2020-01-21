@@ -1,11 +1,19 @@
-﻿using System;
+﻿using Dapper;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Food;
 
 namespace DB_Beställning
 {
     class Menus
     {
+        public OrderRepository repo = new OrderRepository();
         bool correctKey { get; set; }
         char key;
 
@@ -23,7 +31,7 @@ namespace DB_Beställning
                 }
             }
         }
-        public void PrintOrderMenu()
+        public async void PrintOrderMenu()
         {
             Console.Clear();
             foreach (string item in MenuList.FoodMenu)
@@ -35,211 +43,56 @@ namespace DB_Beställning
             switch (key)
             {
                 case '1':
-                    PrintPizzas();
+                    await PrintPizzasAsync();
                     break;
                 case '2':
-                    PrintPastas();
+                    await PrintPastas();
                     break;
                 case '3':
-                    PrintSalads();
+                    await PrintSalads();
                     break;
                 case '4':
-                    PrintDrinks();
+                    await PrintDrinks();
                     break;
                 default:
                     break;
             }
         }
-        public void PrintPizzas()
+        public async Task PrintPizzasAsync()
         {
             Console.Clear();
-            foreach (string item in MenuList.Pizzas)
+            foreach (Pizza pizza in await repo.Pizzas())
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"{pizza.ID} {pizza.Name} {pizza.Price}");
             }
-            while (correctKey == false)
-            {
-                key = Console.ReadKey(true).KeyChar;
-                switch (key)
-                {
-                    case '1':
-                        Console.Clear();
-                        Console.WriteLine("vesuvio");
-                        //LÄNK TILL VESUVIO
-                        correctKey = true;
-                        break;
-                    case '2':
-                        Console.Clear();
-                        Console.WriteLine("Margarita");
-                        correctKey = true;
-                        break;
-
-                    case '3':
-                        Console.Clear();
-                        Console.WriteLine("Hawaii");
-                        correctKey = true;
-                        break;
-
-                    case '4':
-                        Console.Clear();
-                        Console.WriteLine("Calzone");
-                        correctKey = true;
-                        break;
-
-                    case '5': //Återgå till maträttsmenyn
-                        PrintOrderMenu();
-                        correctKey = true;
-                        break;
-
-                    case '6': //Avsluta
-                        PrintMenu();
-                        correctKey = true;
-                        break;
-
-                    default:
-
-                        Console.Clear();
-                        foreach (string choices in MenuList.Pizzas)
-                        {
-                            Console.WriteLine(choices);
-                        }
-                        continue;
-
-                }
-            }
+            
         }
-        public void PrintPastas()
+        public async Task PrintPastas()
         {
             Console.Clear();
-            foreach (string item in MenuList.Pastas)
+            foreach (Pasta pasta in await repo.Pastas())
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"{pasta.ID} {pasta.Name} {pasta.Price}");
             }
-            while (correctKey == false)
-            {
-                key = Console.ReadKey(true).KeyChar;
-                switch (key)
-                {
-                    case '1':
-                        Console.Clear();
-                        Console.WriteLine("Canneloni med kött");
-                        // Lägg till i DATABASEN
-                        correctKey = true;
-                        break;
-
-                    case '2':
-                        Console.Clear();
-                        Console.WriteLine("Cannelloni vegetarisk");
-                        // SAME SAME
-                        correctKey = true;
-                        break;
-
-                    case '3':
-                        PrintOrderMenu(); //Fortsätt handla
-                        correctKey = true;
-                        break;
-
-                    case '4': //Återgå till maträttsmenyn
-                        PrintMenu();
-                        correctKey = true;
-                        break;
-
-                    default:
-                        Console.Clear();
-                        foreach (string choices in MenuList.Pastas)
-                        {
-                            Console.WriteLine(choices);
-                        }
-                        continue;
-                }
-            }
+            Console.ReadKey();
         }
-        public void PrintSalads()
+        public async Task PrintSalads()
         {
             Console.Clear();
-            foreach (string item in MenuList.Salads)
+            foreach (Sallad sallad in await repo.Salads())
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"{sallad.ID} {sallad.Name} {sallad.Price}");
             }
-
-            while (correctKey == false)
-            {
-                key = Console.ReadKey(true).KeyChar;
-                switch (key)
-                {
-                    case '1':
-                        Console.Clear();
-                        Console.WriteLine("Mozzarella sallad");
-                        correctKey = true;
-                        break;
-
-                    case '2':
-                        Console.Clear();
-                        Console.WriteLine("Chevresallad");
-                        correctKey = true;
-                        break;
-
-                    case '3':
-                        PrintOrderMenu(); //Fortsätt handla
-                        correctKey = true;
-                        break;
-
-                    case '4': //Återgå till maträttsmenyn
-                        PrintMenu();
-                        correctKey = true;
-                        break;
-
-                    default:
-                        Console.Clear();
-                        foreach (string choices in MenuList.Salads)
-                        {
-                            Console.WriteLine(choices);
-                        }
-                        continue;
-                }
-            }
+            Console.ReadKey();
         }
-        public void PrintDrinks()
+        public async Task PrintDrinks()
         {
             Console.Clear();
-            foreach (string item in MenuList.Drinks)
+            foreach (Drink drink in await repo.Drinks())
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"{drink.ID} {drink.Name} {drink.Price}");
             }
-            while (correctKey == false)
-            {
-                key = Console.ReadKey(true).KeyChar;
-                switch (key)
-                {
-                    case '1':
-                        Console.WriteLine("Läsk");
-                        correctKey = true;
-                        break;
-
-                    case '2':
-                        Console.WriteLine("Öl");
-                        correctKey = true;
-                        break;
-
-                    case '3':
-                        Console.WriteLine("Vin");
-                        correctKey = true;
-                        break;
-
-                    case '4': //Återgå till maträttsmenyn
-                        PrintMenu();
-                        correctKey = true;
-                        break;
-
-                    default:
-                        Console.Clear();
-                        foreach (string choices in MenuList.Salads)
-                        {
-                            Console.WriteLine(choices);
-                        }
-                        continue;
-                }
-            }
+            Console.ReadKey();
         }
     }
 }
