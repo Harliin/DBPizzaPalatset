@@ -28,12 +28,12 @@ namespace DB_Kassörska
             return ongoingOrders;
         }
 
-        public async Task<IEnumerable<Order>> GetFinishedOrders()
-        {
-            IEnumerable<Order> finishedOrders = (await Connection.QueryAsync<Order>("getFinishedOrders", commandType: System.Data.CommandType.StoredProcedure));
+        //public async Task<IEnumerable<Order>> GetFinishedOrders()
+        //{
+        //    IEnumerable<Order> finishedOrders = (await Connection.QueryAsync<Order>("getFinishedOrders", commandType: System.Data.CommandType.StoredProcedure));
 
-            return finishedOrders;
-        }
+        //    return finishedOrders;
+        //}
 
         //public static void MarkOrderAsCollected()
         //{
