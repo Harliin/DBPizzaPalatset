@@ -21,16 +21,16 @@ namespace DB_Kassörska
             Connection.Open();
         }
 
-        public async Task<IEnumerable<Food.Order>> getOngoingOrders()
+        public async Task<IEnumerable<Order>> getOngoingOrders()
         {
-            IEnumerable<Food.Order> ongoingOrders = (await Connection.QueryAsync<Food.Order>("getOngoingOrders", commandType: System.Data.CommandType.StoredProcedure));
+            IEnumerable<Order> ongoingOrders = (await Connection.QueryAsync<Order>("getOngoingOrders", commandType: System.Data.CommandType.StoredProcedure));
 
             return ongoingOrders;
         }
 
-        public async Task<IEnumerable<Food.Order>> GetFinishedOrders()
+        public async Task<IEnumerable<Order>> GetFinishedOrders()
         {
-            IEnumerable<Food.Order> finishedOrders = (await Connection.QueryAsync<Food.Order>("getFinishedOrders", commandType: System.Data.CommandType.StoredProcedure));
+            IEnumerable<Order> finishedOrders = (await Connection.QueryAsync<Order>("getFinishedOrders", commandType: System.Data.CommandType.StoredProcedure));
 
             return finishedOrders;
         }

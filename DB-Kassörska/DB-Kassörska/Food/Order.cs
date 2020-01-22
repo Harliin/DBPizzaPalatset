@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DB_Kassörska.Food
+namespace DB_Kassörska
 {
-    class Order
+    public class Order
     {
         public int ID { get; set; }
-        public enum Status { Pågående = 1, Klar = 2 }
+
+        public eStatus Status { get; set; }
+        public enum eStatus { Pågående = 1, Klar = 2 }
 
     }
 }
