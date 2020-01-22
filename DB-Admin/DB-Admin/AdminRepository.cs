@@ -20,16 +20,21 @@ namespace DB_Admin
             connection.Open();
         }
 
-        public async Task AddPizzaAsync(string name, string price, string ingrediens1, string ingrediens2, string ingrediens3, string ingrediens4)
+        public async Task AddPizzaAsync(string name, int price)
         {
-            await connection.QueryAsync<Pizza>("AddCompletePizza",
-                new { Name = name, Price = price, Ingredient1 = ingrediens1, Ingredient2 = ingrediens2, Ingredient3 = ingrediens3, Ingredient4 = ingrediens4 }, commandType: CommandType.StoredProcedure);
+            await connection.QueryAsync<Pizza>("AddPizza",
+                new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
         }
 
         public async Task<IEnumerable<Pizza>> ShowPizzasAsync()
         {
             IEnumerable<Pizza> pizzas = await connection.QueryAsync<Pizza>("GetPizzas", commandType: CommandType.StoredProcedure);
             return pizzas;
+        }
+        public async Task<IEnumerable<Ingredient>> ShowIngredientsAsync()
+        {
+            IEnumerable<Ingredient> ingredients = await connection.QueryAsync<Ingredient>("GetIngredients", commandType: CommandType.StoredProcedure);
+            return ingredients;
         }
 
         public async Task<IEnumerable<Pasta>> ShowPastasAsync()

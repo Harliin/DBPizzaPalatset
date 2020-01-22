@@ -13,7 +13,7 @@ namespace DB_Admin
             {
                 Console.Write("\nSkriv in lösenord:");
                 string password = Console.ReadLine();
-                if (password == "Admin123")
+                if (password == "123")
                 {
                     await AdminStartMenuAsync();
                 }
@@ -24,9 +24,6 @@ namespace DB_Admin
                     Console.Clear();
                 }
             } while (true);
-            
-            
-            
         }
 
         public static async Task AdminStartMenuAsync()
