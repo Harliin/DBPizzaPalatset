@@ -8,9 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Food;
+using DB_Beställning.Food;
 
 namespace DB_Beställning
 {
+    class PontusTest
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public int Price { get; set; }
+    }
     class OrderRepository
     {
         private string connectionString { get; }
@@ -23,7 +30,7 @@ namespace DB_Beställning
             connection.Open();
         }
 
-        public async Task <IEnumerable<Pizza>> Pizzas()
+        public async Task<IEnumerable<Pizza>> Pizzas()
         {
             IEnumerable<Pizza> pizzas = (await connection.QueryAsync<Pizza>("GetPizzas", commandType: CommandType.StoredProcedure));
             return pizzas;
@@ -42,6 +49,11 @@ namespace DB_Beställning
         {
             IEnumerable<Drink> drinks = (await connection.QueryAsync<Drink>("GetDrinks", commandType: CommandType.StoredProcedure));
             return drinks;
+        }
+        public IEnumerable<Pizza> AddOrder(int ID)
+        {
+            return connection.Query<Pizza>("SELECT * FROM Pizza WHERE ID = @ID", new { @ID = ID });
+            //connection.Query<Order>("INSERT INTO PontusTest(ID, Name, Price) VALUES(Pizza.ID, Pizza.Name, Pizza.Price)");
         }
 
     }

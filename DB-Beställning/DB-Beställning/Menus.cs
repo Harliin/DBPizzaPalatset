@@ -16,6 +16,7 @@ namespace DB_Beställning
         
         bool correctKey { get; set; }
         char key;
+        int counter;
 
         public async Task PrintMenu()
         {
@@ -47,7 +48,19 @@ namespace DB_Beställning
                     Console.Clear();
                     foreach (Pizza pizza in await repo.Pizzas())
                     {
-                        Console.WriteLine($"{pizza.ID}. {pizza.Name} {pizza.Price}");
+                        Console.WriteLine($"{pizza.ID}. {pizza.Name}: {pizza.Price}kr");
+                        counter++;
+                    }
+                    Console.Write($"\n{counter + 1}. Avsluta");
+                    Console.Write("\n\nVal:");
+                    key = Console.ReadKey(true).KeyChar;
+                    if ((key - '0') == (counter + 1))
+                    {
+                        await PrintOrderMenu();
+                    }
+                    else
+                    {
+                       Console.WriteLine(repo.AddOrder(key - '0'));
                     }
                     break;
                 case '2':
@@ -56,6 +69,7 @@ namespace DB_Beställning
                     {
                         Console.WriteLine($"{pasta.ID}. {pasta.Name} {pasta.Price} kr");
                     }
+                    key = Console.ReadKey(true).KeyChar;
                     break;
                 case '3':
                     Console.Clear();
@@ -63,6 +77,7 @@ namespace DB_Beställning
                     {
                         Console.WriteLine($"{sallad.ID}. {sallad.Name} {sallad.Price} kr");
                     }
+                    key = Console.ReadKey(true).KeyChar;
                     break;
                 case '4':
                     Console.Clear();
@@ -70,47 +85,11 @@ namespace DB_Beställning
                     {
                         Console.WriteLine($"{drink.ID}. {drink.Name} {drink.Price} kr");
                     }
+                    key = Console.ReadKey(true).KeyChar;
                     break;
                 default:
                     break;
             }
         }
-        //public async Task PrintPizzasAsync()
-        //{
-        //    Console.Clear();
-        //    var repo = new OrderRepository();
-        //    foreach (Pizza pizza in await repo.Pizzas())
-        //    {
-        //        Console.WriteLine($"{pizza.ID} {pizza.Name} {pizza.Price}");
-        //    }
-            
-        //}
-        //public async Task PrintPastasAsync()
-        //{
-        //    Console.Clear();
-        //    var repo = new OrderRepository();
-        //    foreach (Pasta pasta in await repo.Pastas())
-        //    {
-        //        Console.WriteLine($"{pasta.ID} {pasta.Name} {pasta.Price}");
-        //    }
-        //}
-        //public async Task PrintSaladsAsync()
-        //{
-        //    Console.Clear();
-        //    var repo = new OrderRepository();
-        //    foreach (Sallad sallad in await repo.Salads())
-        //    {
-        //        Console.WriteLine($"{sallad.ID} {sallad.Name} {sallad.Price}");
-        //    }
-        //}
-        //public async Task PrintDrinksAsync()
-        //{
-        //    Console.Clear();
-        //    var repo = new OrderRepository();
-        //    foreach (Drink drink in await repo.Drinks())
-        //    {
-        //        Console.WriteLine($"{drink.ID} {drink.Name} {drink.Price}");
-        //    }
-        //}
     }
 }

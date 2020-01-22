@@ -16,12 +16,6 @@ namespace DB_Beställning
         {
             Menus meny = new Menus();
             await meny.PrintMenu();
-
-            //var repo2 = new OrderRepository();
-            //foreach (Pizza pizza in await repo2.Pizzas())
-            //{
-            //    Console.WriteLine($"{pizza.ID}. {pizza.Name} {pizza.Price}");
-            //}
         }
     }
 }
