@@ -9,11 +9,12 @@ namespace DB_Admin
 {
     public class PizzaMenu
     {
+        public static AdminRepository repo = new AdminRepository();
         public static async Task PizzaAsync()
         {
-            var repo = new AdminRepository();
+            
             Console.Clear();
-            Console.WriteLine("\t*Pizza Meny*\n\n[1]Lägg till Pizza\n[2]Ta bort Pizza\n[3]Visa Standard pizzor\n\n[5]Tillbaka");
+            Console.WriteLine("\t*Pizza Meny*\n\n[1]Lägg till Pizza\n[2]Ta bort Pizza\n[3]Visa pizzor med ingrediens\n[4]Ändra ingredienser på pizza\n\n[5]Tillbaka");
             char adminChoice = Console.ReadKey(true).KeyChar;
             Console.Clear();
             switch (adminChoice)
@@ -28,18 +29,21 @@ namespace DB_Admin
                     await PizzaAsync();
                     break;
                 case '3':
-                    foreach (var pizza in await repo.ShowPizzasAsync())
+                    foreach (var pizza in await repo.ShowPizzaAndIngredients())
                     {
-                        Console.WriteLine($"Namn:{pizza.Name}  Pris:{pizza.Price}");
+                        Console.WriteLine($"Pizza:{pizza.Pizza}  Ingrediens:{pizza.Ingredient}");
                     }
                     Console.ReadKey();
                     await PizzaAsync();
                     break;
-                case '5':
-                {
-                    await FoodMenu.ManageMenuAsync();
+                case '4':
+                    await UpdateIngredientsOnPizza();
                     break;
-                }
+                case '5':
+                    {
+                        await FoodMenu.ManageMenuAsync();
+                        break;
+                    }
                 default:
                     Console.WriteLine("Fel inmatning!");
                     Console.ReadKey(true);
@@ -50,10 +54,7 @@ namespace DB_Admin
 
         private static async Task CreatePizza()
         {
-            var repo = new AdminRepository();
-            string[] ingredintsArray = new string[4];
-            IEnumerable<Ingredient> ing = await repo.ShowIngredientsAsync();
-            List<Ingredient> ingredients = ing.ToList();
+            
 
             Console.Write("Namn: ");
             string pizzaName = Console.ReadLine();
@@ -63,60 +64,96 @@ namespace DB_Admin
             //await repo.AddPizzaAsync(pizzaName, pizzaPrice);
 
             Console.WriteLine("Pizza Tillagd!\n\n");
+
+            Console.WriteLine("Vill du lägga till ingridienser på pizzan nu?\n[1] JA\n[2] NEJ");
+            char userChoice = Console.ReadKey(true).KeyChar;
+            switch (userChoice)
+            {
+                case'1':
+                {
+                    await UpdateIngredientsOnPizza();
+                    break;
+                }
+                case'2':
+                {
+                    await PizzaAsync();
+                    break;
+                }
+                default:
+                    Console.WriteLine("Du valde inte en korrekt siffra, går tillbaka till pizza menyn...");
+                    System.Threading.Thread.Sleep(500);
+                    await PizzaAsync();
+                    break;
+            }
+
+        }
+
+        private static async Task UpdateIngredientsOnPizza()
+        {
+            Console.Clear();
+            var repo = new AdminRepository();
             IEnumerable<Pizza> temp = await repo.ShowPizzasAsync();
             List<Pizza> pizzas = temp.ToList();
+            IEnumerable<Ingredient> ing = await repo.ShowIngredientsAsync();
+            List<Ingredient> ingredients = ing.ToList();
 
             foreach (var pizza in temp)
             {
                 Console.WriteLine($"ID: {pizza.ID} {pizza.Name}");
             }
             Console.Write("Vilken pizza vill du lägga till ingredienser på?: ");
+
             if (int.TryParse(Console.ReadLine(), out int pizzaUserChoice) == false)
             {
                 Console.WriteLine("Fel inmatat");
+                System.Threading.Thread.Sleep(500);
+                await UpdateIngredientsOnPizza();
             }
             if (pizzas.Exists(x => x.ID == pizzaUserChoice))
             {
+                Console.Clear();
+                Console.Write("Hur många Ingredienser vill du ha på pizzan?(max 4): ");
+                int ingredientCounter = Convert.ToInt32(Console.ReadLine());
 
-            }
-            
-            foreach (var ingrident in ingredients)
-            {
-                Console.WriteLine($"Ingrediens ID:{ingrident.ID}  {ingrident.Name} ");
-            }
-            Console.WriteLine("Välj vilka ingrediens ID du vill ha på pizzan (max 4): ");
-
-            for (int i = 0; i < 4; i++)
-            {
-                Console.Write($"Ingredient{i + 1}: ");
-                if (int.TryParse(Console.ReadLine(), out int userChoice) == false)
+                foreach (var ingrident in ingredients)
                 {
-                    Console.WriteLine("Fel inmatat");
+                    Console.WriteLine($"Ingrediens ID:{ingrident.ID}  {ingrident.Name} ");
                 }
-                //if (ingre)
-                //{
 
-                //}
-                //    foreach (var ingredient in ingredients)
-                //    {
-                //        if (ingredient.ID != userChoice)
-                //        {
-                //            Console.WriteLine("Ingridiensen finns ej!");
-                //            Console.ReadKey(true);
-                //        }
-                //        else if (ingredient.ID == userChoice)
-                //        {
-                //            ingredintsArray[i] = ingredient.Name;
-                //        }
-                //        else
-                //        {
-                //            ingredintsArray[i] = null;
-                //        }
-                //    }
-
-                //}
-                //await repo.AddPizzaAsync(pizzaName, pizzaPrice, ingredintsArray[0], ingredintsArray[1], ingredintsArray[2], ingredintsArray[3]);
-                ////To Doo
+                int[] ingredintsArray = new int[ingredientCounter];
+                Console.WriteLine("Välj vilken ingrediens ID du vill ha på pizzan:\n");
+                for (int i = 0; i < ingredientCounter; i++)
+                {
+                    Console.Write($"Ingredient{i + 1}: ");
+                    if (int.TryParse(Console.ReadLine(), out int ingredientUserChoice) == false)
+                    {
+                        Console.WriteLine("Fel inmatat");
+                        i--;
+                        continue;
+                    }
+                    else if (ingredients.Exists(x => x.ID == ingredientUserChoice))
+                    {
+                        ingredintsArray[i] = ingredientUserChoice;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Hittar ej en ingrediens med det IDt.");
+                        i--;
+                    }
+                    
+                }
+                try
+                {
+                    await repo.AddIngredientToPizzaAsync(pizzaUserChoice, ingredintsArray);
+                    Console.WriteLine("Tillagd");
+                    Console.ReadKey();
+                    await PizzaAsync();
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Funkade inte");
+                    throw;
+                }
             }
         }
     }

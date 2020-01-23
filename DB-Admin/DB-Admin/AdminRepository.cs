@@ -26,6 +26,18 @@ namespace DB_Admin
                 new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
         }
 
+        public async Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients)
+        {
+            foreach (var ingredient in ingridients)
+            {
+                await connection.QueryAsync<Pizza>("INSERT INTO PizzaIngredients(PizzaID, IngredientsID) VALUES (@PizzaID, @IngredientID)", new {PizzaID = pizzaID, IngredientID = ingredient});
+            }
+        }
+        public async Task<IEnumerable<PizzaIngredient>> ShowPizzaAndIngredients()
+        {
+            IEnumerable<PizzaIngredient> pizzaIngredients = await connection.QueryAsync<PizzaIngredient>("ShowPizzaIngredients", commandType: CommandType.StoredProcedure);
+            return pizzaIngredients;
+        }
         public async Task<IEnumerable<Pizza>> ShowPizzasAsync()
         {
             IEnumerable<Pizza> pizzas = await connection.QueryAsync<Pizza>("GetPizzas", commandType: CommandType.StoredProcedure);
