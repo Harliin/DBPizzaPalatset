@@ -15,6 +15,8 @@ Uppdaterade balsamiq skissen
 21/1-2020
 Skapade class library "Food", och gjorde några stored procedures. Skapade även Repository för admin terminal och la till
 logic för att visa nuvrande maträtter från servern i den.
+22-24/1-2020
+Byggde upp en stor del av DB-Admin systemet med metoder för att lägga till ingredienser på pizza m.m. Skapade en del stored procedures i databasen. 
 
 Thomas:
 10/1 2020
