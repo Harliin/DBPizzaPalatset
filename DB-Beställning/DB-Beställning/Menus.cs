@@ -28,6 +28,7 @@ namespace DB_Beställning
         {
             var repo = new OrderRepository();
             Console.Clear();
+            counter = 0;
             foreach (string item in MenuList.FoodMenu)
             {
                 Console.WriteLine(item);
@@ -52,7 +53,12 @@ namespace DB_Beställning
                     }
                     else
                     {
-                       
+                        await repo.AddPizzaToOrder(8,Convert.ToInt32(key-'0'));
+                        Console.Clear();
+                        foreach (Pizza pizza in await repo.ShowPizzaByID(Convert.ToInt32(key-'0')))
+                        {
+                            Console.WriteLine($"{pizza.Name} tillagd");
+                        }
                     }
                     break;
                 case '2':
@@ -60,24 +66,76 @@ namespace DB_Beställning
                     foreach (Pasta pasta in await repo.ShowPastasAsync())
                     {
                         Console.WriteLine($"{pasta.ID}. {pasta.Name} {pasta.Price} kr");
+                        counter++;
                     }
+                    Console.Write($"\n{counter + 1}. Avsluta");
+                    Console.Write("\n\nVal:");
                     key = Console.ReadKey(true).KeyChar;
+                    if ((key - '0') == (counter + 1))
+                    {
+                        await PrintOrderMenu();
+                    }
+                    else
+                    {
+                        await repo.AddPastaToOrder(8, Convert.ToInt32(key - '0'));
+                    }
                     break;
                 case '3':
                     Console.Clear();
                     foreach (Sallad sallad in await repo.ShowSalladsAsync())
                     {
                         Console.WriteLine($"{sallad.ID}. {sallad.Name} {sallad.Price} kr");
+                        counter++;
                     }
+                    Console.Write($"\n{counter + 1}. Avsluta");
+                    Console.Write("\n\nVal:");
                     key = Console.ReadKey(true).KeyChar;
+                    if ((key - '0') == (counter + 1))
+                    {
+                        await PrintOrderMenu();
+                    }
+                    else
+                    {
+                        await repo.AddSalladToOrder(8, Convert.ToInt32(key -'0'));
+                    }
                     break;
                 case '4':
                     Console.Clear();
                     foreach (Drink drink in await repo.ShowDrinksAsync())
                     {
                         Console.WriteLine($"{drink.ID}. {drink.Name} {drink.Price} kr");
+                        counter++;
                     }
+                    Console.Write($"\n{counter + 1}. Avsluta");
+                    Console.Write("\n\nVal:");
                     key = Console.ReadKey(true).KeyChar;
+                    if ((key - '0') == (counter + 1))
+                    {
+                        await PrintOrderMenu();
+                    }
+                    else
+                    {
+                        await repo.AddDrinkToOrder(8, Convert.ToInt32(key - '0'));
+                    }
+                    break;
+                case '5':
+                    Console.Clear();
+                    foreach (Extra extra in await repo.ShowExtraAsync())
+                    {
+                        Console.WriteLine($"{extra.ID}. {extra.Name} {extra.Price} kr");
+                        counter++;
+                    }
+                    Console.Write($"\n{counter + 1}. Avsluta");
+                    Console.Write("\n\nVal:");
+                    key = Console.ReadKey(true).KeyChar;
+                    if ((key - '0') == (counter + 1))
+                    {
+                        await PrintOrderMenu();
+                    }
+                    else
+                    {
+                        await repo.AddExtraToOrder(8, Convert.ToInt32(key - '0'));
+                    }
                     break;
                 default:
                     break;
