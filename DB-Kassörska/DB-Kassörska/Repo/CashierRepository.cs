@@ -35,7 +35,7 @@ namespace DB_Kassörska
             return finishedOrders;
         }
 
-        public async Task DeleteOrder(int orderNumber)
+        public async Task DeleteOrderAsync(int orderNumber)
         {
             var deleteOrder = (await connection.QueryAsync<Order>("deleteOrder", new { @ID = orderNumber }, commandType: CommandType.StoredProcedure));
         }
@@ -45,7 +45,7 @@ namespace DB_Kassörska
                 new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
         }
 
-        public async Task<IEnumerable<OrderFood>> ShowOrderFood()
+        public async Task<IEnumerable<OrderFood>> ShowOrderFoodAsync()
         {
             IEnumerable<OrderFood> orderFoods = await connection.QueryAsync<OrderFood>("ShowOrders", commandType: CommandType.StoredProcedure);
             return orderFoods;

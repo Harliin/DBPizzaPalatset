@@ -44,7 +44,7 @@ namespace DB_Kassörska
             {
                 case '1':
                     Console.SetCursorPosition(67, 25);
-                    await repo.DeleteOrder(1);
+                    await repo.DeleteOrderAsync(1);
                     Console.ReadKey();
                     await CashierManagement();
                     break;
