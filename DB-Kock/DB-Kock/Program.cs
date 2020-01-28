@@ -5,15 +5,20 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Food;
 
 namespace DB_Kock
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Display.DrawStartMenu();
-            Display.DrawMultipleChoiceMenu();
+            var repo = new ChefRepository();
+           
+            await Display.DrawStartMenuAsync();
+            await Display.DrawMultipleChoiceMenu();
+
+          
         }
           
     }
