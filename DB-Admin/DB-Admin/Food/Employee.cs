@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Food
+namespace DB_Admin
 {
     public class Employee
     {
@@ -11,7 +11,8 @@ namespace Food
         public string Name { get; set; }
         public string Password { get; set; }
 
-        public enum EmployeeType { VD = 1, Bagare = 2, Kassörska = 3 }
+        public EType EmployeeType { get; set; }
+        public enum EType { Chef = 1, Bagare = 2, Kassörska = 3}
 
     }
 }
