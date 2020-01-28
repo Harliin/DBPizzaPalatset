@@ -21,23 +21,23 @@ namespace DB_Kassörska
             Connection.Open();
         }
 
-        public async Task<IEnumerable<Order>> getOngoingOrders()
+        public async Task<IEnumerable<Order>> ShowOngoingOrders()
         {
-            IEnumerable<Order> ongoingOrders = (await Connection.QueryAsync<Order>("getOngoingOrders", commandType: System.Data.CommandType.StoredProcedure));
+            IEnumerable<Order> ongoingOrders = (await Connection.QueryAsync<Order>("showOngoingOrders", commandType: System.Data.CommandType.StoredProcedure));
 
             return ongoingOrders;
         }
 
-        //public async Task<IEnumerable<Order>> GetFinishedOrders()
-        //{
-        //    IEnumerable<Order> finishedOrders = (await Connection.QueryAsync<Order>("getFinishedOrders", commandType: System.Data.CommandType.StoredProcedure));
+        public async Task<IEnumerable<Order>> ShowFinishedOrders()
+        {
+            IEnumerable<Order> finishedOrders = (await Connection.QueryAsync<Order>("showFinishedOrders", commandType: System.Data.CommandType.StoredProcedure));
 
-        //    return finishedOrders;
-        //}
+            return finishedOrders;
+        }
 
-        //public static void MarkOrderAsCollected()
-        //{
-        //    Console.WriteLine("Markerar order som uthämtad i DB...");
-        //}
+        public static void MarkOrderAsCollected()
+        {
+            Console.WriteLine("Markerar order som uthämtad i DB...");
+        }
     }
 }
