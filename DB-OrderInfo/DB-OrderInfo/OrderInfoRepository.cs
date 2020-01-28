@@ -25,7 +25,7 @@ namespace DB_OrderInfo
         }
         public async Task<IEnumerable<Order>> OngoingOrder()
         {
-            IEnumerable<Order> ongoingOrder = (await Connection.QueryAsync<Order>("GetOngoingOrders", commandType: CommandType.StoredProcedure));
+            IEnumerable<Order> ongoingOrder = (await Connection.QueryAsync<Order>("ShowOngoingOrders", commandType: CommandType.StoredProcedure));
             return ongoingOrder;
         }
         public async Task<IEnumerable<Order>> CompleteOrder()
