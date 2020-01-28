@@ -56,21 +56,23 @@ namespace DB_Admin
 
 
                 case '3'://TODOO
-                    var pizzaAndIngredients = await repo.ShowPizzaAndIngredients();
-                    List<PizzaIngredient> listOfPizzasAndIngredients = pizzaAndIngredients.ToList();
+                    //var pizzaAndIngredients = await repo.ShowPizzaAndIngredients();
+                    //var distinctPizzas = pizzaAndIngredients.Select(x => x.Pizza).Distinct();
+                    //var distinctIngrediens = pizzaAndIngredients.Select(i => i.Ingredient).Intersect(distinctPizzas);
 
-                    //TODOO
-                    //for (int i = 0; i < length; i++)
+
+                    //foreach (var pizza in distinctPizzas)
                     //{
-
+                    //    Console.WriteLine(pizza);
+                        
+                    //    foreach (var ingredient in distinctIngrediens)
+                    //    {
+                    //        Console.WriteLine(ingredient);
+                    //    }
                     //}
-
-                    
-                            
-                    
-                    
-                    Console.ReadKey();
-                    await PizzaAsync();
+                 
+                    //Console.ReadKey();
+                    //await PizzaAsync();
                     break;
 
 
