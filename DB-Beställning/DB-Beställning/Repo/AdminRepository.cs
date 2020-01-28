@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Food;
 
-namespace DB_Admin
+namespace DB_Beställning
 {
     public class AdminRepository : IRepository
     {
