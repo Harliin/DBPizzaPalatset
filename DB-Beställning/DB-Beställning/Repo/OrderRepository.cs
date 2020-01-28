@@ -49,6 +49,16 @@ namespace DB_Beställning
             IEnumerable<Pizza> pizza = await connection.QueryAsync<Pizza>("ShowPizzaByID", new { @ID = pizzaID }, commandType: CommandType.StoredProcedure);
             return pizza;
         }
+        public async Task<IEnumerable<Pasta>> ShowPastaByID(int pastaID)
+        {
+            IEnumerable<Pasta> pasta = await connection.QueryAsync<Pasta>("ShowPastaByID", new { @ID = pastaID }, commandType: CommandType.StoredProcedure);
+            return pasta;
+        }
+        async Task<IEnumerable<Sallad>> ShowSalladByID(int salladID)
+        {
+            IEnumerable<Sallad> sallad = await connection.QueryAsync<Sallad>("ShowSalladByID", new { @ID = salladID }, commandType: CommandType.StoredProcedure);
+            return sallad;
+        }
         public async Task<IEnumerable<OrderFood>> ShowOrderFood()
         {
             IEnumerable<OrderFood> orderFoods = await connection.QueryAsync<OrderFood>("ShowOrders", commandType: CommandType.StoredProcedure);
