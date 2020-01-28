@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DB_Kassörska.Food
+namespace DB_Kassörska
 {
     public class OrderFood
     {

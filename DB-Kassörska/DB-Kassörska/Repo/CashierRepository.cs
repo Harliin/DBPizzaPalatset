@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Food;
-using Repo;
+
 
 namespace DB_Kassörska
 {
@@ -23,25 +23,23 @@ namespace DB_Kassörska
 
         public async Task<IEnumerable<Order>> ShowOngoingOrdersAsync()
         {
-            IEnumerable<Order> ongoingOrders = (await Connection.QueryAsync<Order>("showOrders", commandType: CommandType.StoredProcedure));
+            IEnumerable<Order> ongoingOrders = (await connection.QueryAsync<Order>("showOrders", commandType: CommandType.StoredProcedure));
 
             return ongoingOrders;
         }
 
         public async Task<IEnumerable<Order>> ShowFinishedOrdersAsync()
         {
-            IEnumerable<Order> finishedOrders = (await Connection.QueryAsync<Order>("showFinishedOrders", commandType: CommandType.StoredProcedure));
+            IEnumerable<Order> finishedOrders = (await connection.QueryAsync<Order>("showFinishedOrders", commandType: CommandType.StoredProcedure));
 
             return finishedOrders;
         }
 
         public async Task DeleteOrder(int orderNumber)
         {
-            var deleteOrder = (await Connection.QueryAsync<Order>("deleteOrder", new { @ID = orderNumber }, commandType: CommandType.StoredProcedure));
+            var deleteOrder = (await connection.QueryAsync<Order>("deleteOrder", new { @ID = orderNumber }, commandType: CommandType.StoredProcedure));
         }
-    }
-
-    public async Task AddPizzaAsync(string name, int price)
+        public async Task AddPizzaAsync(string name, int price)
         {
             await connection.QueryAsync<Pizza>("AddPizza",
                 new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
@@ -98,6 +96,5 @@ namespace DB_Kassörska
             IEnumerable<Extra> drinks = await connection.QueryAsync<Extra>("GetExtras", commandType: CommandType.StoredProcedure);
             return drinks;
         }
-
-    }
+    } 
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DB_Kassörska.Food
+namespace DB_Kassörska
 {
-    class PizzaIngredient
+    public class PizzaIngredient
     {
         public int pizzaIngredient { get; set; }
     }
