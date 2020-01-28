@@ -10,9 +10,6 @@ namespace DB_Kassörska
         {
             Cashier cashier = new Cashier();
 
-            int height = Console.WindowHeight;
-            int width = Console.WindowWidth;
-
             await cashier.CashierManagement();
 
             
