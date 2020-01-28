@@ -44,7 +44,7 @@ namespace DB_Kassörska
             {
                 case '1':
                     Console.SetCursorPosition(67, 25);
-                    //repo.MarkOrderAsCollected();
+                    repo.MarkOrderAsCollected();
                     Console.ReadKey();
                     await CashierManagement();
                     break;

@@ -12,7 +12,7 @@ namespace DB_Kassörska
 {
     class CashierRepository
     {
-        private string ConnectionString { get; }
+        private string ConnectionString { get; } 
         private SqlConnection Connection { get; }
         public CashierRepository()
         {
@@ -35,9 +35,9 @@ namespace DB_Kassörska
             return finishedOrders;
         }
 
-        public static void MarkOrderAsCollected()
+        public async Task MarkOrderAsCollected(int orderNumber)
         {
-            Console.WriteLine("Markerar order som uthämtad i DB...");
+            var deleteOrder = (await Connection.QueryAsync<Order>("deleteOrder", commandType: System.Data.CommandType.StoredProcedure));
         }
     }
 }
