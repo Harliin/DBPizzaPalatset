@@ -30,7 +30,7 @@ namespace DB_Beställning
         }
         public async Task AddSalladToOrder(int order, int id)
         {
-            await connection.QueryAsync("AddSalladToOrder", new { OrderID = order, PastaID = id }, commandType: CommandType.StoredProcedure);
+            await connection.QueryAsync("AddSalladToOrder", new { OrderID = order, SalladID = id }, commandType: CommandType.StoredProcedure);
         }
         public async Task AddDrinkToOrder(int order, int id)
         {
@@ -46,18 +46,28 @@ namespace DB_Beställning
         }
         public async Task<IEnumerable<Pizza>> ShowPizzaByID(int pizzaID)
         {
-            IEnumerable<Pizza> pizza = await connection.QueryAsync<Pizza>("ShowPizzaByID", new { @ID = pizzaID }, commandType: CommandType.StoredProcedure);
+            IEnumerable<Pizza> pizza = await connection.QueryAsync<Pizza>("ShowPizzaByID", new { ID = pizzaID }, commandType: CommandType.StoredProcedure);
             return pizza;
         }
         public async Task<IEnumerable<Pasta>> ShowPastaByID(int pastaID)
         {
-            IEnumerable<Pasta> pasta = await connection.QueryAsync<Pasta>("ShowPastaByID", new { @ID = pastaID }, commandType: CommandType.StoredProcedure);
+            IEnumerable<Pasta> pasta = await connection.QueryAsync<Pasta>("ShowPastaByID", new { ID = pastaID }, commandType: CommandType.StoredProcedure);
             return pasta;
         }
-        async Task<IEnumerable<Sallad>> ShowSalladByID(int salladID)
+        public async Task<IEnumerable<Sallad>> ShowSalladByID(int salladID)
         {
-            IEnumerable<Sallad> sallad = await connection.QueryAsync<Sallad>("ShowSalladByID", new { @ID = salladID }, commandType: CommandType.StoredProcedure);
+            IEnumerable<Sallad> sallad = await connection.QueryAsync<Sallad>("ShowSalladByID", new { ID = salladID }, commandType: CommandType.StoredProcedure);
             return sallad;
+        }
+        public async Task<IEnumerable<Drink>> ShowDrinkByID(int drinkID)
+        {
+            IEnumerable<Drink> drink = await connection.QueryAsync<Drink>("ShowDrinkByID", new { ID = drinkID }, commandType: CommandType.StoredProcedure);
+            return drink;
+        }
+        public async Task<IEnumerable<Extra>> ShowExtraByID(int extraID)
+        {
+            IEnumerable<Extra> extra = await connection.QueryAsync<Extra>("ShowExtraByID", new { ID = extraID }, commandType: CommandType.StoredProcedure);
+            return extra;
         }
         public async Task<IEnumerable<OrderFood>> ShowOrderFood()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Threading;
 using Food;
 namespace DB_Beställning
 {
@@ -57,7 +58,9 @@ namespace DB_Beställning
                         Console.Clear();
                         foreach (Pizza pizza in await repo.ShowPizzaByID(Convert.ToInt32(key-'0')))
                         {
-                            Console.WriteLine($"{pizza.Name} tillagd");
+                            Console.WriteLine($"En {pizza.Name} tillagd");
+                            Thread.Sleep(700);
+                            await PrintOrderMenu();
                         }
                     }
                     break;
@@ -78,13 +81,20 @@ namespace DB_Beställning
                     else
                     {
                         await repo.AddPastaToOrder(8, Convert.ToInt32(key - '0'));
+                        Console.Clear();
+                        foreach (Pasta pasta in await repo.ShowPastaByID(Convert.ToInt32(key - '0')))
+                        {
+                            Console.WriteLine($"En {pasta.Name} tillagd");
+                            Thread.Sleep(700);
+                            await PrintOrderMenu();
+                        }
                     }
                     break;
                 case '3':
                     Console.Clear();
                     foreach (Sallad sallad in await repo.ShowSalladsAsync())
                     {
-                        Console.WriteLine($"{sallad.ID}. {sallad.Name} {sallad.Price} kr");
+                        Console.WriteLine($"En {sallad.ID}. {sallad.Name} {sallad.Price} kr");
                         counter++;
                     }
                     Console.Write($"\n{counter + 1}. Avsluta");
@@ -97,6 +107,13 @@ namespace DB_Beställning
                     else
                     {
                         await repo.AddSalladToOrder(8, Convert.ToInt32(key -'0'));
+                        Console.Clear();
+                        foreach (Sallad sallad in await repo.ShowSalladByID(Convert.ToInt32(key - '0')))
+                        {
+                            Console.WriteLine($"En {sallad.Name} tillagd");
+                            Thread.Sleep(700);
+                            await PrintOrderMenu();
+                        }
                     }
                     break;
                 case '4':
@@ -116,6 +133,13 @@ namespace DB_Beställning
                     else
                     {
                         await repo.AddDrinkToOrder(8, Convert.ToInt32(key - '0'));
+                        Console.Clear();
+                        foreach (Drink drink in await repo.ShowDrinkByID(Convert.ToInt32(key - '0')))
+                        {
+                            Console.WriteLine($"En {drink.Name} tillagd");
+                            Thread.Sleep(700);
+                            await PrintOrderMenu();
+                        }
                     }
                     break;
                 case '5':
@@ -135,6 +159,13 @@ namespace DB_Beställning
                     else
                     {
                         await repo.AddExtraToOrder(8, Convert.ToInt32(key - '0'));
+                        Console.Clear();
+                        foreach (Extra extra in await repo.ShowExtraByID(Convert.ToInt32(key - '0')))
+                        {
+                            Console.WriteLine($"En {extra.Name} tillagd");
+                            Thread.Sleep(700);
+                            await PrintOrderMenu();
+                        }
                     }
                     break;
                 default:
