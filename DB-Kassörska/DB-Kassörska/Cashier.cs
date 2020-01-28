@@ -19,7 +19,7 @@ namespace DB_Kassörska
             //Console.SetCursorPosition(17, 6);
             Console.WriteLine("-----------------------------------");
             //Console.SetCursorPosition(17, 7);
-            foreach (var order in await repo.ShowOngoingOrders())
+            foreach (var order in await repo.ShowOngoingOrdersAsync())
             {
                 Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
             }
@@ -30,7 +30,7 @@ namespace DB_Kassörska
             //Console.SetCursorPosition(67, 6);
             Console.WriteLine("-----------------------------------");
             //Console.SetCursorPosition(67, 7);
-            foreach (var order in await repo.ShowFinishedOrders())
+            foreach (var order in await repo.ShowFinishedOrdersAsync())
             {
                 Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
             }
@@ -44,7 +44,7 @@ namespace DB_Kassörska
             {
                 case '1':
                     Console.SetCursorPosition(67, 25);
-                    repo.MarkOrderAsCollected();
+                    await repo.DeleteOrder(1);
                     Console.ReadKey();
                     await CashierManagement();
                     break;

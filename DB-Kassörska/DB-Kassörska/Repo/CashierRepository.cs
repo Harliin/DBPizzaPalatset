@@ -6,21 +6,42 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Food;
+using Repo;
 
-namespace DB_Admin
+namespace DB_Kassörska
 {
-    public class AdminRepository : IRepository
+    public class CashierRepository : IRepository
     {
         private string ConnectionString { get; }
         private SqlConnection connection { get; }
-        public AdminRepository()
+        public CashierRepository()
         {
             ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
             connection = new SqlConnection(ConnectionString);
             connection.Open();
         }
 
-        public async Task AddPizzaAsync(string name, int price)
+        public async Task<IEnumerable<Order>> ShowOngoingOrdersAsync()
+        {
+            IEnumerable<Order> ongoingOrders = (await Connection.QueryAsync<Order>("showOrders", commandType: CommandType.StoredProcedure));
+
+            return ongoingOrders;
+        }
+
+        public async Task<IEnumerable<Order>> ShowFinishedOrdersAsync()
+        {
+            IEnumerable<Order> finishedOrders = (await Connection.QueryAsync<Order>("showFinishedOrders", commandType: CommandType.StoredProcedure));
+
+            return finishedOrders;
+        }
+
+        public async Task DeleteOrder(int orderNumber)
+        {
+            var deleteOrder = (await Connection.QueryAsync<Order>("deleteOrder", new { @ID = orderNumber }, commandType: CommandType.StoredProcedure));
+        }
+    }
+
+    public async Task AddPizzaAsync(string name, int price)
         {
             await connection.QueryAsync<Pizza>("AddPizza",
                 new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);

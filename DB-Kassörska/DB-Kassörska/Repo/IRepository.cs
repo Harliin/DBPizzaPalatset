@@ -1,8 +1,9 @@
-﻿using Food;
+﻿using DB_Kassörska.Food;
+using Food;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DB_Admin
+namespace DB_Kassörska
 {
     public interface IRepository
     {
