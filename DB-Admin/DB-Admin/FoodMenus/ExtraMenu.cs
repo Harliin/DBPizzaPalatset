@@ -1,39 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Food;
+using System.Linq;
 
 namespace DB_Admin
 {
-    public class SalladMenu
+    public class ExtraMenu
     {
         public static AdminRepository repo = new AdminRepository();
-        public static async Task SalladAsync()
+        public static async Task ExtrasAsync()
         {
-            
             Console.Clear();
-            Console.WriteLine("\t*Sallad Meny*\n\n[1]Lägg till Sallad\n[2]Ta bort Sallad\n[3]Visa Sallader\n\n[5]Tillbaka");
+            Console.WriteLine("\t*Tillbehörs Meny*\n\n[1]Lägg till Tillbehör\n[2]Ta bort Tillbehör\n[3]Visa Tillbehör\n\n[5]Tillbaka");
             char adminChoice = Console.ReadKey(true).KeyChar;
             Console.Clear();
             switch (adminChoice)
             {
                 case '1':
-                    await CreateSallad();
+                    await CreateExtra();
                     break;
-
-
                 case '2':
-                    await DeleteSallad();
+                    await DeleteExtra();
                     break;
                 case '3':
-                    foreach (var sallad in await repo.ShowSalladsAsync())
+                    foreach (var extra in await repo.ShowExtraAsync())
                     {
-                        Console.WriteLine($"Namn:{sallad.Name}  Pris:{sallad.Price}");
+                        Console.WriteLine($"Namn:{extra.Name}  Pris:{extra.Price}");
                     }
                     Console.ReadKey();
-                    await SalladAsync();
+                    await ExtrasAsync();
                     break;
                 case '5':
                 {
@@ -43,53 +40,51 @@ namespace DB_Admin
                 default:
                     Console.WriteLine("Fel inmatning!");
                     Console.ReadKey(true);
-                    await SalladAsync();
+                    await ExtrasAsync();
                     break;
             }
         }
-
-        private static async Task CreateSallad()
+        private static async Task CreateExtra()
         {
             Console.Write("Namn: ");
             string FoodName = Console.ReadLine();
             Console.Write("Pris: ");
             int FoodPrice = Convert.ToInt32(Console.ReadLine());
-            await repo.AddSalladAsync(FoodName, FoodPrice);
+            await repo.AddExtraAsync(FoodName, FoodPrice);
 
-            Console.WriteLine("Sallad tillagd!");
+            Console.WriteLine("Tillbehör tillagd!");
             Console.ReadKey();
-            await SalladAsync();
+            await ExtrasAsync();
         }
 
-        private static async Task DeleteSallad()
+        private static async Task DeleteExtra()
         {
-            var sallads = await repo.ShowSalladsAsync();
-            List<Sallad> listOfSallads = sallads.ToList();
-            foreach (var sallad in listOfSallads)
+            var extras = await repo.ShowExtraAsync();
+            List<Extra> listOfExtras = extras.ToList();
+            foreach (var extra in listOfExtras)
             {
-                Console.WriteLine($"ID:{sallad.ID}  Sallad:{sallad.Name}");
+                Console.WriteLine($"ID:{extra.ID}  Tillbehör:{extra.Name}");
             }
 
-            Console.Write("Ange sallads ID för att ta bort: ");
+            Console.Write("Ange tillbehörets ID för att ta bort: ");
             if (int.TryParse(Console.ReadLine(), out int userChoice))
             {
-                if (listOfSallads.Exists(x => x.ID == userChoice))//Kollar om id finns
+                if (listOfExtras.Exists(x => x.ID == userChoice))//Kollar om id finns
                 {
-                    await repo.DeletePastaAsync(userChoice);
-                    Console.WriteLine("Salladen är borttagen");
+                    await repo.DeleteDrinkAsync(userChoice);
+                    Console.WriteLine("Tillbehöret togs bort!");
                 }
                 else
                 {
-                    Console.WriteLine("Finns ingen sallad med det IDet!");
+                    Console.WriteLine("Finns ingen tillbehör med det IDet!");
                 }
             }
             else
             {
                 Console.WriteLine("Fel inmatning!");
             }
-
             Console.ReadKey();
-            await SalladAsync();
+            await ExtrasAsync();
         }
     }
 }
