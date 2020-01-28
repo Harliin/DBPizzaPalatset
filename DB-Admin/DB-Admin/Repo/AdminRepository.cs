@@ -9,7 +9,7 @@ using Food;
 
 namespace DB_Admin
 {
-    public class AdminRepository
+    public class AdminRepository : IRepository
     {
         private string ConnectionString { get; }
         private SqlConnection connection { get; }
@@ -26,11 +26,17 @@ namespace DB_Admin
                 new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
         }
 
+        public async Task<IEnumerable<OrderFood>> ShowOrderFood()
+        {
+            IEnumerable<OrderFood> orderFoods = await connection.QueryAsync<OrderFood>("ShowOrders", commandType: CommandType.StoredProcedure);
+            return orderFoods;
+        }
+
         public async Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients)
         {
             foreach (var ingredient in ingridients)
             {
-                await connection.QueryAsync<Pizza>("INSERT INTO PizzaIngredients(PizzaID, IngredientsID) VALUES (@PizzaID, @IngredientID)", new {PizzaID = pizzaID, IngredientID = ingredient});
+                await connection.QueryAsync<Pizza>("INSERT INTO PizzaIngredients(PizzaID, IngredientsID) VALUES (@PizzaID, @IngredientID)", new { PizzaID = pizzaID, IngredientID = ingredient });
             }
         }
         public async Task<IEnumerable<PizzaIngredient>> ShowPizzaAndIngredients()
@@ -60,10 +66,17 @@ namespace DB_Admin
             IEnumerable<Sallad> sallads = await connection.QueryAsync<Sallad>("GetSallads", commandType: CommandType.StoredProcedure);
             return sallads;
         }
+
         public async Task<IEnumerable<Drink>> ShowDrinksAsync()
         {
             IEnumerable<Drink> drinks = await connection.QueryAsync<Drink>("GetDrinks", commandType: CommandType.StoredProcedure);
             return drinks;
         }
+        public async Task<IEnumerable<Extra>> ShowExtraAsync()
+        {
+            IEnumerable<Extra> drinks = await connection.QueryAsync<Extra>("GetExtras", commandType: CommandType.StoredProcedure);
+            return drinks;
+        }
+
     }
 }
