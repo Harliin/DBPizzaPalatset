@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DB_Admin
+namespace DB_OrderInfo
 {
     public interface IRepository
     {
