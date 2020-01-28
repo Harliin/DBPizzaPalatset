@@ -9,11 +9,11 @@ using Food;
 
 namespace DB_Beställning
 {
-    public class AdminRepository : IRepository
+    public class OrderRepository : IRepository
     {
         private string ConnectionString { get; }
         private SqlConnection connection { get; }
-        public AdminRepository()
+        public OrderRepository()
         {
             ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
             connection = new SqlConnection(ConnectionString);
