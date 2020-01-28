@@ -21,7 +21,7 @@ namespace DB_Kassörska
             //Console.SetCursorPosition(17, 7);
             foreach (var order in await repo.ShowOngoingOrders())
             {
-                Console.WriteLine($"Order-ID: {order.ID} {order.Status}");
+                Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
             }
 
             Console.WriteLine();
@@ -32,7 +32,7 @@ namespace DB_Kassörska
             //Console.SetCursorPosition(67, 7);
             foreach (var order in await repo.ShowFinishedOrders())
             {
-                Console.WriteLine($"Order-ID: {order.ID} {order.Status}");
+                Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
             }
 
             Console.SetCursorPosition(67, 25);
