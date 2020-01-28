@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using DB_Kock.Food;
 
 namespace DB_Kock
 {
     public class Display
     {
 
-        public static void DrawStartMenu()
+        public static async Task DrawStartMenuAsync()
         {
             bool loop = true;
 
@@ -38,12 +40,19 @@ namespace DB_Kock
 
         }
 
-        public static void DrawMultipleChoiceMenu()
+        public static async Task DrawMultipleChoiceMenu()
         {
+            var repo = new ChefRepository();
+
                 Console.Clear();
                 Console.WriteLine("Välj den order som du vill tillaga");
                 Console.WriteLine("-------------\n");
-                Orders.GetOrder();
+
+            foreach (var processingOrder in await repo.ShowProcessingOrder())
+            {
+                Console.WriteLine($"{processingOrder}");
+            }
+                
                 Console.WriteLine();
 
                 Console.Write("Välj ordernummer: ");
@@ -55,10 +64,15 @@ namespace DB_Kock
                         Console.Clear();
                         Console.WriteLine("Du har valt order # 1");
                         Console.WriteLine();
+                        Console.WriteLine("Hämta order item (pizza)");
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        ChefFood.GetIngredients();
+
+                    foreach (var pizzaIngred in await repo.ShowPizzas())
+                    {
+                        Console.WriteLine($"{pizzaIngred.Ingredient1}\n{pizzaIngred.Ingredient2}");
+                    }
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
@@ -67,10 +81,16 @@ namespace DB_Kock
                         Console.Clear();
                         Console.WriteLine("Du har valt order # 2");
                         Console.WriteLine();
+                        Console.WriteLine("Hämta order item (pizza)");
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        ChefFood.GetIngredients();
+
+                    foreach (var pizzaIngred in await repo.ShowPizzas())
+                    {
+                        Console.WriteLine($"{pizzaIngred.Ingredient1}\n{pizzaIngred.Ingredient2}\n{pizzaIngred.Ingredient3}\n{pizzaIngred.Ingredient4}");
+                    }
+
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
@@ -79,11 +99,17 @@ namespace DB_Kock
                         Console.Clear();
                         Console.WriteLine("Du har valt order # 3");
                         Console.WriteLine();
+                        Console.WriteLine("Hämta order item (pizza)");
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        ChefFood.GetIngredients();
-                        Console.WriteLine();
+
+                    foreach (var pizzaIngred in await repo.ShowPizzas())
+                    {
+                        Console.WriteLine($"{pizzaIngred.Ingredient1}\n{pizzaIngred.Ingredient2}\n{pizzaIngred.Ingredient3}\n{pizzaIngred.Ingredient4}");
+                    }
+
+                    Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
 
@@ -91,11 +117,17 @@ namespace DB_Kock
                         Console.Clear();
                         Console.WriteLine("Du har valt order # 4");
                         Console.WriteLine();
+                        Console.WriteLine("Hämta order item (pizza)");
                         Console.WriteLine("Denna rätt innehåller följande ingredienser:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        ChefFood.GetIngredients();
-                        Console.WriteLine();
+
+                    foreach (var pizzaIngred in await repo.ShowPizzas())
+                    {
+                        Console.WriteLine($"{pizzaIngred.Ingredient1}\n{pizzaIngred.Ingredient2}\n{pizzaIngred.Ingredient3}\n{pizzaIngred.Ingredient4}");
+                    }
+
+                    Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
 
@@ -103,10 +135,9 @@ namespace DB_Kock
                         Console.Clear();
                         Console.WriteLine("Du har valt order # 4");
                         Console.WriteLine();
-                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
+                        Console.WriteLine("Hämta order item (sallad/pasta)");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        ChefFood.GetIngredients();
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
@@ -115,10 +146,9 @@ namespace DB_Kock
                         Console.Clear();
                         Console.WriteLine("Du har valt order # 5");
                         Console.WriteLine();
-                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
+                        Console.WriteLine("Hämta order item (sallad/pasta)");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        ChefFood.GetIngredients();
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
@@ -127,16 +157,15 @@ namespace DB_Kock
                         Console.Clear();
                         Console.WriteLine("Du har valt order # 5");
                         Console.WriteLine();
-                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
+                        Console.WriteLine("Hämta order item (sallad/pasta)");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        ChefFood.GetIngredients();
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                         break;
 
                     default:
-                        DrawMultipleChoiceMenu();
+                    await DrawMultipleChoiceMenu();
                         break;
 
                 }
@@ -163,19 +192,19 @@ namespace DB_Kock
 
                 if (userInput == 1 && opt < 5 && opt > 0)
                 {
-                    DrawCookPizzaMenu();
+                    await DrawCookPizzaMenu();
                     correctKey = false;
                 }
 
                 else if (userInput == 1 && opt > 4)
                 {
-                    DrawCookSaladOrPastaMenu();
+                    await DrawCookSaladOrPastaMenu();
                     correctKey = false;
                 }
 
                 if (userInput == 2)
                 {
-                    DrawMultipleChoiceMenu();
+                    await DrawMultipleChoiceMenu();
                     correctKey = false;
                 }
 
@@ -188,7 +217,7 @@ namespace DB_Kock
             } while (correctKey == true);
 
         }
-        public static void DrawCookPizzaMenu()
+        public static async Task DrawCookPizzaMenu()
         {
             // pizzan ligger i ugnen
             Console.Clear();
@@ -213,13 +242,13 @@ namespace DB_Kock
                 // om kocken klickar på enter så skickas hen tillbaka till startsidan för att kunna ta nya ordrar
                 if (key == 13)
                 {
-                    DrawConfirmationScreen();
+                    await DrawConfirmationScreen();
                     break;
                 }
             }
         }
 
-        public static void DrawCookSaladOrPastaMenu()
+        public static async Task DrawCookSaladOrPastaMenu()
         {
             Console.Clear();
             Console.WriteLine("Maten tillagas");
@@ -234,7 +263,7 @@ namespace DB_Kock
                 // om kocken klickar på enter så skickas hen tillbaka till startsidan för att kunna ta nya ordrar
                 if (key == 13)
                 {
-                    DrawConfirmationScreen();
+                    await DrawConfirmationScreen();
                     break;
                 }
             }
@@ -242,13 +271,13 @@ namespace DB_Kock
 
     
 
-        public static void DrawConfirmationScreen()
+        public static async Task DrawConfirmationScreen()
         {
             Console.Clear();
             Console.WriteLine("Skriver ut ordernummer...");
             Orders.GetOrdernumber();
             System.Threading.Thread.Sleep(1500);
-            DrawMultipleChoiceMenu();
+            await DrawMultipleChoiceMenu();
         }
     }
 
