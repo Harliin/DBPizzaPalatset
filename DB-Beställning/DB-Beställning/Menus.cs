@@ -38,7 +38,7 @@ namespace DB_Beställning
             {
                 case '1':
                     Console.Clear();
-                    foreach (Pizza pizza in await repo.Pizzas())
+                    foreach (Pizza pizza in await repo.ShowPizzasAsync())
                     {
                         Console.WriteLine($"{pizza.ID}. {pizza.Name}: {pizza.Price}kr");
                         counter++;
@@ -52,12 +52,12 @@ namespace DB_Beställning
                     }
                     else
                     {
-                       Console.WriteLine(repo.AddOrder(key - '0'));
+                       
                     }
                     break;
                 case '2':
                     Console.Clear();
-                    foreach (Pasta pasta in await repo.Pastas())
+                    foreach (Pasta pasta in await repo.ShowPastasAsync())
                     {
                         Console.WriteLine($"{pasta.ID}. {pasta.Name} {pasta.Price} kr");
                     }
@@ -65,7 +65,7 @@ namespace DB_Beställning
                     break;
                 case '3':
                     Console.Clear();
-                    foreach (Sallad sallad in await repo.Salads())
+                    foreach (Sallad sallad in await repo.ShowSalladsAsync())
                     {
                         Console.WriteLine($"{sallad.ID}. {sallad.Name} {sallad.Price} kr");
                     }
@@ -73,7 +73,7 @@ namespace DB_Beställning
                     break;
                 case '4':
                     Console.Clear();
-                    foreach (Drink drink in await repo.Drinks())
+                    foreach (Drink drink in await repo.ShowDrinksAsync())
                     {
                         Console.WriteLine($"{drink.ID}. {drink.Name} {drink.Price} kr");
                     }
