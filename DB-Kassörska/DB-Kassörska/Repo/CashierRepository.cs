@@ -21,36 +21,25 @@ namespace DB_Kassörska
             connection.Open();
         }
 
-        public async Task<IEnumerable<Order>> ShowOngoingOrdersAsync()
+        public async Task<IEnumerable<Order>> ShowAllOrdersAsync()
         {
-            IEnumerable<Order> ongoingOrders = (await connection.QueryAsync<Order>("showOrders", commandType: CommandType.StoredProcedure));
+            IEnumerable<Order> allOrders = (await connection.QueryAsync<Order>("ShowOrders", commandType: CommandType.StoredProcedure));
+
+            return allOrders;
+        }
+
+        public async Task<IEnumerable<Order>> ShowOrderByIDAsync(int orderNumber)
+        {
+            IEnumerable<Order> ongoingOrders = (await connection.QueryAsync<Order>("ShowOrderByID", new { @ID = orderNumber }, commandType: CommandType.StoredProcedure));
 
             return ongoingOrders;
         }
 
-        public async Task<IEnumerable<Order>> ShowFinishedOrdersAsync()
-        {
-            IEnumerable<Order> finishedOrders = (await connection.QueryAsync<Order>("showFinishedOrders", commandType: CommandType.StoredProcedure));
-
-            return finishedOrders;
-        }
-
-        public async Task DeleteOrderAsync(int orderNumber)
-        {
-            var deleteOrder = (await connection.QueryAsync<Order>("deleteOrder", new { @ID = orderNumber }, commandType: CommandType.StoredProcedure));
-        }
         public async Task AddPizzaAsync(string name, int price)
         {
             await connection.QueryAsync<Pizza>("AddPizza",
                 new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
         }
-
-        public async Task<IEnumerable<OrderFood>> ShowOrderFoodAsync()
-        {
-            IEnumerable<OrderFood> orderFoods = await connection.QueryAsync<OrderFood>("ShowOrders", commandType: CommandType.StoredProcedure);
-            return orderFoods;
-        }
-
         public async Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients)
         {
             foreach (var ingredient in ingridients)
@@ -73,19 +62,16 @@ namespace DB_Kassörska
             IEnumerable<Ingredient> ingredients = await connection.QueryAsync<Ingredient>("GetIngredients", commandType: CommandType.StoredProcedure);
             return ingredients;
         }
-
         public async Task<IEnumerable<Pasta>> ShowPastasAsync()
         {
             IEnumerable<Pasta> pastas = await connection.QueryAsync<Pasta>("GetPastas", commandType: CommandType.StoredProcedure);
             return pastas;
         }
-
         public async Task<IEnumerable<Sallad>> ShowSalladsAsync()
         {
             IEnumerable<Sallad> sallads = await connection.QueryAsync<Sallad>("GetSallads", commandType: CommandType.StoredProcedure);
             return sallads;
         }
-
         public async Task<IEnumerable<Drink>> ShowDrinksAsync()
         {
             IEnumerable<Drink> drinks = await connection.QueryAsync<Drink>("GetDrinks", commandType: CommandType.StoredProcedure);

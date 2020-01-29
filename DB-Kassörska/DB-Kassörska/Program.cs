@@ -11,8 +11,6 @@ namespace DB_Kassörska
             Cashier cashier = new Cashier();
 
             await cashier.CashierManagement();
-
-            
         }
     }
 }

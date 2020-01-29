@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,46 +16,60 @@ namespace DB_Kassörska
             Console.WriteLine("--Kassörterminal--");
 
             //Console.SetCursorPosition(17, 5);
-            Console.WriteLine("Pågående ordrar:");
+            Console.WriteLine("Alla ordrar:");
             //Console.SetCursorPosition(17, 6);
             Console.WriteLine("-----------------------------------");
             //Console.SetCursorPosition(17, 7);
-            foreach (var order in await repo.ShowOngoingOrdersAsync())
+
+            var orders = await repo.ShowAllOrdersAsync();
+            List<Order> orderList = orders.ToList();
+
+            foreach (var order in await repo.ShowAllOrdersAsync())
             {
                 Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
             }
 
             Console.WriteLine();
-            //Console.SetCursorPosition(67, 5);
             Console.WriteLine("Färdiga ordrar:");
-            //Console.SetCursorPosition(67, 6);
             Console.WriteLine("-----------------------------------");
-            //Console.SetCursorPosition(67, 7);
-            foreach (var order in await repo.ShowFinishedOrdersAsync())
+
+            foreach (var order in await repo.ShowOrderByIDAsync(2))
             {
                 Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
             }
 
             Console.SetCursorPosition(67, 25);
-            Console.WriteLine("[1] Markera order som uthämtad");
 
-            char cashierChoice = Console.ReadKey(true).KeyChar;
+            Console.WriteLine("Markera order som uthämtad (ange ordernummer och tryck enter)");
 
-            switch (cashierChoice)
+            if(int.TryParse(Console.ReadLine(), out int cashierOrderChoice))
             {
-                case '1':
-                    Console.SetCursorPosition(67, 25);
-                    await repo.DeleteOrderAsync(1);
-                    Console.ReadKey();
-                    await CashierManagement();
-                    break;
+                if(orderList.Exists(x => x.ID == cashierOrderChoice))
+                {
 
-                default:
-                    Console.WriteLine("Fel inmatning!");
-                    Console.ReadKey(true);
-                    await CashierManagement();
-                    break;
+                }
             }
+            
+            
+            
+
+            //char cashierChoice = Console.ReadKey(true).KeyChar;
+
+            //switch (cashierChoice)
+            //{
+            //    case '1':
+            //        Console.SetCursorPosition(67, 25);
+            //        await repo.MarkOrderAsCollectedAsync(1);
+            //        Console.ReadKey();
+            //        await CashierManagement();
+            //        break;
+
+            //    default:
+            //        Console.WriteLine("Fel inmatning!");
+            //        Console.ReadKey(true);
+            //        await CashierManagement();
+            //        break;
+            //}
         }
     }
 }
