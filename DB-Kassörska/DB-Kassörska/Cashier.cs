@@ -8,6 +8,12 @@ namespace DB_Kassörska
 {
     class Cashier
     {
+        /*TODO
+         * Felhantering om man skriver in fel nummer, bokstav osv. While (correctKey == false) osv
+         */
+
+
+        public int correctKey { get; set; }
         public async Task CashierManagement()
         {
             CashierRepository repo = new CashierRepository();
