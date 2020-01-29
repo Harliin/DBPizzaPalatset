@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
@@ -105,8 +106,23 @@ namespace DB_Admin
                     IEnumerable<OrderFood> orderFoods = await connection.QueryAsync<OrderFood>("ShowOrders", commandType: CommandType.StoredProcedure);
                     return orderFoods;
                 }
-        
-                public async Task<IEnumerable<PizzaIngredient>> ShowPizzaAndIngredients()
+                public async Task<Pizza> GetPizza(int id)
+                {
+            //Pizza pizza = await connection.QueryAsync<Pizza, Ingredient, Pizza>("ShowPizzaIngrediensByID", (Pizza, ingredient) => { Pizza.Ingredients = ingredient; return pizza; });
+                    Pizza pizza = (await connection.QueryAsync<Pizza>("ShowPizzaByID", new { ID = id }, commandType: CommandType.StoredProcedure)).First();
+                    pizza.Ingredients = (await connection.QueryAsync<Ingredient>("ShowPizzaIngredientsByID", new { ID = id }, commandType: CommandType.StoredProcedure)).ToList();
+                    return pizza;
+                }
+                public async Task<IEnumerable<Pizza>> GetPizzas()
+                {
+                    IEnumerable<Pizza> pizzas = await connection.QueryAsync<Pizza>("ShowPizzas", commandType: CommandType.StoredProcedure);
+                    foreach (Pizza pizza in pizzas)
+                    {
+                        pizza.Ingredients = (await connection.QueryAsync<Ingredient>("ShowPizzaIngredientsByID", new { ID = pizza.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                    }
+                    return pizzas;
+                }
+        public async Task<IEnumerable<PizzaIngredient>> ShowPizzaAndIngredients()
                 {
                     IEnumerable<PizzaIngredient> pizzaIngredients = await connection.QueryAsync<PizzaIngredient>("ShowPizzaIngredients", commandType: CommandType.StoredProcedure);
                     return pizzaIngredients;
