@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Food;
 
 namespace DB_Beställning
-{
+{ 
     public class OrderRepository : IRepository
     {
         private string ConnectionString { get; }
@@ -20,32 +19,21 @@ namespace DB_Beställning
             connection.Open();
         }
         // Beställnings Repositorys
-        public async Task AddPizzaToOrder(int order, int id)
+        public async Task<Pizza> GetPizza(int id)
         {
-            await connection.QueryAsync("AddPizzaToOrder", new { OrderID = order, PizzaID = id }, commandType: CommandType.StoredProcedure);
+            Pizza pizza = (await connection.QueryAsync<Pizza>("ShowPizzaByID", new { ID = id }, commandType: CommandType.StoredProcedure)).First();
+            pizza.Ingredients = (await connection.QueryAsync<Ingredient>("ShowPizzaIngredientsByID", new { ID = id }, commandType: CommandType.StoredProcedure)).ToList();
+            return pizza;
         }
-        public async Task AddPastaToOrder(int order, int id)
+        public async Task<IEnumerable<Pizza>> GetPizzas()
         {
-            await connection.QueryAsync("AddPastaToOrder", new { OrderID = order, PastaID = id }, commandType: CommandType.StoredProcedure);
+            IEnumerable<Pizza> pizzas = await connection.QueryAsync<Pizza>("ShowPizzas", commandType: CommandType.StoredProcedure);
+            foreach (Pizza pizza in pizzas)
+            {
+                pizza.Ingredients = (await connection.QueryAsync<Ingredient>("ShowPizzaIngredientsByID", new { ID = pizza.ID }, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            return pizzas;
         }
-        public async Task AddSalladToOrder(int order, int id)
-        {
-            await connection.QueryAsync("AddSalladToOrder", new { OrderID = order, SalladID = id }, commandType: CommandType.StoredProcedure);
-        }
-        public async Task AddDrinkToOrder(int order, int id)
-        {
-            await connection.QueryAsync("AddDrinkToOrder", new { OrderID = order, DrinkID = id }, commandType: CommandType.StoredProcedure);
-        }
-        public async Task AddExtraToOrder(int order, int id)
-        {
-            await connection.QueryAsync("AddExtraToOrder", new { OrderID = order, ExtraID = id }, commandType: CommandType.StoredProcedure);
-        }
-        public async Task AddPizzaAsync(string name, int price)
-        {
-            await connection.QueryAsync<Pizza>("AddPizza", new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
-        }
-
-
         public async Task<IEnumerable<Pizza>> ShowPizzaByID(int pizzaID)
         {
             IEnumerable<Pizza> pizza = await connection.QueryAsync<Pizza>("ShowPizzaByID", new { ID = pizzaID }, commandType: CommandType.StoredProcedure);
@@ -71,15 +59,13 @@ namespace DB_Beställning
             IEnumerable<Extra> extra = await connection.QueryAsync<Extra>("ShowExtraByID", new { ID = extraID }, commandType: CommandType.StoredProcedure);
             return extra;
         }
-        public async Task<IEnumerable<OrderFood>> ShowOrderFood()
-        {
-            IEnumerable<OrderFood> orderFoods = await connection.QueryAsync<OrderFood>("ShowOrders", commandType: CommandType.StoredProcedure);
-            return orderFoods;
-        }
         // Slut Beställning
 
         // Interface
-        
+        public async Task AddPizzaAsync(string name, int price)
+        {
+            await connection.QueryAsync<Pizza>("AddPizza", new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
+        }
         public async Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients)
         {
             foreach (var ingredient in ingridients)

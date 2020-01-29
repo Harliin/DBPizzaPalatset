@@ -19,7 +19,7 @@ namespace DB_Beställning
             "5. Extra\n",
 
             "-------------",
-            "6. Avsluta"
+            "9. Avsluta"
         };
 
     }

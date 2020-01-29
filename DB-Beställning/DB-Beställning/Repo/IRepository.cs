@@ -10,7 +10,6 @@ namespace DB_Beställning
         Task<IEnumerable<Drink>> ShowDrinksAsync();
         Task<IEnumerable<Extra>> ShowExtraAsync();
         Task<IEnumerable<Ingredient>> ShowIngredientsAsync();
-        Task<IEnumerable<OrderFood>> ShowOrderFood();
         Task<IEnumerable<Pasta>> ShowPastasAsync();
         Task<IEnumerable<PizzaIngredient>> ShowPizzaAndIngredients();
         Task<IEnumerable<Pizza>> ShowPizzasAsync();

@@ -10,6 +10,7 @@ namespace DB_Beställning
         bool correctKey { get; set; }
         char key;
         int counter;
+        int val;
 
         public async Task PrintMenu()
         {
@@ -29,7 +30,6 @@ namespace DB_Beställning
         {
             var repo = new OrderRepository();
             Console.Clear();
-            counter = 0;
             foreach (string item in MenuList.FoodMenu)
             {
                 Console.WriteLine(item);
@@ -45,23 +45,16 @@ namespace DB_Beställning
                         Console.WriteLine($"{pizza.ID}. {pizza.Name}: {pizza.Price}kr");
                         counter++;
                     }
-                    Console.Write($"\n{counter + 1}. Avsluta");
-                    Console.Write("\n\nVal:");
-                    key = Console.ReadKey(true).KeyChar;
-                    if ((key - '0') == (counter + 1))
+                    Console.Write($"9. Avsluta");
+                    Console.Write("\n\nVal: ");
+                    int.TryParse(Console.ReadLine(), out val);
+                    if (val == 9)
                     {
                         await PrintOrderMenu();
                     }
                     else
                     {
-                        await repo.AddPizzaToOrder(8,Convert.ToInt32(key-'0'));
-                        Console.Clear();
-                        foreach (Pizza pizza in await repo.ShowPizzaByID(Convert.ToInt32(key-'0')))
-                        {
-                            Console.WriteLine($"En {pizza.Name} tillagd");
-                            Thread.Sleep(700);
-                            await PrintOrderMenu();
-                        }
+                        // LÄGG TILL PIZZA
                     }
                     break;
                 case '2':
@@ -71,23 +64,16 @@ namespace DB_Beställning
                         Console.WriteLine($"{pasta.ID}. {pasta.Name} {pasta.Price} kr");
                         counter++;
                     }
-                    Console.Write($"\n{counter + 1}. Avsluta");
-                    Console.Write("\n\nVal:");
-                    key = Console.ReadKey(true).KeyChar;
-                    if ((key - '0') == (counter + 1))
+                    Console.Write($"\n9. Avsluta");
+                    Console.Write("\n\nVal: ");
+                    int.TryParse(Console.ReadLine(), out val);
+                    if (val == 9)
                     {
                         await PrintOrderMenu();
                     }
                     else
                     {
-                        await repo.AddPastaToOrder(8, Convert.ToInt32(key - '0'));
-                        Console.Clear();
-                        foreach (Pasta pasta in await repo.ShowPastaByID(Convert.ToInt32(key - '0')))
-                        {
-                            Console.WriteLine($"En {pasta.Name} tillagd");
-                            Thread.Sleep(700);
-                            await PrintOrderMenu();
-                        }
+                        // LÄGG TILL PASTA
                     }
                     break;
                 case '3':
@@ -97,23 +83,16 @@ namespace DB_Beställning
                         Console.WriteLine($"En {sallad.ID}. {sallad.Name} {sallad.Price} kr");
                         counter++;
                     }
-                    Console.Write($"\n{counter + 1}. Avsluta");
-                    Console.Write("\n\nVal:");
-                    key = Console.ReadKey(true).KeyChar;
-                    if ((key - '0') == (counter + 1))
+                    Console.Write($"\n9. Avsluta");
+                    Console.Write("\n\nVal: ");
+                    int.TryParse(Console.ReadLine(), out val);
+                    if (val == 9)
                     {
                         await PrintOrderMenu();
                     }
                     else
                     {
-                        await repo.AddSalladToOrder(8, Convert.ToInt32(key -'0'));
-                        Console.Clear();
-                        foreach (Sallad sallad in await repo.ShowSalladByID(Convert.ToInt32(key - '0')))
-                        {
-                            Console.WriteLine($"En {sallad.Name} tillagd");
-                            Thread.Sleep(700);
-                            await PrintOrderMenu();
-                        }
+                     // LÄGG TILL SALLAD
                     }
                     break;
                 case '4':
@@ -124,22 +103,15 @@ namespace DB_Beställning
                         counter++;
                     }
                     Console.Write($"\n{counter + 1}. Avsluta");
-                    Console.Write("\n\nVal:");
-                    key = Console.ReadKey(true).KeyChar;
-                    if ((key - '0') == (counter + 1))
+                    Console.Write("\n\nVal: ");
+                    int.TryParse(Console.ReadLine(), out val);
+                    if (val == 9)
                     {
                         await PrintOrderMenu();
                     }
                     else
                     {
-                        await repo.AddDrinkToOrder(8, Convert.ToInt32(key - '0'));
-                        Console.Clear();
-                        foreach (Drink drink in await repo.ShowDrinkByID(Convert.ToInt32(key - '0')))
-                        {
-                            Console.WriteLine($"En {drink.Name} tillagd");
-                            Thread.Sleep(700);
-                            await PrintOrderMenu();
-                        }
+                       // LÄGG TILL DRINKS
                     }
                     break;
                 case '5':
@@ -150,22 +122,15 @@ namespace DB_Beställning
                         counter++;
                     }
                     Console.Write($"\n{counter + 1}. Avsluta");
-                    Console.Write("\n\nVal:");
-                    key = Console.ReadKey(true).KeyChar;
-                    if ((key - '0') == (counter + 1))
+                    Console.Write("\n\nVal: ");
+                    int.TryParse(Console.ReadLine(), out val);
+                    if (val == 9)
                     {
                         await PrintOrderMenu();
                     }
                     else
                     {
-                        await repo.AddExtraToOrder(8, Convert.ToInt32(key - '0'));
-                        Console.Clear();
-                        foreach (Extra extra in await repo.ShowExtraByID(Convert.ToInt32(key - '0')))
-                        {
-                            Console.WriteLine($"En {extra.Name} tillagd");
-                            Thread.Sleep(700);
-                            await PrintOrderMenu();
-                        }
+                       // LÄGG TILL EXTRA
                     }
                     break;
                 default:
