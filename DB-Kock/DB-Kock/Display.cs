@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DB_Kock.Food;
+using Food;
+using static DB_Kock.Food.Order;
 
 namespace DB_Kock
 {
@@ -44,161 +48,81 @@ namespace DB_Kock
         {
             var repo = new ChefRepository();
 
-                Console.Clear();
-                Console.WriteLine("Välj den order som du vill tillaga");
-                Console.WriteLine("-------------\n");
+            Console.Clear();
+            Console.WriteLine("Välj den order som du vill tillaga");
+            Console.WriteLine("-------------\n");
 
-            foreach (var processingOrder in await repo.ShowProcessingOrder())
+            IEnumerable<Order> orderByStatusList = await repo.ShowOrderByStatus(eStatus.Tillagning);
+            foreach (Order orderByStatus in orderByStatusList)
             {
-                Console.WriteLine($"{processingOrder}");
-            }
-                
-                Console.WriteLine();
-
-                Console.Write("Välj ordernummer: ");
-                int opt = Console.ReadKey(true).KeyChar - '0';
-
-                switch (opt)
+                Console.WriteLine($"{orderByStatus.ID}");
+                foreach (Pizza pizzaItem in orderByStatus.pizza)
                 {
-                    case 1:
-                        Console.Clear();
-                        Console.WriteLine("Du har valt order # 1");
-                        Console.WriteLine();
-                        Console.WriteLine("Hämta order item (pizza)");
-                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
-                        Console.WriteLine("------------------------");
-                        Console.WriteLine();
-
-                    foreach (var pizzaIngred in await repo.ShowPizzas())
+                    Console.WriteLine(pizzaItem.Name);
+                    foreach (Pasta pastaItem in orderByStatus.pasta)
                     {
-                        Console.WriteLine($"{pizzaIngred.Ingredient1}\n{pizzaIngred.Ingredient2}");
+                        Console.WriteLine(pastaItem.Name);
+                        foreach (Sallad salladItem in orderByStatus.sallad)
+                        {
+                            Console.WriteLine(salladItem.Name);
+                            foreach (Drink drinkItem in orderByStatus.drink)
+                            {
+                                Console.WriteLine(drinkItem.Name);
+                                foreach (Extra extraItem in orderByStatus.extra)
+                                {
+                                    Console.WriteLine(extraItem.Name);
+                                }
+                            }
+                        }
                     }
-                        Console.WriteLine();
-                        Console.WriteLine("------------------------");
-                        break;
+                }
+            }
 
-                    case 2:
-                        Console.Clear();
-                        Console.WriteLine("Du har valt order # 2");
-                        Console.WriteLine();
-                        Console.WriteLine("Hämta order item (pizza)");
-                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
-                        Console.WriteLine("------------------------");
-                        Console.WriteLine();
 
-                    foreach (var pizzaIngred in await repo.ShowPizzas())
+            Console.WriteLine();
+            Console.Write("Välj ordernummer: ");
+
+            List<Order> listOfOrders = orderByStatusList.ToList();
+
+            if (int.TryParse(Console.ReadLine(), out int opt))
+            {
+                if (listOfOrders.Exists(x => x.ID == opt))
+                {
+                    await repo.UpdateOrder(opt);
+                    foreach (var orderFood in await repo.ShowOrderByID(opt))
                     {
-                        Console.WriteLine($"{pizzaIngred.Ingredient1}\n{pizzaIngred.Ingredient2}\n{pizzaIngred.Ingredient3}\n{pizzaIngred.Ingredient4}");
+                        Console.Clear();
+                        Console.WriteLine($"Du har valt order # {orderFood.ID}");
+                        Console.WriteLine();
+                        Console.WriteLine($"Denna order innehåller följande artiklar:");
+                        Console.WriteLine("------------------------");
+                        Console.WriteLine();
+                        Console.WriteLine("*Order artiklar*"); //Gör detta
+                        Console.WriteLine();
+                        Console.WriteLine("------------------------");
                     }
-
-                        Console.WriteLine();
-                        Console.WriteLine("------------------------");
-                        break;
-
-                    case 3:
-                        Console.Clear();
-                        Console.WriteLine("Du har valt order # 3");
-                        Console.WriteLine();
-                        Console.WriteLine("Hämta order item (pizza)");
-                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
-                        Console.WriteLine("------------------------");
-                        Console.WriteLine();
-
-                    foreach (var pizzaIngred in await repo.ShowPizzas())
-                    {
-                        Console.WriteLine($"{pizzaIngred.Ingredient1}\n{pizzaIngred.Ingredient2}\n{pizzaIngred.Ingredient3}\n{pizzaIngred.Ingredient4}");
-                    }
-
-                    Console.WriteLine();
-                        Console.WriteLine("------------------------");
-                        break;
-
-                    case 4:
-                        Console.Clear();
-                        Console.WriteLine("Du har valt order # 4");
-                        Console.WriteLine();
-                        Console.WriteLine("Hämta order item (pizza)");
-                        Console.WriteLine("Denna rätt innehåller följande ingredienser:");
-                        Console.WriteLine("------------------------");
-                        Console.WriteLine();
-
-                    foreach (var pizzaIngred in await repo.ShowPizzas())
-                    {
-                        Console.WriteLine($"{pizzaIngred.Ingredient1}\n{pizzaIngred.Ingredient2}\n{pizzaIngred.Ingredient3}\n{pizzaIngred.Ingredient4}");
-                    }
-
-                    Console.WriteLine();
-                        Console.WriteLine("------------------------");
-                        break;
-
-                    case 5:
-                        Console.Clear();
-                        Console.WriteLine("Du har valt order # 4");
-                        Console.WriteLine();
-                        Console.WriteLine("Hämta order item (sallad/pasta)");
-                        Console.WriteLine("------------------------");
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine("------------------------");
-                        break;
-
-                    case 6:
-                        Console.Clear();
-                        Console.WriteLine("Du har valt order # 5");
-                        Console.WriteLine();
-                        Console.WriteLine("Hämta order item (sallad/pasta)");
-                        Console.WriteLine("------------------------");
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine("------------------------");
-                        break;
-
-                    case 7:
-                        Console.Clear();
-                        Console.WriteLine("Du har valt order # 5");
-                        Console.WriteLine();
-                        Console.WriteLine("Hämta order item (sallad/pasta)");
-                        Console.WriteLine("------------------------");
-                        Console.WriteLine();
-                        Console.WriteLine();
-                        Console.WriteLine("------------------------");
-                        break;
-
-                    default:
-                    await DrawMultipleChoiceMenu();
-                        break;
 
                 }
+            }
+
+            else
+            {
+                Console.WriteLine("Fel inmatning");
+            }
 
             bool correctKey = true;
 
             do
             {
 
-                if (opt < 5 && opt > 0)
-                {
-                    Console.WriteLine("1. Stoppa in i ugn");
-                }
-
-                else if (opt > 4)
-                {
-                    Console.WriteLine("1. Tillaga");
-                }
-
-
+                Console.WriteLine("1. Tillaga");
                 Console.WriteLine("2. Återgå");
 
                 int userInput = Console.ReadKey(true).KeyChar - '0';
 
-                if (userInput == 1 && opt < 5 && opt > 0)
+                if (userInput == 1)
                 {
-                    await DrawCookPizzaMenu();
-                    correctKey = false;
-                }
-
-                else if (userInput == 1 && opt > 4)
-                {
-                    await DrawCookSaladOrPastaMenu();
+                    await DrawCookMenu();
                     correctKey = false;
                 }
 
@@ -217,11 +141,13 @@ namespace DB_Kock
             } while (correctKey == true);
 
         }
-        public static async Task DrawCookPizzaMenu()
+        public static async Task DrawCookMenu()
         {
-            // pizzan ligger i ugnen
+
+            var repo = new ChefRepository();
+
             Console.Clear();
-            Console.WriteLine("Pizzan tillagas");
+            Console.WriteLine("Maten tillagas");
             Console.WriteLine("-------------\n");
 
             // simulering av att pizzan tillagas
@@ -233,29 +159,10 @@ namespace DB_Kock
             Console.WriteLine("-------------\n");
             Console.Beep(500, 2000);
 
-            Console.WriteLine("Klicka Enter för att skicka pizzan till servering");
-
-            // väntar tills kocken bekräftat att maten är klar för servering
-            while (true)
-            {
-                char key = Console.ReadKey(true).KeyChar;
-                // om kocken klickar på enter så skickas hen tillbaka till startsidan för att kunna ta nya ordrar
-                if (key == 13)
-                {
-                    await DrawConfirmationScreen();
-                    break;
-                }
-            }
-        }
-
-        public static async Task DrawCookSaladOrPastaMenu()
-        {
-            Console.Clear();
-            Console.WriteLine("Maten tillagas");
-            Console.WriteLine("-------------\n");
-
             Console.WriteLine("Klicka Enter när du är färdig och redo att skicka maten till servering");
 
+
+
             // väntar tills kocken bekräftat att maten är klar för servering
             while (true)
             {
@@ -267,15 +174,19 @@ namespace DB_Kock
                     break;
                 }
             }
+
+
         }
 
-    
 
         public static async Task DrawConfirmationScreen()
         {
+            var repo = new ChefRepository();
+
             Console.Clear();
             Console.WriteLine("Skriver ut ordernummer...");
-            Orders.GetOrdernumber();
+            //Använd ShowORderByID men hur jag kan använda userInput/opt från annan method?
+
             System.Threading.Thread.Sleep(1500);
             await DrawMultipleChoiceMenu();
         }

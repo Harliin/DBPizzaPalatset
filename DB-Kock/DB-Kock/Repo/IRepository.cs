@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DB_Admin
+namespace DB_Kock
 {
     public interface IRepository
     {
@@ -10,7 +10,6 @@ namespace DB_Admin
         Task<IEnumerable<Drink>> ShowDrinksAsync();
         Task<IEnumerable<Extra>> ShowExtraAsync();
         Task<IEnumerable<Ingredient>> ShowIngredientsAsync();
-        Task<IEnumerable<OrderFood>> ShowOrderFood();
         Task<IEnumerable<Pasta>> ShowPastasAsync();
         Task<IEnumerable<PizzaIngredient>> ShowPizzaAndIngredients();
         Task<IEnumerable<Pizza>> ShowPizzasAsync();
