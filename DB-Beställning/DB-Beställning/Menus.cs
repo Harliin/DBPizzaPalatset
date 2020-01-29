@@ -102,7 +102,7 @@ namespace DB_Beställning
                         Console.WriteLine($"{drink.ID}. {drink.Name} {drink.Price} kr");
                         counter++;
                     }
-                    Console.Write($"\n{counter + 1}. Avsluta");
+                    Console.Write($"\n9. Avsluta");
                     Console.Write("\n\nVal: ");
                     int.TryParse(Console.ReadLine(), out val);
                     if (val == 9)
@@ -121,7 +121,7 @@ namespace DB_Beställning
                         Console.WriteLine($"{extra.ID}. {extra.Name} {extra.Price} kr");
                         counter++;
                     }
-                    Console.Write($"\n{counter + 1}. Avsluta");
+                    Console.Write($"\n9. Avsluta");
                     Console.Write("\n\nVal: ");
                     int.TryParse(Console.ReadLine(), out val);
                     if (val == 9)
