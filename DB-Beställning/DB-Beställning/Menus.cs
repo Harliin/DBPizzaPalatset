@@ -54,17 +54,16 @@ namespace DB_Beställning
                     {
                         Console.WriteLine($"{pizza.ID}. {pizza.Name}: {pizza.Price}kr");
                     }
-                    Console.Write($"\n9. Avsluta");
-
+                    Console.Write($"\nTryck Enter för att avsluta");
                     Console.Write("\n\nVal: ");
+                    key = Console.ReadKey(true).KeyChar;
+                    if (key == 13)
+                    {
+                        await PrintOrderMenu();
+                    }
                     if (int.TryParse(Console.ReadLine(), out userChoice))
                     {
-                        //key = Console.ReadKey(true).KeyChar;
-                        //if (key == 28)
-                        //{
-                        //    await PrintOrderMenu();
-                        //}
-                        if(listOfPizza.Exists(x => x.ID == userChoice))
+                        if (listOfPizza.Exists(x => x.ID == userChoice))
                         {
                             await repo.AddPizzaToOrder(orderID, userChoice); // FIXA ORDER ID
                         }
