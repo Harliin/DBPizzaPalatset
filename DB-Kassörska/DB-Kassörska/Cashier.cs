@@ -15,11 +15,8 @@ namespace DB_Kassörska
             Console.Clear();
             Console.WriteLine("--Kassörterminal--");
 
-            //Console.SetCursorPosition(17, 5);
             Console.WriteLine("Alla ordrar:");
-            //Console.SetCursorPosition(17, 6);
             Console.WriteLine("-----------------------------------");
-            //Console.SetCursorPosition(17, 7);
 
             var orders = await repo.ShowAllOrdersAsync();
             List<Order> orderList = orders.ToList();
@@ -46,30 +43,13 @@ namespace DB_Kassörska
             {
                 if(orderList.Exists(x => x.ID == cashierOrderChoice))
                 {
-
+                    await repo.UpdateOrderStatus(cashierOrderChoice);
+                }
+                else
+                {
+                    Console.WriteLine("Ordernumret finns inte!");
                 }
             }
-            
-            
-            
-
-            //char cashierChoice = Console.ReadKey(true).KeyChar;
-
-            //switch (cashierChoice)
-            //{
-            //    case '1':
-            //        Console.SetCursorPosition(67, 25);
-            //        await repo.MarkOrderAsCollectedAsync(1);
-            //        Console.ReadKey();
-            //        await CashierManagement();
-            //        break;
-
-            //    default:
-            //        Console.WriteLine("Fel inmatning!");
-            //        Console.ReadKey(true);
-            //        await CashierManagement();
-            //        break;
-            //}
         }
     }
 }

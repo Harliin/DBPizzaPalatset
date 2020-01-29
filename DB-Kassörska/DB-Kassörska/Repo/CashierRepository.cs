@@ -20,7 +20,11 @@ namespace DB_Kassörska
             connection = new SqlConnection(ConnectionString);
             connection.Open();
         }
-
+        public async Task UpdateOrderStatus(int orderNumber)
+        {
+            await connection.QueryAsync<Pizza>("UpdateOrderStatus",
+                new { @ID = orderNumber }, commandType: CommandType.StoredProcedure);
+        }
         public async Task<IEnumerable<Order>> ShowAllOrdersAsync()
         {
             IEnumerable<Order> allOrders = (await connection.QueryAsync<Order>("ShowOrders", commandType: CommandType.StoredProcedure));
