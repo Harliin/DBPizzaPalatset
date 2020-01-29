@@ -1,82 +1,78 @@
-﻿using System;
+﻿using Dapper;
+using DB_OrderInfo.Food;
+using Food;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 using System.Threading.Tasks;
-using Dapper;
-using Food;
 
 namespace DB_OrderInfo
 {
-    public class AdminRepository : IRepository
+    public class OrderInfoRepository : IRepository
     {
         private string ConnectionString { get; }
         private SqlConnection connection { get; }
-        public AdminRepository()
+        public OrderInfoRepository()
         {
             ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
             connection = new SqlConnection(ConnectionString);
             connection.Open();
         }
 
-        public async Task AddPizzaAsync(string name, int price)
+        public async Task<IEnumerable<Order>> OngoingOrder()
         {
-            await connection.QueryAsync<Pizza>("AddPizza",
-                new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
+            IEnumerable<Order> ongoingOrder = (await connection.QueryAsync<Order>("DisplayOngoingOrder", commandType: CommandType.StoredProcedure));
+            return ongoingOrder;
+        }
+        public async Task<IEnumerable<Order>> CompleteOrder()
+        {
+            IEnumerable<Order> completeOrder = (await connection.QueryAsync<Order>("DisplayCompleteOrder", commandType: CommandType.StoredProcedure));
+            return completeOrder;
         }
 
-        public async Task<IEnumerable<OrderFood>> ShowOrderFood()
+        public Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients)
         {
-            IEnumerable<OrderFood> orderFoods = await connection.QueryAsync<OrderFood>("ShowOrders", commandType: CommandType.StoredProcedure);
-            return orderFoods;
+            throw new System.NotImplementedException();
         }
 
-        public async Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients)
+        public Task<IEnumerable<Drink>> ShowDrinksAsync()
         {
-            foreach (var ingredient in ingridients)
-            {
-                await connection.QueryAsync<Pizza>("INSERT INTO PizzaIngredients(PizzaID, IngredientsID) VALUES (@PizzaID, @IngredientID)", new { PizzaID = pizzaID, IngredientID = ingredient });
-            }
-        }
-        public async Task<IEnumerable<PizzaIngredient>> ShowPizzaAndIngredients()
-        {
-            IEnumerable<PizzaIngredient> pizzaIngredients = await connection.QueryAsync<PizzaIngredient>("ShowPizzaIngredients", commandType: CommandType.StoredProcedure);
-            return pizzaIngredients;
-        }
-        public async Task<IEnumerable<Pizza>> ShowPizzasAsync()
-        {
-            IEnumerable<Pizza> pizzas = await connection.QueryAsync<Pizza>("GetPizzas", commandType: CommandType.StoredProcedure);
-            return pizzas;
-        }
-        public async Task<IEnumerable<Ingredient>> ShowIngredientsAsync()
-        {
-            IEnumerable<Ingredient> ingredients = await connection.QueryAsync<Ingredient>("GetIngredients", commandType: CommandType.StoredProcedure);
-            return ingredients;
+            throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<Pasta>> ShowPastasAsync()
+        public Task<IEnumerable<Extra>> ShowExtraAsync()
         {
-            IEnumerable<Pasta> pastas = await connection.QueryAsync<Pasta>("GetPastas", commandType: CommandType.StoredProcedure);
-            return pastas;
+            throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<Sallad>> ShowSalladsAsync()
+        public Task<IEnumerable<Ingredient>> ShowIngredientsAsync()
         {
-            IEnumerable<Sallad> sallads = await connection.QueryAsync<Sallad>("GetSallads", commandType: CommandType.StoredProcedure);
-            return sallads;
+            throw new System.NotImplementedException();
         }
 
-        public async Task<IEnumerable<Drink>> ShowDrinksAsync()
+        //public Task<IEnumerable<OrderFood>> ShowOrderFood()
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+
+        public Task<IEnumerable<Pasta>> ShowPastasAsync()
         {
-            IEnumerable<Drink> drinks = await connection.QueryAsync<Drink>("GetDrinks", commandType: CommandType.StoredProcedure);
-            return drinks;
-        }
-        public async Task<IEnumerable<Extra>> ShowExtraAsync()
-        {
-            IEnumerable<Extra> drinks = await connection.QueryAsync<Extra>("GetExtras", commandType: CommandType.StoredProcedure);
-            return drinks;
+            throw new System.NotImplementedException();
         }
 
+        //public Task<IEnumerable<PizzaIngredient>> ShowPizzaAndIngredients()
+        //{
+        //    throw new System.NotImplementedException();
+        //}
+
+        public Task<IEnumerable<Pizza>> ShowPizzasAsync()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<IEnumerable<Sallad>> ShowSalladsAsync()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
