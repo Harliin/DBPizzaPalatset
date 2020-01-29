@@ -1,19 +1,19 @@
 using System;
 using System.Threading.Tasks;
 using Food;
+using System.Linq;
 
 
 namespace DB_Admin
 {
     public class Program
     {
+        public static AdminRepository repo = new AdminRepository();
         static async Task Main(string[] args)
         {
             do
             {
-                Console.Write("\nSkriv in lösenord:");
-                string password = Console.ReadLine();
-                if (password == "123")
+                if (await Login())
                 {
                     await AdminStartMenuAsync();
                 }
@@ -26,6 +26,29 @@ namespace DB_Admin
             } while (true);
         }
 
+        private static async Task<bool> Login()
+        {
+            
+            Console.Write("\nSkriv in Användarnamn: ");
+            string AdminName = Console.ReadLine();
+
+            Console.Write("\nLösenord: ");
+            string password = Console.ReadLine();
+            var admins = await repo.GetAdmins(AdminName, password);
+
+            if (admins.Count() == 0)
+            {
+                Console.WriteLine("Felaktigt inloggning!");
+                Console.ReadKey();
+                await Login();
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        } 
         public static async Task AdminStartMenuAsync()
         {
             Console.Clear();

@@ -94,6 +94,12 @@ namespace DB_Admin
             return employees;
         }
 
+        public async Task<IEnumerable<Employee>> GetAdmins(string userName, string password)
+        {
+            IEnumerable<Employee> admin = await connection.QueryAsync<Employee>("GetAdmins", new { Username = userName, Password = password }, commandType: CommandType.StoredProcedure);
+            return admin;
+        }
+
         //Slut admin specifik
 
 

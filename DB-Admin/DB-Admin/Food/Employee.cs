@@ -12,7 +12,7 @@ namespace DB_Admin
         public string Password { get; set; }
 
         public EType EmployeeType { get; set; }
-        public enum EType { Chef = 1, Bagare = 2, Kassörska = 3}
+        public enum EType { Admin = 1, Bagare = 2, Kassörska = 3}
 
     }
 }
