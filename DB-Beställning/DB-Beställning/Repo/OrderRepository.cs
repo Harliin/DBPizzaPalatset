@@ -19,6 +19,32 @@ namespace DB_Beställning
             connection.Open();
         }
         // Beställnings Repositorys
+
+        public async Task<IEnumerable<Order>> CreateNewOrder()
+        {
+            IEnumerable<Order> order = (await connection.QueryAsync<Order>("CreateNewOrder", commandType: CommandType.StoredProcedure));
+            return order;
+        }
+        public async Task AddPizzaToOrder(int orderID, int pizzaID)
+        {
+            await connection.QueryAsync<Pizza>("sp_OrderPizza", new { OrderID = orderID, PizzaID = pizzaID }, commandType: CommandType.StoredProcedure);
+        }
+        public async Task AddPastaToOrder(int orderID, int pastaID)
+        {
+            await connection.QueryAsync<Pasta>("sp_OrderPasta", new { OrderID = orderID, PastaID = pastaID }, commandType: CommandType.StoredProcedure);
+        }
+        public async Task AddSalladToOrder(int orderID, int salladID)
+        {
+            await connection.QueryAsync<Sallad>("sp_OrderSallad", new { OrderID = orderID, SalladID = salladID }, commandType: CommandType.StoredProcedure);
+        }
+        public async Task AddDrinkToOrder(int orderID, int drinkID)
+        {
+            await connection.QueryAsync<Drink>("sp_OrderDrink", new { OrderID = orderID, DrinkID = drinkID }, commandType: CommandType.StoredProcedure);
+        }
+        public async Task AddExtraToOrder(int orderID, int extraID)
+        {
+            await connection.QueryAsync<Extra>("sp_OrderExtra", new { OrderID = orderID, ExtraID = extraID }, commandType: CommandType.StoredProcedure);
+        }
         public async Task<Pizza> GetPizza(int id)
         {
             Pizza pizza = (await connection.QueryAsync<Pizza>("ShowPizzaByID", new { ID = id }, commandType: CommandType.StoredProcedure)).First();

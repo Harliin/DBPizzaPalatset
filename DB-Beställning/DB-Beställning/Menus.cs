@@ -2,6 +2,9 @@
 using System.Threading.Tasks;
 using System.Threading;
 using Food;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace DB_Beställning
 {
     class Menus
@@ -9,9 +12,9 @@ namespace DB_Beställning
         
         bool correctKey { get; set; }
         char key;
-        int counter;
-        int val;
-
+        int userChoice;
+        public static int orderID { get; set; }
+        public static OrderRepository repo = new OrderRepository();
         public async Task PrintMenu()
         {
             while (correctKey == false)
@@ -20,15 +23,20 @@ namespace DB_Beställning
                 Console.WriteLine("Hej och välkomna till Pizza Palatset \nKlicka på Enter för att påbörja beställningen");
                 key = Console.ReadKey(true).KeyChar;
                 if (key == 13)
-                {
+                {   
+                    IEnumerable<Order> order = await repo.CreateNewOrder();
+                    List<Order> orders = order.ToList();
+                    orderID = orders[0].ID;
+                    
                     await PrintOrderMenu();
                     correctKey = true;
                 }
             }
         }
+        // FIXA ORDER ID
         public async Task PrintOrderMenu()
         {
-            var repo = new OrderRepository();
+            
             Console.Clear();
             foreach (string item in MenuList.FoodMenu)
             {
@@ -39,41 +47,49 @@ namespace DB_Beställning
             switch (key)
             {
                 case '1':
+                    var pizzas = await repo.ShowPizzasAsync();
+                    List<Pizza> listOfPizza = pizzas.ToList();
                     Console.Clear();
-                    foreach (Pizza pizza in await repo.ShowPizzasAsync())
+                    foreach (Pizza pizza in pizzas)
                     {
                         Console.WriteLine($"{pizza.ID}. {pizza.Name}: {pizza.Price}kr");
-                        counter++;
                     }
-                    Console.Write($"9. Avsluta");
+                    Console.Write($"\n9. Avsluta");
+
                     Console.Write("\n\nVal: ");
-                    int.TryParse(Console.ReadLine(), out val);
-                    if (val == 9)
+                    if (int.TryParse(Console.ReadLine(), out userChoice))
                     {
-                        await PrintOrderMenu();
-                    }
-                    else
-                    {
-                        // LÄGG TILL PIZZA
+                        //key = Console.ReadKey(true).KeyChar;
+                        //if (key == 28)
+                        //{
+                        //    await PrintOrderMenu();
+                        //}
+                        if(listOfPizza.Exists(x => x.ID == userChoice))
+                        {
+                            await repo.AddPizzaToOrder(orderID, userChoice); // FIXA ORDER ID
+                        }
                     }
                     break;
                 case '2':
+                    var pastas = await repo.ShowPastasAsync();
+                    List<Pasta> listOfPasta = pastas.ToList();
                     Console.Clear();
-                    foreach (Pasta pasta in await repo.ShowPastasAsync())
+                    foreach (Pasta pasta in pastas)
                     {
                         Console.WriteLine($"{pasta.ID}. {pasta.Name} {pasta.Price} kr");
-                        counter++;
                     }
                     Console.Write($"\n9. Avsluta");
                     Console.Write("\n\nVal: ");
-                    int.TryParse(Console.ReadLine(), out val);
-                    if (val == 9)
+                    if (int.TryParse(Console.ReadLine(), out userChoice))
                     {
-                        await PrintOrderMenu();
-                    }
-                    else
-                    {
-                        // LÄGG TILL PASTA
+                        if (userChoice == 9)
+                        {
+                            await PrintOrderMenu();
+                        }
+                        else if(listOfPasta.Exists(x => x.ID == userChoice))
+                        {
+                            await repo.AddPastaToOrder(orderID, userChoice); // FIXA ORDER ID
+                        }
                     }
                     break;
                 case '3':
@@ -81,12 +97,11 @@ namespace DB_Beställning
                     foreach (Sallad sallad in await repo.ShowSalladsAsync())
                     {
                         Console.WriteLine($"En {sallad.ID}. {sallad.Name} {sallad.Price} kr");
-                        counter++;
                     }
                     Console.Write($"\n9. Avsluta");
                     Console.Write("\n\nVal: ");
-                    int.TryParse(Console.ReadLine(), out val);
-                    if (val == 9)
+                    int.TryParse(Console.ReadLine(), out userChoice);
+                    if (userChoice == 9)
                     {
                         await PrintOrderMenu();
                     }
@@ -100,12 +115,11 @@ namespace DB_Beställning
                     foreach (Drink drink in await repo.ShowDrinksAsync())
                     {
                         Console.WriteLine($"{drink.ID}. {drink.Name} {drink.Price} kr");
-                        counter++;
                     }
                     Console.Write($"\n9. Avsluta");
                     Console.Write("\n\nVal: ");
-                    int.TryParse(Console.ReadLine(), out val);
-                    if (val == 9)
+                    int.TryParse(Console.ReadLine(), out userChoice);
+                    if (userChoice == 9)
                     {
                         await PrintOrderMenu();
                     }
@@ -119,18 +133,22 @@ namespace DB_Beställning
                     foreach (Extra extra in await repo.ShowExtraAsync())
                     {
                         Console.WriteLine($"{extra.ID}. {extra.Name} {extra.Price} kr");
-                        counter++;
                     }
                     Console.Write($"\n9. Avsluta");
                     Console.Write("\n\nVal: ");
-                    int.TryParse(Console.ReadLine(), out val);
-                    if (val == 9)
+                    int.TryParse(Console.ReadLine(), out userChoice);
+                    if (userChoice == 9)
                     {
                         await PrintOrderMenu();
                     }
                     else
                     {
                        // LÄGG TILL EXTRA
+                    }
+                    break;
+                case '6':
+                    {
+                        // Avsluta order och betala här
                     }
                     break;
                 default:
