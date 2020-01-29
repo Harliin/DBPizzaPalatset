@@ -108,7 +108,6 @@ namespace DB_Admin
                 }
                 public async Task<Pizza> GetPizza(int id)
                 {
-            //Pizza pizza = await connection.QueryAsync<Pizza, Ingredient, Pizza>("ShowPizzaIngrediensByID", (Pizza, ingredient) => { Pizza.Ingredients = ingredient; return pizza; });
                     Pizza pizza = (await connection.QueryAsync<Pizza>("ShowPizzaByID", new { ID = id }, commandType: CommandType.StoredProcedure)).First();
                     pizza.Ingredients = (await connection.QueryAsync<Ingredient>("ShowPizzaIngredientsByID", new { ID = id }, commandType: CommandType.StoredProcedure)).ToList();
                     return pizza;

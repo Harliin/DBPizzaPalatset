@@ -55,7 +55,7 @@ namespace DB_Admin
                     break;
 
 
-                case '3'://TODOO
+                case '3':
                     IEnumerable<Pizza> pizzaList = await repo.GetPizzas();
 
                     foreach (Pizza pizza in pizzaList)
@@ -68,11 +68,7 @@ namespace DB_Admin
                         }
                         Console.WriteLine();
                     }
-                    //Console.WriteLine(pizzaList.Name);
-                    //foreach (var ingredient in pizza2.Ingredients)
-                    //{
-                    //    Console.WriteLine(ingredient.Name);
-                    //}
+
                     Console.ReadKey();
                     await PizzaAsync();
                     break;
