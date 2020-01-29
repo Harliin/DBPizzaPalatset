@@ -19,10 +19,10 @@ namespace DB_Beställning
             connection = new SqlConnection(ConnectionString);
             connection.Open();
         }
-
+        // Beställnings Repositorys
         public async Task AddPizzaToOrder(int order, int id)
         {
-            await connection.QueryAsync("AddPizzaToOrder", new {OrderID = order, PizzaID = id}, commandType: CommandType.StoredProcedure);
+            await connection.QueryAsync("AddPizzaToOrder", new { OrderID = order, PizzaID = id }, commandType: CommandType.StoredProcedure);
         }
         public async Task AddPastaToOrder(int order, int id)
         {
@@ -42,8 +42,10 @@ namespace DB_Beställning
         }
         public async Task AddPizzaAsync(string name, int price)
         {
-            await connection.QueryAsync<Pizza>("AddPizza",new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
+            await connection.QueryAsync<Pizza>("AddPizza", new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
         }
+
+
         public async Task<IEnumerable<Pizza>> ShowPizzaByID(int pizzaID)
         {
             IEnumerable<Pizza> pizza = await connection.QueryAsync<Pizza>("ShowPizzaByID", new { ID = pizzaID }, commandType: CommandType.StoredProcedure);
@@ -74,7 +76,10 @@ namespace DB_Beställning
             IEnumerable<OrderFood> orderFoods = await connection.QueryAsync<OrderFood>("ShowOrders", commandType: CommandType.StoredProcedure);
             return orderFoods;
         }
+        // Slut Beställning
 
+        // Interface
+        
         public async Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients)
         {
             foreach (var ingredient in ingridients)
@@ -120,6 +125,6 @@ namespace DB_Beställning
             IEnumerable<Extra> drinks = await connection.QueryAsync<Extra>("ShowExtras", commandType: CommandType.StoredProcedure);
             return drinks;
         }
-
+    
     }
 }
