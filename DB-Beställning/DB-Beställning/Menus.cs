@@ -5,6 +5,7 @@ using Food;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace DB_Beställning
 {
     class Menus
@@ -36,7 +37,6 @@ namespace DB_Beställning
         // FIXA ORDER ID
         public async Task PrintOrderMenu()
         {
-            
             Console.Clear();
             foreach (string item in MenuList.FoodMenu)
             {
@@ -54,18 +54,24 @@ namespace DB_Beställning
                     {
                         Console.WriteLine($"{pizza.ID}. {pizza.Name}: {pizza.Price}kr");
                     }
-                    Console.Write($"\nTryck Enter för att avsluta");
+                    Console.Write($"\n9. Avsluta");
                     Console.Write("\n\nVal: ");
-                    key = Console.ReadKey(true).KeyChar;
-                    if (key == 13)
+                    
+                    if (userChoice == 9)
                     {
                         await PrintOrderMenu();
                     }
-                    if (int.TryParse(Console.ReadLine(), out userChoice))
+                    else if (int.TryParse(Console.ReadLine(), out userChoice))
                     {
                         if (listOfPizza.Exists(x => x.ID == userChoice))
                         {
-                            await repo.AddPizzaToOrder(orderID, userChoice); // FIXA ORDER ID
+                            await repo.AddPizzaToOrder(orderID, userChoice); // 37 är test nr
+                            foreach (Pizza pizza in await repo.ShowPizzaByID(userChoice))
+                            {
+                                Console.WriteLine($"{pizza.Name} tillagd.");
+                            }
+                            Thread.Sleep(600);
+                            await PrintOrderMenu();  
                         }
                     }
                     break;
@@ -87,7 +93,7 @@ namespace DB_Beställning
                         }
                         else if(listOfPasta.Exists(x => x.ID == userChoice))
                         {
-                            await repo.AddPastaToOrder(orderID, userChoice); // FIXA ORDER ID
+                            await repo.AddPastaToOrder(2, userChoice); // 2 är test nr
                         }
                     }
                     break;
@@ -106,7 +112,7 @@ namespace DB_Beställning
                     }
                     else
                     {
-                     // LÄGG TILL SALLAD
+                        await repo.AddSalladToOrder(2, userChoice);
                     }
                     break;
                 case '4':
@@ -124,7 +130,7 @@ namespace DB_Beställning
                     }
                     else
                     {
-                       // LÄGG TILL DRINKS
+                        await repo.AddDrinkToOrder(2, userChoice); // 2 är test nr
                     }
                     break;
                 case '5':
@@ -142,12 +148,18 @@ namespace DB_Beställning
                     }
                     else
                     {
-                       // LÄGG TILL EXTRA
+                        await repo.AddExtraToOrder(2, userChoice); // 2 är test nr
                     }
                     break;
                 case '6':
                     {
-                        // Avsluta order och betala här
+                        var customerOrder = await repo.ShowOrderByID(orderID);
+                        List<Order> listCustomerOrder = customerOrder.ToList();
+                        Console.WriteLine($"Ordernummer :{listCustomerOrder[0].ID}");
+                        foreach ( pizza in)
+                        {
+
+                        }
                     }
                     break;
                 default:

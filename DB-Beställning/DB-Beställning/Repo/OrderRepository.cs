@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Food;
+using static DB_Beställning.Order;
 
 namespace DB_Beställning
 { 
@@ -28,6 +29,10 @@ namespace DB_Beställning
         public async Task AddPizzaToOrder(int orderID, int pizzaID)
         {
             await connection.QueryAsync<Pizza>("sp_OrderPizza", new { OrderID = orderID, PizzaID = pizzaID }, commandType: CommandType.StoredProcedure);
+        }
+        public async Task UpdateOrderStatus(int orderID)
+        {
+            await connection.QueryAsync<Pizza>("UpdateOrderStatus", new { ID = orderID }, commandType: CommandType.StoredProcedure);
         }
         public async Task AddPastaToOrder(int orderID, int pastaID)
         {
@@ -84,6 +89,19 @@ namespace DB_Beställning
         {
             IEnumerable<Extra> extra = await connection.QueryAsync<Extra>("ShowExtraByID", new { ID = extraID }, commandType: CommandType.StoredProcedure);
             return extra;
+        }
+        public async Task<IEnumerable<Order>> ShowOrderByStatus(eStatus status)
+        {
+            IEnumerable<Order> orders = await connection.QueryAsync<Order>("ShowOrderByStatus", new { STATUS = (int)status }, commandType: CommandType.StoredProcedure);
+            foreach (Order order in orders)
+            {
+                order.pizza = (await connection.QueryAsync<Pizza>("GetOrderPizzas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.pasta = (await connection.QueryAsync<Pasta>("GetOrderPizzas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.sallad = (await connection.QueryAsync<Sallad>("GetOrderSallads", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.drink = (await connection.QueryAsync<Drink>("GetOrderDrinks", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.extra = (await connection.QueryAsync<Extra>("GetOrderExtras", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            return orders;
         }
         // Slut Beställning
 
