@@ -156,11 +156,28 @@ namespace DB_Beställning
                         var customerOrder = await repo.ShowOrderByID(orderID);
                         List<Order> listCustomerOrder = customerOrder.ToList();
                         Console.WriteLine($"Ordernummer :{listCustomerOrder[0].ID}");
-                        foreach ( pizza in)
-                        {
+                    foreach (Pizza pizzaItem in listCustomerOrder[0].pizza)
+                    {
 
-                        }
+                        Console.Write($"\t{pizzaItem.Name}\n");
                     }
+                    foreach (Pasta pastaItem in listCustomerOrder[0].pasta)
+                    {
+                        Console.Write($"\t{pastaItem.Name}\n");
+                    }
+                    foreach (Sallad salladItem in listCustomerOrder[0].sallad)
+                    {
+                        Console.Write($"\t{salladItem.Name}\n");
+                    }
+                    foreach (Drink drinkItem in listCustomerOrder[0].drink)
+                    {
+                        Console.Write($"\t{drinkItem.Name}\n");
+                    }
+                    foreach (Extra extraItem in listCustomerOrder[0].extra)
+                    {
+                        Console.Write($"\t{extraItem.Name}\n");
+                    }
+                }
                     break;
                 default:
                     break;
