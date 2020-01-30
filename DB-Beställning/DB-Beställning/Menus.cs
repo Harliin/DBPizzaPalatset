@@ -24,10 +24,11 @@ namespace DB_Beställning
                 Console.WriteLine("Hej och välkomna till Pizza Palatset \nKlicka på Enter för att påbörja beställningen");
                 key = Console.ReadKey(true).KeyChar;
                 if (key == 13)
-                {   
-                    IEnumerable<Order> order = await repo.CreateNewOrder();
-                    List<Order> orders = order.ToList();
-                    orderID = orders[0].ID;
+                {
+                    //IEnumerable<Order> order = await repo.CreateNewOrder();
+                    //List<Order> orders = order.ToList();
+                    //orderID = orders[0].ID;
+                    orderID = 39;
                     
                     await PrintOrderMenu();
                     correctKey = true;
