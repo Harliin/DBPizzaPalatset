@@ -51,61 +51,43 @@ namespace DB_Kock
             Console.WriteLine("Välj den order som du vill tillaga");
             Console.WriteLine("-------------\n");
 
-            IEnumerable<Order> orderByStatusList = await repo.ShowOrderByStatus(eStatus.Tillagning);
-            foreach (Order orderByStatus in orderByStatusList)
+            IEnumerable<Order> orderByStatusIEnumerable = await repo.ShowOrderByStatus(eStatus.Tillagning);
+            List<Order> ordersList = orderByStatusIEnumerable.ToList();
+            foreach (Order orderByStatus in ordersList)
             {
-                Console.Write($"{orderByStatus.ID}" + ". ");
-            }
+                int orderID = orderByStatus.ID;
+                Console.Write($"Order ID: {orderByStatus.ID} \n");
 
-            foreach (Order orderByStatus in orderByStatusList)
-            {
                 foreach (Pizza pizzaItem in orderByStatus.pizza)
                 {
-                    Console.Write($"{pizzaItem.Name}" + " ");
-                    Console.WriteLine();
+                    Console.Write($"\t{pizzaItem.Name}\n" );
+                    
                 }
-            }
-
-            foreach (Order orderByStatus in orderByStatusList)
-            {
                 foreach (Pasta pastaItem in orderByStatus.pasta)
                 {
-                    Console.Write($"{pastaItem.Name}" + " ");
+                    Console.Write($"\t{pastaItem.Name}\n");
                 }
-            }
-
-            foreach (Order orderByStatus in orderByStatusList)
-            {
                 foreach (Sallad salladItem in orderByStatus.sallad)
                 {
-                    Console.Write($"{salladItem.Name}" + " ");
-                    Console.WriteLine();
+                    Console.Write($"\t{salladItem.Name}\n");
                 }
-            }
-
-            foreach (Order orderByStatus in orderByStatusList)
-            {
                 foreach (Drink drinkItem in orderByStatus.drink)
                 {
-                    Console.Write($"{drinkItem.Name}" + " ");
-                    Console.WriteLine();
+                    Console.Write($"\t{drinkItem.Name}\n");
                 }
-            }
-
-            foreach (Order orderByStatus in orderByStatusList)
-            {
                 foreach (Extra extraItem in orderByStatus.extra)
                 {
-                    Console.Write($"{extraItem.Name}" + " ");
+                    Console.Write($"\t{extraItem.Name}\n");
                 }
+                Console.WriteLine();
             }
-               
+
 
  
             Console.WriteLine();
             Console.Write("Välj ordernummer: ");
 
-            List<Order> listOfOrders = orderByStatusList.ToList();
+            List<Order> listOfOrders = orderByStatusIEnumerable.ToList();
 
             if (int.TryParse(Console.ReadLine(), out int opt))
             {
