@@ -10,7 +10,7 @@ namespace DB_Admin
     public class Employees
     {
         public static AdminRepository repo = new AdminRepository();
-        public static async Task ManageEmployeesAsync()
+        public static async Task ManageEmployeesAsync()//Hanterar menyvalen för de menyn för anställda
         {
             Console.Clear();
             Console.WriteLine("\t*Meny för anställda*\n\n[1]Visa anställda\n[2]Lägg till en ny anställd\n[3]Ta bort en anställd\n\n[4]Tillbaka till huvudmeny");
@@ -45,7 +45,7 @@ namespace DB_Admin
             }
         }
 
-        private static async Task AddEmployee()
+        private static async Task AddEmployee()//Metod för att lägga till en anställd i DB
         {
             Console.Write("Namn: ");
             string eName = Console.ReadLine();
@@ -71,7 +71,7 @@ namespace DB_Admin
             await ManageEmployeesAsync();
         }
 
-        private static async Task DeleteEmployee()
+        private static async Task DeleteEmployee()//Metod för att ta bort en anställd i DB
         {
             var tempEmployee = await repo.ShowEmployees();
             List<Employee> listOfEmployees = tempEmployee.ToList();

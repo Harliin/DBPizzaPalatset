@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace DB_Admin
 {
-    public class ExtraMenu
+    public class ExtraMenu//Extra menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public static async Task ExtrasAsync()
+        public static async Task ExtrasAsync()//Meny för att hantera extra val
         {
             Console.Clear();
             Console.WriteLine("\t*Tillbehörs Meny*\n\n[1]Lägg till Tillbehör\n[2]Ta bort Tillbehör\n[3]Visa Tillbehör\n\n[5]Tillbaka");
@@ -44,7 +44,7 @@ namespace DB_Admin
                     break;
             }
         }
-        private static async Task CreateExtra()
+        private static async Task CreateExtra()//Lägger till tillbehör i DB
         {
             Console.Write("Namn: ");
             string FoodName = Console.ReadLine();
@@ -57,7 +57,7 @@ namespace DB_Admin
             await ExtrasAsync();
         }
 
-        private static async Task DeleteExtra()
+        private static async Task DeleteExtra()//Tar bort ett tillbehör från DB
         {
             var extras = await repo.ShowExtraAsync();
             List<Extra> listOfExtras = extras.ToList();

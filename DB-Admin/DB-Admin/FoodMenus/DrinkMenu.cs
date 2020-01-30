@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace DB_Admin
 {
-    public class DrinkMenu
+    public class DrinkMenu//Drink menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public static async Task DrinksAsync()
+        public static async Task DrinksAsync()//Hanterar menyn för Drinks
         {
             Console.Clear();
             Console.WriteLine("\t*Dryckes Meny*\n\n[1]Lägg till Dryck\n[2]Ta bort Dryck\n[3]Visa Drycker\n\n[5]Tillbaka");
@@ -44,7 +44,7 @@ namespace DB_Admin
                     break;
             }
         }
-        private static async Task CreateDrink()
+        private static async Task CreateDrink()//Lägger till en dricka i DB
         {
             Console.Write("Namn: ");
             string FoodName = Console.ReadLine();
@@ -57,7 +57,7 @@ namespace DB_Admin
             await DrinksAsync();
         }
 
-        private static async Task DeleteDrink()
+        private static async Task DeleteDrink()//Metod för att ta bort Drickor från databasen
         {
             var drinks = await repo.ShowDrinksAsync();
             List<Drink> listOfDrinks = drinks.ToList();

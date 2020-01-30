@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace DB_Admin
 {
-    public class PizzaMenu
+    public class PizzaMenu//Pizza menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public static async Task PizzaAsync()
+        public static async Task PizzaAsync()//Hanterar menyval för Pizzamenyn
         {
             
             Console.Clear();
@@ -26,32 +26,7 @@ namespace DB_Admin
 
 
                 case '2':
-                    var pizzas = await repo.ShowPizzasAsync();
-                    List<Pizza> listOfPizzas = pizzas.ToList();
-                    foreach (var pizza in pizzas)
-                    {
-                        Console.WriteLine($"ID:{pizza.ID}  Pizza:{pizza.Name}");
-                    }
-                    Console.Write("Ange Pizza ID för att ta bort: ");
-                    if (int.TryParse(Console.ReadLine(), out int userChoice))
-                    {
-                        if (listOfPizzas.Exists(x => x.ID == userChoice))//Kollar om id finns
-                        {
-                            await repo.DeletePizzaAsync(userChoice);
-                            Console.WriteLine("Pizzan är borttagen");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Finns ingen pizza med det IDet!");
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Fel inmatning!");
-                    }
-
-                    Console.ReadKey();
-                    await PizzaAsync();
+                    await DeletePizza();
                     break;
 
 
@@ -92,7 +67,7 @@ namespace DB_Admin
             }
         }
 
-        private static async Task CreatePizza()
+        private static async Task CreatePizza()//Metod för att lägga till pizza i DB
         {
             
             Console.Write("Namn: ");
@@ -127,7 +102,36 @@ namespace DB_Admin
 
         }
 
-        private static async Task UpdateIngredientsOnPizza()
+        private static async Task DeletePizza()//Tar bort Pizza från DB
+        {
+            var pizzas = await repo.ShowPizzasAsync();
+            List<Pizza> listOfPizzas = pizzas.ToList();
+            foreach (var pizza in pizzas)
+            {
+                Console.WriteLine($"ID:{pizza.ID}  Pizza:{pizza.Name}");
+            }
+            Console.Write("Ange Pizza ID för att ta bort: ");
+            if (int.TryParse(Console.ReadLine(), out int userChoice))
+            {
+                if (listOfPizzas.Exists(x => x.ID == userChoice))//Kollar om id finns
+                {
+                    await repo.DeletePizzaAsync(userChoice);
+                    Console.WriteLine("Pizzan är borttagen");
+                }
+                else
+                {
+                    Console.WriteLine("Finns ingen pizza med det IDet!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Fel inmatning!");
+            }
+
+            Console.ReadKey();
+            await PizzaAsync();
+        }
+        private static async Task UpdateIngredientsOnPizza()//Updaterar ingredienser på en pizza
         {
             Console.Clear();
             var repo = new AdminRepository();

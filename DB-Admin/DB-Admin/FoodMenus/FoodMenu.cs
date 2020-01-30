@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DB_Admin
 {
-    public class FoodMenu
+    public class FoodMenu//Hantera styrningen mellan alla mat menyer
     {
         public static async Task ManageMenuAsync()
         {

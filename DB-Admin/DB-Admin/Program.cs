@@ -15,7 +15,7 @@ namespace DB_Admin
             {
                 if (await Login())
                 {
-                    await AdminStartMenuAsync();
+                    await AdminStartMenuAsync();//Inloggnings metod
                 }
                 else
                 {
@@ -26,9 +26,10 @@ namespace DB_Admin
             } while (true);
         }
 
-        private static async Task<bool> Login()
+        private static async Task<bool> Login()//Inloggnings metod
         {
-            
+            Console.Clear();
+            Console.WriteLine("*Inloggnings Meny*");
             Console.Write("\nSkriv in Användarnamn: ");
             string AdminName = Console.ReadLine();
 
@@ -49,7 +50,7 @@ namespace DB_Admin
             }
 
         } 
-        public static async Task AdminStartMenuAsync()
+        public static async Task AdminStartMenuAsync()//Huvud meny
         {
             Console.Clear();
             Console.WriteLine("Välkommen Admin!");
@@ -59,10 +60,10 @@ namespace DB_Admin
             switch (adminChoice)
             {
                 case '1':
-                    await Employees.ManageEmployeesAsync();
+                    await Employees.ManageEmployeesAsync();//Hanterar Employees
                     break;
                 case '2':
-                    await FoodMenu.ManageMenuAsync();
+                    await FoodMenu.ManageMenuAsync();//Hanterar Mat meny
                     break;
                 default:
                     Console.WriteLine("Fel inmatning!");
