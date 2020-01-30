@@ -4,9 +4,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DB_Kock.Food;
 using Food;
-using static DB_Kock.Food.Order;
+using static Food.Order;
 
 namespace DB_Kock
 {
@@ -55,30 +54,54 @@ namespace DB_Kock
             IEnumerable<Order> orderByStatusList = await repo.ShowOrderByStatus(eStatus.Tillagning);
             foreach (Order orderByStatus in orderByStatusList)
             {
-                Console.WriteLine($"{orderByStatus.ID}");
+                Console.Write($"{orderByStatus.ID}" + ". ");
+            }
+
+            foreach (Order orderByStatus in orderByStatusList)
+            {
                 foreach (Pizza pizzaItem in orderByStatus.pizza)
                 {
-                    Console.WriteLine(pizzaItem.Name);
-                    foreach (Pasta pastaItem in orderByStatus.pasta)
-                    {
-                        Console.WriteLine(pastaItem.Name);
-                        foreach (Sallad salladItem in orderByStatus.sallad)
-                        {
-                            Console.WriteLine(salladItem.Name);
-                            foreach (Drink drinkItem in orderByStatus.drink)
-                            {
-                                Console.WriteLine(drinkItem.Name);
-                                foreach (Extra extraItem in orderByStatus.extra)
-                                {
-                                    Console.WriteLine(extraItem.Name);
-                                }
-                            }
-                        }
-                    }
+                    Console.Write($"{pizzaItem.Name}" + " ");
+                    Console.WriteLine();
                 }
             }
 
+            foreach (Order orderByStatus in orderByStatusList)
+            {
+                foreach (Pasta pastaItem in orderByStatus.pasta)
+                {
+                    Console.Write($"{pastaItem.Name}" + " ");
+                }
+            }
 
+            foreach (Order orderByStatus in orderByStatusList)
+            {
+                foreach (Sallad salladItem in orderByStatus.sallad)
+                {
+                    Console.Write($"{salladItem.Name}" + " ");
+                    Console.WriteLine();
+                }
+            }
+
+            foreach (Order orderByStatus in orderByStatusList)
+            {
+                foreach (Drink drinkItem in orderByStatus.drink)
+                {
+                    Console.Write($"{drinkItem.Name}" + " ");
+                    Console.WriteLine();
+                }
+            }
+
+            foreach (Order orderByStatus in orderByStatusList)
+            {
+                foreach (Extra extraItem in orderByStatus.extra)
+                {
+                    Console.Write($"{extraItem.Name}" + " ");
+                }
+            }
+               
+
+ 
             Console.WriteLine();
             Console.Write("Välj ordernummer: ");
 
@@ -88,7 +111,7 @@ namespace DB_Kock
             {
                 if (listOfOrders.Exists(x => x.ID == opt))
                 {
-                    await repo.UpdateOrder(opt);
+                    await repo.UpdateOrderStatus(opt);
                     foreach (var orderFood in await repo.ShowOrderByID(opt))
                     {
                         Console.Clear();

@@ -6,9 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Food;
-using DB_Kock.Food;
 using System.Linq;
-using static DB_Kock.Food.Order;
+using static Food.Order;
 
 namespace DB_Kock
 {
@@ -34,7 +33,7 @@ namespace DB_Kock
             foreach (Order order in orders)
             {
                 order.pizza= (await connection.QueryAsync<Pizza>("GetOrderPizzas", new {id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
-                order.pasta= (await connection.QueryAsync<Pasta>("GetOrderPizzas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.pasta= (await connection.QueryAsync<Pasta>("GetOrderPastas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
                 order.sallad = (await connection.QueryAsync<Sallad>("GetOrderSallads", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
                 order.drink = (await connection.QueryAsync<Drink>("GetOrderDrinks", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
                 order.extra = (await connection.QueryAsync<Extra>("GetOrderExtras", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
@@ -51,35 +50,9 @@ namespace DB_Kock
         }
 
 
-
-        public async Task<IEnumerable<Order>> ShowOngoingOrder()
+        public async Task <Order> UpdateOrderStatus(int id)
         {
-            IEnumerable<Order> onGoingOrders = await connection.QueryAsync<Order>("ShowOngoingOrders", commandType: CommandType.StoredProcedure);
-            return onGoingOrders;
-        }
-
-        //public async Task<IEnumerable<OrderFood>> ShowProcessingOrder()
-        //{
-
-        //    IEnumerable<OrderFood> processingOrders = await connection.QueryAsync<OrderFood>("ShowProcessingOrders", commandType: CommandType.StoredProcedure);
-        //    return processingOrders;
-        //}
-
-        //public async Task<IEnumerable<OrderFood>> ShowFinshedOrders()
-        //{
-        //    IEnumerable<OrderFood> finishedOrders = await connection.QueryAsync<OrderFood>("ShowFinshedOrders", commandType: CommandType.StoredProcedure);
-        //    return finishedOrders;
-        //}
-
-        //public async Task<IEnumerable<OrderFood>> ShowOrderByID(int id)
-        //{
-        //    IEnumerable <OrderFood> orderByID =  await connection.QueryAsync<OrderFood>("ShowOrderByID", new { ID = id }, commandType: CommandType.StoredProcedure);
-        //    return orderByID;
-        //}
-
-        public async Task <Order> UpdateOrder()
-        {
-            return (await connection.QueryAsync<Order>("UpdateOrderStatus", commandType: CommandType.StoredProcedure)).First();
+            return (await connection.QueryAsync<Order>("UpdateOrderStatus", new { ID = id }, commandType: CommandType.StoredProcedure)).First();
         }
 
 
