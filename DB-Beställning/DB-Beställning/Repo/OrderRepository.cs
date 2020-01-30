@@ -32,7 +32,7 @@ namespace DB_Beställning
         }
         public async Task UpdateOrderStatus(int orderID)
         {
-            await connection.QueryAsync<Pizza>("UpdateOrderStatus", new { ID = orderID }, commandType: CommandType.StoredProcedure);
+            await connection.QueryAsync<Order>("UpdateOrderStatus", new { ID = orderID }, commandType: CommandType.StoredProcedure);
         }
         public async Task AddPastaToOrder(int orderID, int pastaID)
         {
@@ -96,7 +96,7 @@ namespace DB_Beställning
             foreach (Order order in orders)
             {
                 order.pizza = (await connection.QueryAsync<Pizza>("GetOrderPizzas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
-                order.pasta = (await connection.QueryAsync<Pasta>("GetOrderPizzas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.pasta = (await connection.QueryAsync<Pasta>("GetOrderPastas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
                 order.sallad = (await connection.QueryAsync<Sallad>("GetOrderSallads", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
                 order.drink = (await connection.QueryAsync<Drink>("GetOrderDrinks", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
                 order.extra = (await connection.QueryAsync<Extra>("GetOrderExtras", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();

@@ -35,7 +35,7 @@ namespace DB_Beställning
                 }
             }
         }
-        // FIXA ORDER ID
+        // Metod som skriver ut Matmenyn
         public async Task PrintOrderMenu()
         {
             Console.Clear();
@@ -66,7 +66,7 @@ namespace DB_Beställning
                     {
                         if (listOfPizza.Exists(x => x.ID == userChoice))
                         {
-                            await repo.AddPizzaToOrder(orderID, userChoice); // 37 är test nr
+                            await repo.AddPizzaToOrder(orderID, userChoice);
                             foreach (Pizza pizza in await repo.ShowPizzaByID(userChoice))
                             {
                                 Console.WriteLine($"{pizza.Name} tillagd.");
@@ -94,7 +94,13 @@ namespace DB_Beställning
                         }
                         else if(listOfPasta.Exists(x => x.ID == userChoice))
                         {
-                            await repo.AddPastaToOrder(2, userChoice); // 2 är test nr
+                            await repo.AddPastaToOrder(orderID, userChoice);
+                            foreach (Pasta pasta in await repo.ShowPastaByID(userChoice))
+                            {
+                                Console.WriteLine($"{pasta.Name} tillagd.");
+                            }
+                            Thread.Sleep(600);
+                            await PrintOrderMenu();
                         }
                     }
                     break;
@@ -113,7 +119,13 @@ namespace DB_Beställning
                     }
                     else
                     {
-                        await repo.AddSalladToOrder(2, userChoice);
+                        await repo.AddSalladToOrder(orderID, userChoice);
+                        foreach (Sallad sallad in await repo.ShowSalladByID(userChoice))
+                        {
+                            Console.WriteLine($"{sallad.Name} tillagd.");
+                        }
+                        Thread.Sleep(600);
+                        await PrintOrderMenu();
                     }
                     break;
                 case '4':
@@ -131,7 +143,13 @@ namespace DB_Beställning
                     }
                     else
                     {
-                        await repo.AddDrinkToOrder(2, userChoice); // 2 är test nr
+                        await repo.AddDrinkToOrder(orderID, userChoice);
+                        foreach (Drink drink in await repo.ShowDrinkByID(userChoice))
+                        {
+                            Console.WriteLine($"{drink.Name} tillagd.");
+                        }
+                        Thread.Sleep(600);
+                        await PrintOrderMenu();
                     }
                     break;
                 case '5':
@@ -149,38 +167,44 @@ namespace DB_Beställning
                     }
                     else
                     {
-                        await repo.AddExtraToOrder(2, userChoice); // 2 är test nr
+                        await repo.AddExtraToOrder(orderID, userChoice);
+                        foreach (Extra extra in await repo.ShowExtraByID(userChoice))
+                        {
+                            Console.WriteLine($"{extra.Name} tillagd.");
+                        }
+                        Thread.Sleep(600);
+                        await PrintOrderMenu();
                     }
                     break;
                 case '6':
-                    {
-                        var customerOrder = await repo.ShowOrderByID(orderID);
-                        List<Order> listCustomerOrder = customerOrder.ToList();
-                        Console.WriteLine($"Ordernummer :{listCustomerOrder[0].ID}");
-                    foreach (Pizza pizzaItem in listCustomerOrder[0].pizza)
-                    {
+                    var customerOrder = await repo.ShowOrderByID(orderID);
+                    List<Order> listOfCustomerOrder = customerOrder.ToList();
+                    Console.Clear();
 
-                        Console.Write($"\t{pizzaItem.Name}\n");
-                    }
-                    foreach (Pasta pastaItem in listCustomerOrder[0].pasta)
+                    Console.WriteLine($"Ordernummer : {orderID}");
+                    foreach (Pizza pizzaItem in listOfCustomerOrder[0].pizza)
                     {
-                        Console.Write($"\t{pastaItem.Name}\n");
+                        Console.Write($"\t{pizzaItem.Name} {pizzaItem.Price}kr\n");
                     }
-                    foreach (Sallad salladItem in listCustomerOrder[0].sallad)
+                    foreach (Pasta pastaItem in listOfCustomerOrder[0].pasta)
                     {
-                        Console.Write($"\t{salladItem.Name}\n");
+                        Console.Write($"\t{pastaItem.Name} {pastaItem.Price}kr\n");
                     }
-                    foreach (Drink drinkItem in listCustomerOrder[0].drink)
+                    foreach (Sallad salladItem in listOfCustomerOrder[0].sallad)
                     {
-                        Console.Write($"\t{drinkItem.Name}\n");
+                        Console.Write($"\t{salladItem.Name} {salladItem.Price}kr\n");
                     }
-                    foreach (Extra extraItem in listCustomerOrder[0].extra)
+                    foreach (Drink drinkItem in listOfCustomerOrder[0].drink)
                     {
-                        Console.Write($"\t{extraItem.Name}\n");
+                        Console.Write($"\t{drinkItem.Name} {drinkItem.Price}kr\n");
                     }
-                }
+                    foreach (Extra extraItem in listOfCustomerOrder[0].extra)
+                    {
+                        Console.Write($"\t{extraItem.Name} {extraItem.Price}kr\n");
+                    }
                     break;
                 default:
+                    await PrintOrderMenu();
                     break;
             }
         }
