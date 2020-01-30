@@ -90,6 +90,20 @@ namespace DB_Beställning
             IEnumerable<Extra> extra = await connection.QueryAsync<Extra>("ShowExtraByID", new { ID = extraID }, commandType: CommandType.StoredProcedure);
             return extra;
         }
+        public async Task<IEnumerable<Order>> ShowOrderByID(int orderID)
+        {
+            IEnumerable<Order> orders = (await connection.QueryAsync<Order>("ShowOrderByID", new { ID = orderID }, commandType: CommandType.StoredProcedure)).ToList();
+            foreach (Order order in orders)
+            {
+                order.pizza = (await connection.QueryAsync<Pizza>("GetOrderPizzas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.pasta = (await connection.QueryAsync<Pasta>("GetOrderPizzas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.sallad = (await connection.QueryAsync<Sallad>("GetOrderSallads", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.drink = (await connection.QueryAsync<Drink>("GetOrderDrinks", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.extra = (await connection.QueryAsync<Extra>("GetOrderExtras", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            return orders;
+        }
+    
         public async Task<IEnumerable<Order>> ShowOrderByStatus(eStatus status)
         {
             IEnumerable<Order> orders = await connection.QueryAsync<Order>("ShowOrderByStatus", new { STATUS = (int)status }, commandType: CommandType.StoredProcedure);
