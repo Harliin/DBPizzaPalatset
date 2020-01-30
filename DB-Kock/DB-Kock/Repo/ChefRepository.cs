@@ -45,14 +45,28 @@ namespace DB_Kock
         public async Task<IEnumerable<Order>> ShowOrderByID(int id)
         {
 
-            IEnumerable<Order> orderByStatus = await connection.QueryAsync<Order>("ShowOrderByID", new { ID = id }, commandType: CommandType.StoredProcedure);
-            return orderByStatus;
+            IEnumerable<Order> orders = await connection.QueryAsync<Order>("ShowOrderByID", new { ID = id }, commandType: CommandType.StoredProcedure);
+            foreach (Order order in orders)
+            {
+                order.pizza = (await connection.QueryAsync<Pizza>("GetOrderPizzas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.pasta = (await connection.QueryAsync<Pasta>("GetOrderPastas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.sallad = (await connection.QueryAsync<Sallad>("GetOrderSallads", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.drink = (await connection.QueryAsync<Drink>("GetOrderDrinks", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+                order.extra = (await connection.QueryAsync<Extra>("GetOrderExtras", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+            }
+            return orders;
+        }
+
+        public async Task<IEnumerable<Order>> ShowFinishedOrderID()
+        {
+            IEnumerable<Order> orders = (await connection.QueryAsync<Order>("ShowFinishedOrderID", commandType: CommandType.StoredProcedure)).ToList();
+            return orders;
         }
 
 
-        public async Task <Order> UpdateOrderStatus(int id)
+        public async Task UpdateOrderStatus(int id)
         {
-            return (await connection.QueryAsync<Order>("UpdateOrderStatus", new { ID = id }, commandType: CommandType.StoredProcedure)).First();
+            await connection.QueryAsync<Order>("UpdateOrderStatus", new { ID = id }, commandType: CommandType.StoredProcedure);
         }
 
 

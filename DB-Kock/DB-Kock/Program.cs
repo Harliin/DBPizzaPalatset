@@ -14,9 +14,16 @@ namespace DB_Kock
         static async Task Main(string[] args)
         {
             var repo = new ChefRepository();
-           
-            await Display.DrawStartMenuAsync();
-            await Display.DrawMultipleChoiceMenu();
+            if (await Display.DrawStartMenuAsync())
+            {
+                await Display.DrawMultipleChoiceMenu();
+            }
+            else
+            {
+                Console.WriteLine();
+            }
+          
+            
 
           
         }

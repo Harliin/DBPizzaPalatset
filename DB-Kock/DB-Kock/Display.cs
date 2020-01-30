@@ -11,8 +11,8 @@ namespace DB_Kock
 {
     public class Display
     {
-
-        public static async Task DrawStartMenuAsync()
+        public static ChefRepository repo = new ChefRepository();
+        public static async Task<bool> DrawStartMenuAsync()
         {
             bool loop = true;
 
@@ -30,16 +30,19 @@ namespace DB_Kock
 
                 if (input == "Bagare123")
                 {
-                    loop = false;
+                    
+                    return true;
                 }
                 else
                 {
                     Console.WriteLine("Fel pinkod");
                     Console.ReadKey();
+                    break;
 
                 }
 
             } while (loop == true);
+            return false;
 
         }
 
@@ -58,7 +61,7 @@ namespace DB_Kock
             foreach (Order orderByStatus in ordersList)
             {
                 int orderID = orderByStatus.ID;
-                Console.Write($"Order ID: {orderByStatus.ID} \n");
+                Console.Write($"Order #: {orderByStatus.ID} \n");
 
 
                 foreach (Pizza pizzaItem in orderByStatus.pizza)
@@ -105,7 +108,7 @@ namespace DB_Kock
                         Console.WriteLine($"Denna order innehåller följande artiklar:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        Console.WriteLine("*Order artiklar*"); //Gör detta
+                        await ShowFoodInOrder(orderFood.ID);
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                     }
@@ -175,7 +178,7 @@ namespace DB_Kock
             while (true)
             {
                 char key = Console.ReadKey(true).KeyChar;
-                // om kocken klickar på enter så skickas hen tillbaka till startsidan för att kunna ta nya ordrar
+                // om kocken klickar på enter så skickas den tillbaka till startsidan för att kunna ta nya ordrar
                 if (key == 13)
                 {
                     await DrawConfirmationScreen();
@@ -189,15 +192,67 @@ namespace DB_Kock
 
         public static async Task DrawConfirmationScreen()
         {
-            var repo = new ChefRepository();
-
             Console.Clear();
-            Console.WriteLine("Skriver ut ordernummer...");
-            //Använd ShowORderByID men hur jag kan använda userInput/opt från annan method?
-
-            System.Threading.Thread.Sleep(1500);
+            await PrintOrderNumber();      
+            System.Threading.Thread.Sleep(2000);
             await DrawMultipleChoiceMenu();
         }
+
+        
+        //Hämtar första orderID med status 3
+        private static async Task PrintOrderNumber()
+        {
+            var ordersIEnumerable = await repo.ShowFinishedOrderID();
+            var firstNo = ordersIEnumerable.First();
+            foreach (Order order in ordersIEnumerable)
+            {
+                Console.WriteLine($"Skriver ut ordernummer { firstNo.ID}...");
+            }
+            Console.WriteLine();
+
+        }
+
+        private static async Task ShowFoodInOrder(int orderID)
+        {
+            var ordersIEnumerable = await repo.ShowOrderByID(orderID);
+            List<Order> listOrders = ordersIEnumerable.ToList();
+
+            foreach (Order order in listOrders)
+            {
+
+                foreach (Pizza pizzaItem in order.pizza)
+                {
+
+                    Console.Write($"\t{pizzaItem.Name}\n");
+
+                    //TODO
+                    //foreach (Ingredient ingredient  in pizzaItem)
+                    //{
+
+                    //} 
+                }
+                foreach (Pasta pastaItem in order.pasta)
+                {
+                    Console.Write($"\t{pastaItem.Name}\n");
+                }
+                foreach (Sallad salladItem in order.sallad)
+                {
+                    Console.Write($"\t{salladItem.Name}\n");
+                }
+                foreach (Drink drinkItem in order.drink)
+                {
+                    Console.Write($"\t{drinkItem.Name}\n");
+                }
+                foreach (Extra extraItem in order.extra)
+                {
+                    Console.Write($"\t{extraItem.Name}\n");
+                }
+                Console.WriteLine();
+            }
+        
+
+        }
+
     }
 
 }
