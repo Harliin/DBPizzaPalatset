@@ -52,16 +52,17 @@ namespace DB_Kock
             Console.WriteLine("-------------\n");
 
             IEnumerable<Order> orderByStatusList = await repo.ShowOrderByStatus(eStatus.Tillagning);
-            foreach (Order orderByStatus in orderByStatusList)
-            {
-                Console.Write($"{orderByStatus.ID}" + ". ");
-            }
+            //foreach (Order orderByStatus in orderByStatusList)
+            //{
+            //    Console.Write($"{orderByStatus.ID}" + ". ");
+            //}
 
             foreach (Order orderByStatus in orderByStatusList)
             {
                 foreach (Pizza pizzaItem in orderByStatus.pizza)
                 {
-                    Console.Write($"{pizzaItem.Name}" + " ");
+                    Console.Write($"{orderByStatus.ID}" + ". ");
+                    Console.Write($"{pizzaItem.Name} ");
                     Console.WriteLine();
                 }
             }
@@ -70,7 +71,8 @@ namespace DB_Kock
             {
                 foreach (Pasta pastaItem in orderByStatus.pasta)
                 {
-                    Console.Write($"{pastaItem.Name}" + " ");
+                    Console.Write($"{orderByStatus.ID}" + ". ");
+                    Console.Write($"{pastaItem.Name} ");
                 }
             }
 
@@ -78,7 +80,8 @@ namespace DB_Kock
             {
                 foreach (Sallad salladItem in orderByStatus.sallad)
                 {
-                    Console.Write($"{salladItem.Name}" + " ");
+                    Console.Write($"{orderByStatus.ID}" + ". ");
+                    Console.Write($"{salladItem.Name} ");
                     Console.WriteLine();
                 }
             }
@@ -87,7 +90,8 @@ namespace DB_Kock
             {
                 foreach (Drink drinkItem in orderByStatus.drink)
                 {
-                    Console.Write($"{drinkItem.Name}" + " ");
+                    Console.Write($"{orderByStatus.ID}" + ". ");
+                    Console.Write($"{drinkItem.Name} ");
                     Console.WriteLine();
                 }
             }
@@ -96,7 +100,8 @@ namespace DB_Kock
             {
                 foreach (Extra extraItem in orderByStatus.extra)
                 {
-                    Console.Write($"{extraItem.Name}" + " ");
+                    Console.Write($"{orderByStatus.ID}" + ". ");
+                    Console.Write($"{extraItem.Name} ");
                 }
             }
                
