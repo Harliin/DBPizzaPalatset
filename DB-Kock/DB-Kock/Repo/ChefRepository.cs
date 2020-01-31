@@ -25,7 +25,13 @@ namespace DB_Kock
             connection.Open();
         }
 
-
+        public async Task<Pizza> GetPizzaByID(int pizzaID)
+        {
+            Pizza pizza = (await connection.QueryAsync<Pizza>("ShowPizzaByID", new { ID = pizzaID }, commandType: CommandType.StoredProcedure)).First();
+            
+            pizza.Ingredients = (await connection.QueryAsync<Ingredient>("ShowPizzaIngredientsByID", new { ID = pizza.ID }, commandType: CommandType.StoredProcedure)).ToList();
+            return pizza;
+        }
         public async Task<IEnumerable<Order>> ShowOrderByStatus(eStatus status)
         {
 

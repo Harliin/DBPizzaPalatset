@@ -215,32 +215,31 @@ namespace DB_Kock
             foreach (Order order in listOrders)
             {
 
-                foreach (Pizza pizzaItem in order.pizza)
+                foreach (Pizza pizzaItem in order.pizza)//Skriver ut pizzan och dess ingredienser
                 {
-
-                    Console.Write($"\t{pizzaItem.Name}\n");
-
-                    //TODO
-                    //foreach (Ingredient ingredient  in pizzaItem)
-                    //{
-
-                    //} 
+                    Console.Write($"\t{pizzaItem.Name}:\n");
+                    Pizza pizza = await repo.GetPizzaByID(pizzaItem.ID);
+                    foreach (Ingredient ingredient in pizza.Ingredients)
+                    {
+                        Console.WriteLine($"\t\tIngrediens:{ingredient.Name}");
+                    }
+                    Console.WriteLine();
                 }
                 foreach (Pasta pastaItem in order.pasta)
                 {
-                    Console.Write($"\t{pastaItem.Name}\n");
+                    Console.Write($"\t{pastaItem.Name}\n\n");
                 }
                 foreach (Sallad salladItem in order.sallad)
                 {
-                    Console.Write($"\t{salladItem.Name}\n");
+                    Console.Write($"\t{salladItem.Name}\n\n");
                 }
                 foreach (Drink drinkItem in order.drink)
                 {
-                    Console.Write($"\t{drinkItem.Name}\n");
+                    Console.Write($"\t{drinkItem.Name}\n\n");
                 }
                 foreach (Extra extraItem in order.extra)
                 {
-                    Console.Write($"\t{extraItem.Name}\n");
+                    Console.Write($"\t{extraItem.Name}\n\n");
                 }
                 Console.WriteLine();
             }
