@@ -3,24 +3,27 @@ using System.Threading.Tasks;
 using Food;
 using System.Collections.Generic;
 using System.Linq;
-using DB_Beställning;
+using System.Threading;
 
 
-namespace Menu
+
+
+namespace DB_Beställning
 {
-    public class MenuOrder
+    public class FoodOrder
     {
-        int totalPrice;
+        public static int totalPrice;
         public static OrderRepository repo = new OrderRepository();
 
         // Metod som printar ut innehållet i nuvarande order
-        public async Task ShowOrder()
+        public static async Task ShowOrder()
         {
+            totalPrice = 0;
             var customerOrder = await repo.ShowOrderByID(Menus.orderID);
             List<Order> listOfCustomerOrder = customerOrder.ToList();
             Console.Clear();
 
-            Console.WriteLine($"Ordernummer : {Menus.orderID}");
+            Console.WriteLine($"Ordernummer | {Menus.orderID}\n");
             foreach (Pizza pizzaItem in listOfCustomerOrder[0].pizza)
             {
                 Console.Write($"{pizzaItem.Name} {pizzaItem.Price}kr\n");
@@ -47,5 +50,7 @@ namespace Menu
                 totalPrice += extraItem.Price;
             }
         }
+
+        
     }
 }

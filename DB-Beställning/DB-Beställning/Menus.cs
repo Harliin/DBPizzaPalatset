@@ -4,7 +4,7 @@ using System.Threading;
 using Food;
 using System.Collections.Generic;
 using System.Linq;
-using Menu;
+
 
 
 namespace DB_Beställning
@@ -15,14 +15,13 @@ namespace DB_Beställning
         bool correctKey { get; set; }
         char key;
         int userChoice;
-        int totalPrice;
         public static int orderID { get; set; }
         public static OrderRepository repo = new OrderRepository();
         public async Task PrintMenu()
         {
             while (correctKey == false)
             {
-                totalPrice = 0;
+                FoodOrder.totalPrice = 0;
                 Console.Clear();
                 Console.WriteLine("Hej och välkomna till Pizza Palatset \nKlicka på Enter för att påbörja beställningen");
                 key = Console.ReadKey(true).KeyChar;
@@ -179,16 +178,18 @@ namespace DB_Beställning
                     }
                     break;
                 case '6':
-                    Console.WriteLine("1.Ta bort beställning\n2.Gå tillbaka");
+                    await FoodOrder.ShowOrder();
+                    Console.WriteLine("\n1.Ta bort beställning\n2.Gå tillbaka");
                     break;
                 case '7':
-                   
+                    await FoodOrder.ShowOrder();
                     var customerOrder = await repo.ShowOrderByID(orderID);
                     List<Order> listOfCustomerOrder = customerOrder.ToList();
+                    // TODO Lägg som metod?
                     if (listOfCustomerOrder[0].pizza.Count > 0 || listOfCustomerOrder[0].sallad.Count > 0 || listOfCustomerOrder[0].pasta.Count > 0
                                || listOfCustomerOrder[0].drink.Count > 0 || listOfCustomerOrder[0].extra.Count > 0)
                     {
-                        Console.WriteLine($"\nSumma: {totalPrice}kr");
+                        Console.WriteLine($"\nSumma: {FoodOrder.totalPrice}kr");
                         Console.WriteLine("\n\n1.Bekräfta \n2.Gå tillbaka");
                     }
                     else
