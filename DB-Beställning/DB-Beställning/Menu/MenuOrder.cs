@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using DB_Beställning;
 
+
 namespace Menu
 {
-    class MenuOrder
+    public class MenuOrder
     {
-        int userChoice;
         int totalPrice;
-        public static OrderRepository repo2 = new OrderRepository();
+        public static OrderRepository repo = new OrderRepository();
+
+        // Metod som printar ut innehållet i nuvarande order
         public async Task ShowOrder()
         {
             var customerOrder = await repo.ShowOrderByID(Menus.orderID);

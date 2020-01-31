@@ -179,13 +179,14 @@ namespace DB_Beställning
                     }
                     break;
                 case '6':
-                    Console.WriteLine("1.Ta bort beställning\2.Gå tillbaka");
+                    Console.WriteLine("1.Ta bort beställning\n2.Gå tillbaka");
                     break;
                 case '7':
-                    await 
-                    // if sats som kollar om det finns något föremål i listofcustomer order
+                   
+                    var customerOrder = await repo.ShowOrderByID(orderID);
+                    List<Order> listOfCustomerOrder = customerOrder.ToList();
                     if (listOfCustomerOrder[0].pizza.Count > 0 || listOfCustomerOrder[0].sallad.Count > 0 || listOfCustomerOrder[0].pasta.Count > 0
-                        || listOfCustomerOrder[0].drink.Count > 0 || listOfCustomerOrder[0].extra.Count > 0)
+                               || listOfCustomerOrder[0].drink.Count > 0 || listOfCustomerOrder[0].extra.Count > 0)
                     {
                         Console.WriteLine($"\nSumma: {totalPrice}kr");
                         Console.WriteLine("\n\n1.Bekräfta \n2.Gå tillbaka");
@@ -197,7 +198,7 @@ namespace DB_Beställning
                         await PrintOrderMenu();
                     }
                     key = Console.ReadKey(true).KeyChar;
-                    switch(key)
+                    switch (key)
                     {
                         case '1':
                             await repo.UpdateOrderStatus(orderID);
@@ -209,7 +210,7 @@ namespace DB_Beställning
                             await PrintOrderMenu();
                             break;
                         default:
-                            break;        
+                            break;
                     }
                     break;
                 default:
