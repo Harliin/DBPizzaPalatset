@@ -12,7 +12,7 @@ namespace DB_Kock
     public class Display
     {
         public static ChefRepository repo = new ChefRepository();
-        public static async Task<bool> DrawStartMenuAsync()
+        public static async Task<bool> DrawStartMenuAsync()//Login
         {
             bool loop = true;
 
@@ -54,48 +54,14 @@ namespace DB_Kock
             Console.WriteLine("Välj den order som du vill tillaga");
             Console.WriteLine("-------------\n");
 
-          
+            await ShowOrders();//skriver ut ordarna som är under tillagning
 
-            IEnumerable<Order> orderByStatusIEnumerable = await repo.ShowOrderByStatus(eStatus.Tillagning);
-            List<Order> ordersList = orderByStatusIEnumerable.ToList();
-            foreach (Order orderByStatus in ordersList)
-            {
-                int orderID = orderByStatus.ID;
-                Console.Write($"Order #: {orderByStatus.ID} \n");
-
-
-                foreach (Pizza pizzaItem in orderByStatus.pizza)
-                {
-
-                    Console.Write($"\t{pizzaItem.Name}\n" );
-                }
-                foreach (Pasta pastaItem in orderByStatus.pasta)
-                {
-                    Console.Write($"\t{pastaItem.Name}\n");
-                }
-                foreach (Sallad salladItem in orderByStatus.sallad)
-                { 
-                    Console.Write($"\t{salladItem.Name}\n");
-                }
-                foreach (Drink drinkItem in orderByStatus.drink)
-                {
-                    Console.Write($"\t{drinkItem.Name}\n");
-                }
-                foreach (Extra extraItem in orderByStatus.extra)
-                {
-                    Console.Write($"\t{extraItem.Name}\n");
-                }
-                Console.WriteLine();
-            }
-
-
- 
-            Console.WriteLine();
             Console.Write("Välj ordernummer: ");
 
+            IEnumerable<Order> orderByStatusIEnumerable = await repo.ShowOrderByStatus(eStatus.Tillagning);
             List<Order> listOfOrders = orderByStatusIEnumerable.ToList();
 
-            if (int.TryParse(Console.ReadLine(), out int opt))
+            if (int.TryParse(Console.ReadLine(), out int opt))//Kollar om orderIDt finns
             {
                 if (listOfOrders.Exists(x => x.ID == opt))
                 {
@@ -108,14 +74,13 @@ namespace DB_Kock
                         Console.WriteLine($"Denna order innehåller följande artiklar:");
                         Console.WriteLine("------------------------");
                         Console.WriteLine();
-                        await ShowFoodInOrder(orderFood.ID);
+                        await ShowFoodInOrder(orderFood.ID);//Skriver ut en orders innehåll
                         Console.WriteLine();
                         Console.WriteLine("------------------------");
                     }
 
                 }
             }
-
             else
             {
                 Console.WriteLine("Fel inmatning");
@@ -123,7 +88,7 @@ namespace DB_Kock
 
             bool correctKey = true;
 
-            do
+            do//Hanterar val för att tillaga en order eller gå tillbaka
             {
 
                 Console.WriteLine("1. Tillaga");
@@ -152,9 +117,8 @@ namespace DB_Kock
             } while (correctKey == true);
 
         }
-        public static async Task DrawCookMenu()
+        public static async Task DrawCookMenu()//Simulerar att pizzan tillagas
         {
-
             var repo = new ChefRepository();
 
             Console.Clear();
@@ -172,8 +136,6 @@ namespace DB_Kock
 
             Console.WriteLine("Klicka Enter när du är färdig och redo att skicka maten till servering");
 
-
-
             // väntar tills kocken bekräftat att maten är klar för servering
             while (true)
             {
@@ -185,7 +147,6 @@ namespace DB_Kock
                     break;
                 }
             }
-
 
         }
 
@@ -212,11 +173,45 @@ namespace DB_Kock
 
         }
 
+        private static async Task ShowOrders()//Printar ut ordrar med status 2 == under tillagning
+        {
+            IEnumerable<Order> orderByStatusIEnumerable = await repo.ShowOrderByStatus(eStatus.Tillagning);
+            List<Order> ordersList = orderByStatusIEnumerable.ToList();
+            foreach (Order orderByStatus in ordersList)//Printar ut alla ordrar under tillagning
+            {
+                int orderID = orderByStatus.ID;
+                Console.Write($"Order #: {orderByStatus.ID} \n");
+
+
+                foreach (Pizza pizzaItem in orderByStatus.pizza)
+                {
+
+                    Console.Write($"\t{pizzaItem.Name}\n");
+                }
+                foreach (Pasta pastaItem in orderByStatus.pasta)
+                {
+                    Console.Write($"\t{pastaItem.Name}\n");
+                }
+                foreach (Sallad salladItem in orderByStatus.sallad)
+                {
+                    Console.Write($"\t{salladItem.Name}\n");
+                }
+                foreach (Drink drinkItem in orderByStatus.drink)
+                {
+                    Console.Write($"\t{drinkItem.Name}\n");
+                }
+                foreach (Extra extraItem in orderByStatus.extra)
+                {
+                    Console.Write($"\t{extraItem.Name}\n");
+                }
+                Console.WriteLine();
+            }
+        }
         private static async Task ShowFoodInOrder(int orderID)
         {
             var ordersIEnumerable = await repo.ShowOrderByID(orderID);
             List<Order> listOrders = ordersIEnumerable.ToList();
-
+            
             foreach (Order order in listOrders)
             {
 

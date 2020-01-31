@@ -22,10 +22,6 @@ namespace DB_Kock
             {
                 Console.WriteLine();
             }
-          
-            
-
-          
         }
           
     }
