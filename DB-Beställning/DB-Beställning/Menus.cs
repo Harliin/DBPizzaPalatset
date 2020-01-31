@@ -4,6 +4,7 @@ using System.Threading;
 using Food;
 using System.Collections.Generic;
 using System.Linq;
+using Menu;
 
 
 namespace DB_Beställning
@@ -14,12 +15,14 @@ namespace DB_Beställning
         bool correctKey { get; set; }
         char key;
         int userChoice;
+        int totalPrice;
         public static int orderID { get; set; }
         public static OrderRepository repo = new OrderRepository();
         public async Task PrintMenu()
         {
             while (correctKey == false)
             {
+                totalPrice = 0;
                 Console.Clear();
                 Console.WriteLine("Hej och välkomna till Pizza Palatset \nKlicka på Enter för att påbörja beställningen");
                 key = Console.ReadKey(true).KeyChar;
@@ -28,8 +31,7 @@ namespace DB_Beställning
                     //IEnumerable<Order> order = await repo.CreateNewOrder();
                     //List<Order> orders = order.ToList();
                     //orderID = orders[0].ID;
-                    orderID = 39;
-                    
+                    orderID = 44;
                     await PrintOrderMenu();
                     correctKey = true;
                 }
@@ -177,30 +179,37 @@ namespace DB_Beställning
                     }
                     break;
                 case '6':
-                    var customerOrder = await repo.ShowOrderByID(orderID);
-                    List<Order> listOfCustomerOrder = customerOrder.ToList();
-                    Console.Clear();
-
-                    Console.WriteLine($"Ordernummer : {orderID}");
-                    foreach (Pizza pizzaItem in listOfCustomerOrder[0].pizza)
+                    Console.WriteLine("1.Ta bort beställning\2.Gå tillbaka");
+                    break;
+                case '7':
+                    await 
+                    // if sats som kollar om det finns något föremål i listofcustomer order
+                    if (listOfCustomerOrder[0].pizza.Count > 0 || listOfCustomerOrder[0].sallad.Count > 0 || listOfCustomerOrder[0].pasta.Count > 0
+                        || listOfCustomerOrder[0].drink.Count > 0 || listOfCustomerOrder[0].extra.Count > 0)
                     {
-                        Console.Write($"\t{pizzaItem.Name} {pizzaItem.Price}kr\n");
+                        Console.WriteLine($"\nSumma: {totalPrice}kr");
+                        Console.WriteLine("\n\n1.Bekräfta \n2.Gå tillbaka");
                     }
-                    foreach (Pasta pastaItem in listOfCustomerOrder[0].pasta)
+                    else
                     {
-                        Console.Write($"\t{pastaItem.Name} {pastaItem.Price}kr\n");
+                        Console.WriteLine("Ingen order lagd ännu");
+                        Thread.Sleep(600);
+                        await PrintOrderMenu();
                     }
-                    foreach (Sallad salladItem in listOfCustomerOrder[0].sallad)
+                    key = Console.ReadKey(true).KeyChar;
+                    switch(key)
                     {
-                        Console.Write($"\t{salladItem.Name} {salladItem.Price}kr\n");
-                    }
-                    foreach (Drink drinkItem in listOfCustomerOrder[0].drink)
-                    {
-                        Console.Write($"\t{drinkItem.Name} {drinkItem.Price}kr\n");
-                    }
-                    foreach (Extra extraItem in listOfCustomerOrder[0].extra)
-                    {
-                        Console.Write($"\t{extraItem.Name} {extraItem.Price}kr\n");
+                        case '1':
+                            await repo.UpdateOrderStatus(orderID);
+                            Console.WriteLine("Tack för din beställning\nVälkommen åter!");
+                            Thread.Sleep(600);
+                            await PrintMenu();
+                            break;
+                        case '2':
+                            await PrintOrderMenu();
+                            break;
+                        default:
+                            break;        
                     }
                     break;
                 default:

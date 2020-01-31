@@ -17,7 +17,8 @@ namespace DB_Beställning
             "3. Sallad",
             "4. Dryck",
             "5. Extra\n",
-            "6. Betala",
+            "6. Ändra order",
+            "7. Betala",
 
             "-------------",
             "9. Avsluta"
