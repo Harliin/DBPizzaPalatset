@@ -26,7 +26,7 @@ namespace DB_Admin
             } while (true);
         }
 
-        private static async Task<bool> Login()//Inloggnings metod
+        private static async Task<bool> Login()//Inloggnings metod  Användarnamn: VD  Lösen: 123    eller använd: Tony    lösen:admin123
         {
             Console.Clear();
             Console.WriteLine("*Inloggnings Meny*");
@@ -42,13 +42,12 @@ namespace DB_Admin
                 Console.WriteLine("Felaktigt inloggning!");
                 Console.ReadKey();
                 await Login();
-                return false;
             }
             else
             {
                 return true;
             }
-
+            return true;
         } 
         public static async Task AdminStartMenuAsync()//Huvud meny
         {
