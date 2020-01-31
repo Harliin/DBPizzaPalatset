@@ -199,14 +199,14 @@ namespace DB_Kock
         }
 
         
-        //Hämtar första orderID med status 3
+        //Hämtar första orderID med status 3. TODO: nu skriver det ut en lista av alla orderrader per orderitem men ska fixas att det kommer bara en gång, ingen lista. 
         private static async Task PrintOrderNumber()
         {
             var ordersIEnumerable = await repo.ShowFinishedOrderID();
-            var firstNo = ordersIEnumerable.First();
+            var firstID = ordersIEnumerable.First();
             foreach (Order order in ordersIEnumerable)
             {
-                Console.WriteLine($"Skriver ut ordernummer { firstNo.ID}...");
+                Console.WriteLine($"Skriver ut ordernummer { firstID.ID}...");
             }
             Console.WriteLine();
 
