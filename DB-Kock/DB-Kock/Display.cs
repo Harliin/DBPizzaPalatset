@@ -37,7 +37,7 @@ namespace DB_Kock
                 {
                     Console.WriteLine("Fel pinkod");
                     Console.ReadKey();
-                    break;
+                    continue;
 
                 }
 
@@ -65,57 +65,55 @@ namespace DB_Kock
             {
                 if (listOfOrders.Exists(x => x.ID == opt))
                 {
-                    await repo.UpdateOrderStatus(opt);
-                    foreach (var orderFood in await repo.ShowOrderByID(opt))
-                    {
-                        Console.Clear();
-                        Console.WriteLine($"Du har valt order # {orderFood.ID}");
-                        Console.WriteLine();
-                        Console.WriteLine($"Denna order innehåller följande artiklar:");
-                        Console.WriteLine("------------------------");
-                        Console.WriteLine();
-                        await ShowFoodInOrder(orderFood.ID);//Skriver ut en orders innehåll
-                        Console.WriteLine();
-                        Console.WriteLine("------------------------");
-                    }
+                    Order orderFood = await repo.ShowOrderByID(opt);
+                    bool correctKey = true;
 
+                    Console.Clear();
+                    Console.WriteLine($"Du har valt order # {orderFood.ID}");
+                    Console.WriteLine($"\nDenna order innehåller följande artiklar:");
+                    Console.WriteLine("------------------------\n");
+                    await ShowFoodInOrder(orderFood.ID);//Skriver ut en orders innehåll
+                    Console.WriteLine("\n------------------------");
+
+                    do//Hanterar val för att tillaga en order eller gå tillbaka
+                    {
+
+                        Console.WriteLine("1. Tillaga");
+                        Console.WriteLine("2. Återgå");
+
+                        int userInput = Console.ReadKey(true).KeyChar - '0';
+
+                        if (userInput == 1)
+                        {
+                            await repo.UpdateOrderStatus(opt);
+                            await DrawCookMenu();
+                            correctKey = false;
+                        }
+                        if (userInput == 2)
+                        {
+                            await DrawMultipleChoiceMenu();
+                            correctKey = false;
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Skriv 1 eller 2");
+                        }
+
+                    } while (correctKey == true);
+
+                }
+                else
+                {
+                    Console.WriteLine("Finns ingen order med det IDt.");
                 }
             }
             else
             {
                 Console.WriteLine("Fel inmatning");
             }
-
-            bool correctKey = true;
-
-            do//Hanterar val för att tillaga en order eller gå tillbaka
-            {
-
-                Console.WriteLine("1. Tillaga");
-                Console.WriteLine("2. Återgå");
-
-                int userInput = Console.ReadKey(true).KeyChar - '0';
-
-                if (userInput == 1)
-                {
-                    await DrawCookMenu();
-                    correctKey = false;
-                }
-
-                if (userInput == 2)
-                {
-                    await DrawMultipleChoiceMenu();
-                    correctKey = false;
-                }
-
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Skriv 1 eller 2");
-                }
-
-            } while (correctKey == true);
-
+            Console.ReadKey();
+            await DrawMultipleChoiceMenu();
         }
         public static async Task DrawCookMenu()//Simulerar att pizzan tillagas
         {
@@ -209,11 +207,11 @@ namespace DB_Kock
         }
         private static async Task ShowFoodInOrder(int orderID)
         {
-            var ordersIEnumerable = await repo.ShowOrderByID(orderID);
-            List<Order> listOrders = ordersIEnumerable.ToList();
+            Order order = await repo.ShowOrderByID(orderID);
+            //List<Order> listOrders = ordersIEnumerable.ToList();
             
-            foreach (Order order in listOrders)
-            {
+            //foreach (Order order in listOrders)
+            //{
 
                 foreach (Pizza pizzaItem in order.pizza)//Skriver ut pizzan och dess ingredienser
                 {
@@ -242,7 +240,7 @@ namespace DB_Kock
                     Console.Write($"\t{extraItem.Name}\n\n");
                 }
                 Console.WriteLine();
-            }
+            //}
         
 
         }
