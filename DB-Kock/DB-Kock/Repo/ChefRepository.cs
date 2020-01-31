@@ -25,6 +25,12 @@ namespace DB_Kock
             connection.Open();
         }
 
+        public async Task<IEnumerable<Employee>> GetChefs(string userName, string password)
+        {
+            IEnumerable<Employee> chef = await connection.QueryAsync<Employee>("GetChefs", new { Username = userName, Password = password }, commandType: CommandType.StoredProcedure);
+            return chef;
+        }
+
         public async Task<Pizza> GetPizzaByID(int pizzaID)
         {
             Pizza pizza = (await connection.QueryAsync<Pizza>("ShowPizzaByID", new { ID = pizzaID }, commandType: CommandType.StoredProcedure)).First();

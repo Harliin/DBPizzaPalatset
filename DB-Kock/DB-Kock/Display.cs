@@ -12,39 +12,6 @@ namespace DB_Kock
     public class Display
     {
         public static ChefRepository repo = new ChefRepository();
-        public static async Task<bool> DrawStartMenuAsync()//Login
-        {
-            bool loop = true;
-
-            do
-            {
-                Console.Clear();
-                Console.WriteLine("---------------------");
-                Console.WriteLine("Logga in");
-                Console.WriteLine("---------------------");
-
-
-                Console.Write("Pinkod:");
-
-                string input = Console.ReadLine();
-
-                if (input == "Bagare123")
-                {
-                    
-                    return true;
-                }
-                else
-                {
-                    Console.WriteLine("Fel pinkod");
-                    Console.ReadKey();
-                    continue;
-
-                }
-
-            } while (loop == true);
-            return false;
-
-        }
 
         public static async Task DrawMultipleChoiceMenu()
         {
@@ -68,19 +35,17 @@ namespace DB_Kock
                     Order orderFood = await repo.ShowOrderByID(opt);
                     bool correctKey = true;
 
-                    Console.Clear();
-                    Console.WriteLine($"Du har valt order # {orderFood.ID}");
-                    Console.WriteLine($"\nDenna order innehåller följande artiklar:");
-                    Console.WriteLine("------------------------\n");
-                    await ShowFoodInOrder(orderFood.ID);//Skriver ut en orders innehåll
-                    Console.WriteLine("\n------------------------");
-
                     do//Hanterar val för att tillaga en order eller gå tillbaka
                     {
+                        Console.Clear();
+                        Console.WriteLine($"Du har valt order # {orderFood.ID}");
+                        Console.WriteLine($"\nDenna order innehåller följande artiklar:");
+                        Console.WriteLine("------------------------\n");
+                        await ShowFoodInOrder(orderFood.ID);//Skriver ut en orders innehåll
+                        Console.WriteLine("\n------------------------");
 
                         Console.WriteLine("1. Tillaga");
                         Console.WriteLine("2. Återgå");
-
                         int userInput = Console.ReadKey(true).KeyChar - '0';
 
                         if (userInput == 1)
@@ -99,9 +64,7 @@ namespace DB_Kock
                             Console.Clear();
                             Console.WriteLine("Skriv 1 eller 2");
                         }
-
                     } while (correctKey == true);
-
                 }
                 else
                 {
@@ -159,7 +122,7 @@ namespace DB_Kock
 
         
         //Hämtar första orderID med status 3. TODO: nu skriver det ut en lista av alla orderrader per orderitem men ska fixas att det kommer bara en gång, ingen lista. 
-        private static async Task PrintOrderNumber()
+        private static async Task PrintOrderNumber()//TODOO kanske slå ihop denna metoden och "DrawConfirmationScreen"??
         {
             var ordersIEnumerable = await repo.ShowFinishedOrderID();
             var firstID = ordersIEnumerable.First();
@@ -205,44 +168,37 @@ namespace DB_Kock
                 Console.WriteLine();
             }
         }
-        private static async Task ShowFoodInOrder(int orderID)
+        private static async Task ShowFoodInOrder(int orderID)//Printar ut en specifik orders innehåll
         {
             Order order = await repo.ShowOrderByID(orderID);
-            //List<Order> listOrders = ordersIEnumerable.ToList();
-            
-            //foreach (Order order in listOrders)
-            //{
 
-                foreach (Pizza pizzaItem in order.pizza)//Skriver ut pizzan och dess ingredienser
+            foreach (Pizza pizzaItem in order.pizza)//Skriver ut pizzan och dess ingredienser
+            {
+                Console.Write($"\t{pizzaItem.Name}:\n");
+                Pizza pizza = await repo.GetPizzaByID(pizzaItem.ID);
+                foreach (Ingredient ingredient in pizza.Ingredients)
                 {
-                    Console.Write($"\t{pizzaItem.Name}:\n");
-                    Pizza pizza = await repo.GetPizzaByID(pizzaItem.ID);
-                    foreach (Ingredient ingredient in pizza.Ingredients)
-                    {
-                        Console.WriteLine($"\t\tIngrediens:{ingredient.Name}");
-                    }
-                    Console.WriteLine();
-                }
-                foreach (Pasta pastaItem in order.pasta)
-                {
-                    Console.Write($"\t{pastaItem.Name}\n\n");
-                }
-                foreach (Sallad salladItem in order.sallad)
-                {
-                    Console.Write($"\t{salladItem.Name}\n\n");
-                }
-                foreach (Drink drinkItem in order.drink)
-                {
-                    Console.Write($"\t{drinkItem.Name}\n\n");
-                }
-                foreach (Extra extraItem in order.extra)
-                {
-                    Console.Write($"\t{extraItem.Name}\n\n");
+                    Console.WriteLine($"\t\tIngrediens:{ingredient.Name}");
                 }
                 Console.WriteLine();
-            //}
-        
-
+            }
+            foreach (Pasta pastaItem in order.pasta)
+            {
+                Console.Write($"\t{pastaItem.Name}\n\n");
+            }
+            foreach (Sallad salladItem in order.sallad)
+            {
+                Console.Write($"\t{salladItem.Name}\n\n");
+            }
+            foreach (Drink drinkItem in order.drink)
+            {
+                Console.Write($"\t{drinkItem.Name}\n\n");
+            }
+            foreach (Extra extraItem in order.extra)
+            {
+                Console.Write($"\t{extraItem.Name}\n\n");
+            }
+            Console.WriteLine();
         }
 
     }
