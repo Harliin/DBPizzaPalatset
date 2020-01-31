@@ -48,6 +48,7 @@ namespace DB_Beställning
             key = Console.ReadKey(true).KeyChar;
             switch (key)
             {
+                // TODO Möjlighet att göra egen pizza
                 case '1':
                     var pizzas = await repo.ShowPizzasAsync();
                     List<Pizza> listOfPizza = pizzas.ToList();
@@ -178,6 +179,7 @@ namespace DB_Beställning
                     }
                     break;
                 case '6':
+                    // TODO Möjlighet att ta bort från order
                     await FoodOrder.ShowOrder();
                     Console.WriteLine("\n1.Ta bort beställning\n2.Gå tillbaka");
                     break;
