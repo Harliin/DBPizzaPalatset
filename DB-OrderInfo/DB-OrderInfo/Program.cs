@@ -1,5 +1,6 @@
 ﻿using DB_OrderInfo.Food;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DB_OrderInfo
@@ -8,15 +9,20 @@ namespace DB_OrderInfo
     {
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Välkommen till PIZZERIA PALATSET !\n");
-            Console.WriteLine("Pågående ordrar:\n");
+
+            do
+            {
+                Console.WriteLine("Välkommen till PIZZERIA PALATSET !\n");
+                await Run();
+                Thread.Sleep(1500);
+                Console.Clear();
+            } while (true);
+        }
+        static async Task Run()
+        {
             OrderInfoRepository repository = new OrderInfoRepository();
 
-            //foreach (Pizza pizzas in await repository.Pizzas())
-            //{
-            //    Console.WriteLine($"{pizzas.Name}");
-            //}
-
+            Console.WriteLine("Pågående ordrar:\n");
             foreach (Order ongoingOrder in await repository.OngoingOrder())
             {
                 Console.WriteLine(ongoingOrder.ID);
@@ -28,5 +34,6 @@ namespace DB_OrderInfo
                 Console.WriteLine(completeOrder.ID);
             }
         }
+
     }
 }
