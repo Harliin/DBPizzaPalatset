@@ -37,3 +37,5 @@ Elchin:
 Började med Grupp 1 Bagareterminal. Redogjorde lite i kod. 
 14/1 2020 
 Gjorde om programmet. Skapade skelettprogrammet. Lämnade tomma metoder bara. 
+28/1 2020 
+Uppdaterade programmet. Nu synkroniserar det med DB och hämtar infon direkt. 
