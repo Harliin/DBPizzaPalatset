@@ -57,7 +57,7 @@ namespace DB_Beställning
                     {
                         Console.WriteLine($"{pizza.ID}. {pizza.Name}: {pizza.Price}kr");
                     }
-                    Console.Write($"\n9. Avsluta");
+                    Console.Write($"\n9. Gå tillbaka");
                     Console.Write("\n\nVal: ");
                     
                     if (userChoice == 9)
@@ -86,7 +86,7 @@ namespace DB_Beställning
                     {
                         Console.WriteLine($"{pasta.ID}. {pasta.Name} {pasta.Price} kr");
                     }
-                    Console.Write($"\n9. Avsluta");
+                    Console.Write($"\n9. Gå tillbaka");
                     Console.Write("\n\nVal: ");
                     if (int.TryParse(Console.ReadLine(), out userChoice))
                     {
@@ -112,7 +112,7 @@ namespace DB_Beställning
                     {
                         Console.WriteLine($"En {sallad.ID}. {sallad.Name} {sallad.Price} kr");
                     }
-                    Console.Write($"\n9. Avsluta");
+                    Console.Write($"\n9. Gå tillbaka");
                     Console.Write("\n\nVal: ");
                     int.TryParse(Console.ReadLine(), out userChoice);
                     if (userChoice == 9)
@@ -136,7 +136,7 @@ namespace DB_Beställning
                     {
                         Console.WriteLine($"{drink.ID}. {drink.Name} {drink.Price} kr");
                     }
-                    Console.Write($"\n9. Avsluta");
+                    Console.Write($"\n9. Gå tillbaka");
                     Console.Write("\n\nVal: ");
                     int.TryParse(Console.ReadLine(), out userChoice);
                     if (userChoice == 9)
@@ -160,7 +160,7 @@ namespace DB_Beställning
                     {
                         Console.WriteLine($"{extra.ID}. {extra.Name} {extra.Price} kr");
                     }
-                    Console.Write($"\n9. Avsluta");
+                    Console.Write($"\n9. Gå tillbaka");
                     Console.Write("\n\nVal: ");
                     int.TryParse(Console.ReadLine(), out userChoice);
                     if (userChoice == 9)
@@ -181,7 +181,17 @@ namespace DB_Beställning
                 case '6':
                     // TODO Möjlighet att ta bort från order
                     await FoodOrder.ShowOrder();
+                    Console.WriteLine($"Summa: {FoodOrder.totalPrice} kr");
                     Console.WriteLine("\n1.Ta bort beställning\n2.Gå tillbaka");
+                    key = Console.ReadKey(true).KeyChar;
+                    switch (key)
+                    {
+                        case '1':
+                            break;
+                        case '2':
+                            await PrintOrderMenu();
+                            break;
+                    }
                     break;
                 case '7':
                     await FoodOrder.ShowOrder();
