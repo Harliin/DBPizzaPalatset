@@ -24,6 +24,7 @@ namespace DB_Kassörska
             Console.Clear();
 
             Console.WriteLine("--Kassörterminal--");
+            Console.WriteLine();
             Console.WriteLine("Alla ordrar:");
             Console.WriteLine("-----------------------------------");
 
