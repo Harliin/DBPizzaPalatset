@@ -17,6 +17,9 @@ Skapade class library "Food", och gjorde några stored procedures. Skapade även
 logic för att visa nuvrande maträtter från servern i den.
 22-24/1-2020
 Byggde upp en stor del av DB-Admin systemet med metoder för att lägga till ingredienser på pizza m.m. Skapade en del stored procedures i databasen. 
+27-31/1-2020
+Färdigställde admin programmet för MSSQL samt kommenterade koden, hjälpte sedan till lite på kockterminalen.
+
 
 Thomas:
 10/1 2020
