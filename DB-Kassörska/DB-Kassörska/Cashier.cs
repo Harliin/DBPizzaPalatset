@@ -30,7 +30,7 @@ namespace DB_Kassörska
 
             foreach (var order in orders)
             {
-                if(order.Status!=eStatus.Avhämtat)
+                if(order.Status!=eStatus.Avhämtat && order.Status!=eStatus.Klar)
                 {
                     Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
                 }
@@ -46,7 +46,7 @@ namespace DB_Kassörska
             }
 
             Console.WriteLine();
-            Console.Write("Markera order som uthämtad (ange ordernummer och tryck enter): ");
+            Console.Write("Välj Order-ID som har status \"Klar\": ");
 
             IEnumerable<Order> ordersByStatus = await repo.ShowOrderByStatusAsync(eStatus.Klar);
 
