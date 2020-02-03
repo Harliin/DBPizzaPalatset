@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using static DB_Kassörska.Order;
 
 namespace DB_Kassörska
 {
@@ -28,14 +29,17 @@ namespace DB_Kassörska
 
             foreach (var order in orders)
             {
-                Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
+                if(order.Status!=eStatus.Avhämtat)
+                {
+                    Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
+                }
             }
 
             Console.WriteLine();
             Console.WriteLine("Färdiga ordrar:");
             Console.WriteLine("-----------------------------------");
 
-            foreach (var order in await repo.ShowOrderByIDAsync(2))
+            foreach (var order in await repo.ShowOrderByStatusAsync(eStatus.Klar))
             {
                 Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
             }

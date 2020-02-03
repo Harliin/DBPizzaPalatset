@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Food;
-
+using static DB_Kassörska.Order;
 
 namespace DB_Kassörska
 {
@@ -20,10 +21,29 @@ namespace DB_Kassörska
             connection = new SqlConnection(ConnectionString);
             connection.Open();
         }
+        public async Task<IEnumerable<Order>> ShowOrderByStatusAsync(eStatus status)
+        {
+            IEnumerable<Order> orders = await connection.QueryAsync<Order>("ShowOrderByStatus", new { STATUS = (int)status }, commandType: CommandType.StoredProcedure);
+            //foreach (Order order in orders)
+            //{
+            //    order.pizza = (await connection.QueryAsync<Pizza>("GetOrderPizzas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+            //    order.pasta = (await connection.QueryAsync<Pasta>("GetOrderPastas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+            //    order.sallad = (await connection.QueryAsync<Sallad>("GetOrderSallads", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+            //    order.drink = (await connection.QueryAsync<Drink>("GetOrderDrinks", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+            //    order.extra = (await connection.QueryAsync<Extra>("GetOrderExtras", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
+            //}
+            return orders;
+        }
         public async Task UpdateOrderStatus(int orderNumber) //Uppdatera orderns status
         {
             await connection.QueryAsync<Pizza>("UpdateOrderStatus",
                 new { @ID = orderNumber }, commandType: CommandType.StoredProcedure);
+        }
+
+        public async Task DeleteOrder(int orderNumber)
+        {
+            await connection.QueryAsync<Pizza>("DeleteOrder",
+               new { @ID = orderNumber }, commandType: CommandType.StoredProcedure);
         }
         public async Task<IEnumerable<Order>> ShowAllOrdersAsync()
         {
