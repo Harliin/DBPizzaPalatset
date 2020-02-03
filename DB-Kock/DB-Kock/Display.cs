@@ -28,11 +28,11 @@ namespace DB_Kock
             IEnumerable<Order> orderByStatusIEnumerable = await repo.ShowOrderByStatus(eStatus.Tillagning);
             List<Order> listOfOrders = orderByStatusIEnumerable.ToList();
 
-            if (int.TryParse(Console.ReadLine(), out int opt))//Kollar om orderIDt finns
+            if (int.TryParse(Console.ReadLine(), out int userInput))//Kollar om orderIDt finns
             {
-                if (listOfOrders.Exists(x => x.ID == opt))
+                if (listOfOrders.Exists(x => x.ID == userInput))
                 {
-                    Order orderFood = await repo.ShowOrderByID(opt);
+                    Order orderFood = await repo.ShowOrderByID(userInput);
                     bool correctKey = true;
 
                     do//Hanterar val för att tillaga en order eller gå tillbaka
@@ -46,15 +46,15 @@ namespace DB_Kock
 
                         Console.WriteLine("1. Tillaga");
                         Console.WriteLine("2. Återgå");
-                        int userInput = Console.ReadKey(true).KeyChar - '0';
+                        int userInput2 = Console.ReadKey(true).KeyChar - '0';
 
-                        if (userInput == 1)
+                        if (userInput2 == 1)
                         {
-                            await repo.UpdateOrderStatus(opt);
-                            await DrawCookMenu();
+                            await repo.UpdateOrderStatus(userInput);
+                            await DrawCookMenu(orderFood.ID);
                             correctKey = false;
                         }
-                        if (userInput == 2)
+                        if (userInput2 == 2)
                         {
                             await DrawMultipleChoiceMenu();
                             correctKey = false;
@@ -78,9 +78,10 @@ namespace DB_Kock
             Console.ReadKey();
             await DrawMultipleChoiceMenu();
         }
-        public static async Task DrawCookMenu()//Simulerar att pizzan tillagas
+        public static async Task DrawCookMenu(int orderID)//Simulerar att pizzan tillagas
         {
             var repo = new ChefRepository();
+
 
             Console.Clear();
             Console.WriteLine("Maten tillagas");
@@ -104,7 +105,7 @@ namespace DB_Kock
                 // om kocken klickar på enter så skickas den tillbaka till startsidan för att kunna ta nya ordrar
                 if (key == 13)
                 {
-                    await DrawConfirmationScreen();
+                    await DrawConfirmationScreen(orderID);
                     break;
                 }
             }
@@ -112,27 +113,23 @@ namespace DB_Kock
         }
 
 
-        public static async Task DrawConfirmationScreen()
+        public static async Task DrawConfirmationScreen(int orderID)
         {
             Console.Clear();
-            await PrintOrderNumber();      
+            var ordersIEnumerable = await repo.ShowFinishedOrderID();
+            var firstOrder = ordersIEnumerable.First(x=> x.ID ==orderID);
+
+
+            Console.WriteLine($"Skriver ut ordernummer { firstOrder.ID}...");
+            Console.WriteLine();
+
             System.Threading.Thread.Sleep(2000);
             await DrawMultipleChoiceMenu();
         }
 
         
-        //Hämtar första orderID med status 3. TODO: nu skriver det ut en lista av alla orderrader per orderitem men ska fixas att det kommer bara en gång, ingen lista. 
-        private static async Task PrintOrderNumber()//TODOO kanske slå ihop denna metoden och "DrawConfirmationScreen"??
-        {
-            var ordersIEnumerable = await repo.ShowFinishedOrderID();
-            var firstID = ordersIEnumerable.First();
-            foreach (Order order in ordersIEnumerable)
-            {
-                Console.WriteLine($"Skriver ut ordernummer { firstID.ID}...");
-            }
-            Console.WriteLine();
-
-        }
+      
+   
 
         private static async Task ShowOrders()//Printar ut ordrar med status 2 == under tillagning
         {
