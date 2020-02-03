@@ -11,7 +11,7 @@ namespace DB_Kassörska
     class Cashier
     {
         /*TODO
-         * Felhantering om man skriver in fel nummer, bokstav osv. While (correctKey == false) osv
+         * Gör så att kassörskan bara kan markera ordrar som står som "Klar"
          */
 
         CashierRepository repo = new CashierRepository();
@@ -44,11 +44,16 @@ namespace DB_Kassörska
                 Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
             }
 
+            Console.WriteLine();
             Console.Write("Markera order som uthämtad (ange ordernummer och tryck enter): ");
+
+            IEnumerable<Order> ordersByStatus = await repo.ShowOrderByStatusAsync(eStatus.Klar);
+
+            List<Order> listOfOrders = ordersByStatus.ToList();
 
             if (int.TryParse(Console.ReadLine(), out int cashierOrderChoice))
             {
-                if (orderList.Exists(x => x.ID == cashierOrderChoice))
+                if ((listOfOrders.Exists(x => x.ID == cashierOrderChoice)))
                 {
                     await repo.UpdateOrderStatus(cashierOrderChoice);
                     Console.WriteLine($"Markerar order {cashierOrderChoice} som uthämtad");
@@ -57,10 +62,16 @@ namespace DB_Kassörska
                 }
                 else
                 {
-                    Console.WriteLine("Ordernumret finns inte!");
+                    Console.WriteLine("Ordernumret är ogiltigt!");
                     Thread.Sleep(2000);
                     await CashierManagement();
                 }
+            }
+            else
+            {
+                Console.WriteLine("Skriv endast siffror!");
+                Thread.Sleep(2000);
+                await CashierManagement();
             }
         }
     }
