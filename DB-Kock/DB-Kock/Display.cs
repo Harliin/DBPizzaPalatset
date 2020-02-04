@@ -23,14 +23,19 @@ namespace DB_Kock
 
             await ShowOrders();//skriver ut ordarna som är under tillagning
 
-            Console.Write("Välj ordernummer: ");
+            Console.WriteLine("\nVälj ordernummer för att tillaga\nTryck [0] för att logga ut");
+            Console.Write("\nDitt val: ");
 
             IEnumerable<Order> orderByStatusIEnumerable = await repo.ShowOrderByStatus(eStatus.Tillagning);
             List<Order> listOfOrders = orderByStatusIEnumerable.ToList();
 
             if (int.TryParse(Console.ReadLine(), out int userInput))//Kollar om orderIDt finns
             {
-                if (listOfOrders.Exists(x => x.ID == userInput))
+                if (userInput == 0)
+                {
+                    await Program.Main();
+                }
+                else if (listOfOrders.Exists(x => x.ID == userInput))
                 {
                     Order orderFood = await repo.ShowOrderByID(userInput);
                     bool correctKey = true;
