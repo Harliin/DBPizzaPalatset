@@ -5,34 +5,40 @@ using Food;
 using System.Collections.Generic;
 using System.Linq;
 
-
-
-
 namespace DB_Beställning
 {
     public class Menus
     {
         bool correctKey { get; set; }
         char key;
-        int userChoice;
-        public int orderID { get; set; }
-        public OrderRepository repo = new OrderRepository();
-        FoodOrder food = new FoodOrder();
-
+        public int userChoice;
+        public static int orderID { get; set; }
+        public OrderRepository repo;
+        //public FoodOrder foodOrder;
+        public Menus()
+        {
+            repo = new OrderRepository();
+            //foodOrder = new FoodOrder();
+            orderID = 44;
+        }
         public async Task PrintMenu()
         {
             while (correctKey == false)
             {
-                food.totalPrice = 0;
+                FoodOrder foodOrder = new FoodOrder();
+                foodOrder.totalPrice = 0;
                 Console.Clear();
                 Console.WriteLine("Hej och välkomna till Pizza Palatset \nKlicka på Enter för att påbörja beställningen");
                 key = Console.ReadKey(true).KeyChar;
                 if (key == 13)
                 {
                     //IEnumerable<Order> order = await repo.CreateNewOrder();
+                    //orderID = order.First().ID;
+
+                    //TA BORT SEN?
                     //List<Order> orders = order.ToList();
-                    //orderID = orders[0].ID;
-                    orderID = 44;
+                    //orderID = orders.First().ID;
+                    //orderID = 44;
                     await PrintOrderMenu();
                     correctKey = true;
                 }
@@ -41,6 +47,7 @@ namespace DB_Beställning
         // Metod som skriver ut Matmenyn
         public async Task PrintOrderMenu()
         {
+            FoodOrder foodOrder = new FoodOrder();
             Console.Clear();
             foreach (string item in MenuList.FoodMenu)
             {
@@ -52,187 +59,57 @@ namespace DB_Beställning
             {
                 // TODO Möjlighet att göra egen pizza
                 case '1':
-                    var pizzas = await repo.ShowPizzasAsync();
-                    List<Pizza> listOfPizza = pizzas.ToList();
-                    Console.Clear();
-                    foreach (Pizza pizza in pizzas)
                     {
-                        Console.WriteLine($"{pizza.ID}. {pizza.Name}: {pizza.Price}kr");
+                        await foodOrder.ShowPizzas();
+                        break;
                     }
-                    Console.Write($"\n9.Gå tillbaka");
-                    Console.Write("\n\nVal: ");
-
-                    if (int.TryParse(Console.ReadLine(), out userChoice))
-                    {
-                        if (userChoice == 9)
-                        {
-                            await PrintOrderMenu();
-                        }
-                        else if (listOfPizza.Exists(x => x.ID == userChoice))
-                        {
-                            await repo.AddPizzaToOrder(orderID, userChoice);
-                            foreach (Pizza pizza in await repo.ShowPizzaByID(userChoice))
-                            {
-                                Console.WriteLine($"{pizza.Name} tillagd.");
-                            }
-                            Thread.Sleep(600);
-                            await PrintOrderMenu();  
-                        }
-                    }
-                    break;
                 case '2':
-                    var pastas = await repo.ShowPastasAsync();
-                    List<Pasta> listOfPasta = pastas.ToList();
-                    Console.Clear();
-                    foreach (Pasta pasta in pastas)
                     {
-                        Console.WriteLine($"{pasta.ID}. {pasta.Name} {pasta.Price} kr");
+                        await foodOrder.ShowPastas();
+                        break;
                     }
-                    Console.Write($"\n9. Gå tillbaka");
-                    Console.Write("\n\nVal: ");
-                    if (int.TryParse(Console.ReadLine(), out userChoice))
-                    {
-                        if (userChoice == 9)
-                        {
-                            await PrintOrderMenu();
-                        }
-                        else if(listOfPasta.Exists(x => x.ID == userChoice))
-                        {
-                            await repo.AddPastaToOrder(orderID, userChoice);
-                            foreach (Pasta pasta in await repo.ShowPastaByID(userChoice))
-                            {
-                                Console.WriteLine($"{pasta.Name} tillagd.");
-                            }
-                            Thread.Sleep(600);
-                            await PrintOrderMenu();
-                        }
-                    }
-                    break;
                 case '3':
-                    Console.Clear();
-                    foreach (Sallad sallad in await repo.ShowSalladsAsync())
                     {
-                        Console.WriteLine($"En {sallad.ID}. {sallad.Name} {sallad.Price} kr");
+                        await foodOrder.ShowSallads();
+                        break;
                     }
-                    Console.Write($"\n9. Gå tillbaka");
-                    Console.Write("\n\nVal: ");
-                    int.TryParse(Console.ReadLine(), out userChoice);
-                    if (userChoice == 9)
-                    {
-                        await PrintOrderMenu();
-                    }
-                    else
-                    {
-                        await repo.AddSalladToOrder(orderID, userChoice);
-                        foreach (Sallad sallad in await repo.ShowSalladByID(userChoice))
-                        {
-                            Console.WriteLine($"{sallad.Name} tillagd.");
-                        }
-                        Thread.Sleep(600);
-                        await PrintOrderMenu();
-                    }
-                    break;
                 case '4':
-                    Console.Clear();
-                    foreach (Drink drink in await repo.ShowDrinksAsync())
                     {
-                        Console.WriteLine($"{drink.ID}. {drink.Name} {drink.Price} kr");
+                        await foodOrder.ShowDrinks();
+                        break;
                     }
-                    Console.Write($"\n9. Gå tillbaka");
-                    Console.Write("\n\nVal: ");
-                    int.TryParse(Console.ReadLine(), out userChoice);
-                    if (userChoice == 9)
-                    {
-                        await PrintOrderMenu();
-                    }
-                    else
-                    {
-                        await repo.AddDrinkToOrder(orderID, userChoice);
-                        foreach (Drink drink in await repo.ShowDrinkByID(userChoice))
-                        {
-                            Console.WriteLine($"{drink.Name} tillagd.");
-                        }
-                        Thread.Sleep(600);
-                        await PrintOrderMenu();
-                    }
-                    break;
                 case '5':
-                    Console.Clear();
-                    foreach (Extra extra in await repo.ShowExtraAsync())
                     {
-                        Console.WriteLine($"{extra.ID}. {extra.Name} {extra.Price} kr");
+                        await foodOrder.ShowExtras();
+                        break;
                     }
-                    Console.Write($"\n9. Gå tillbaka");
-                    Console.Write("\n\nVal: ");
-                    int.TryParse(Console.ReadLine(), out userChoice);
-                    if (userChoice == 9)
-                    {
-                        await PrintOrderMenu();
-                    }
-                    else
-                    {
-                        await repo.AddExtraToOrder(orderID, userChoice);
-                        foreach (Extra extra in await repo.ShowExtraByID(userChoice))
-                        {
-                            Console.WriteLine($"{extra.Name} tillagd.");
-                        }
-                        Thread.Sleep(600);
-                        await PrintOrderMenu();
-                    }
-                    break;
                 case '6':
                     // TODO Möjlighet att ta bort från order
-                    
-                    food.ShowOrder();
-                    Console.WriteLine($"\nSumma: {food.totalPrice} kr");
-                    Console.WriteLine("\n1.Ta bort beställning\n2.Gå tillbaka");
-                    key = Console.ReadKey(true).KeyChar;
-                    switch (key)
                     {
-                        case '1':  
-                            food.ShowOrder();
-                            break;
-                        case '2':
-                            await PrintOrderMenu();
-                            break;
+                        foodOrder.ShowOrder();
+                        Console.WriteLine($"\nSumma: {foodOrder.totalPrice} kr");
+                        Console.WriteLine("\n1.Ta bort beställning\n2.Gå tillbaka");
+                        key = Console.ReadKey(true).KeyChar;
+                        switch (key)
+                        {
+                            case '1':
+                                foodOrder.ShowOrder();
+                                break;
+                            case '2':
+                                await PrintOrderMenu();
+                                break;
+                        }
+                        break;
                     }
-                    break;
                 case '7':
-                    food.ShowOrder();
-                    var customerOrder = await repo.ShowOrderByID(orderID);
-                    List<Order> listOfCustomerOrder = customerOrder.ToList();
-                    // TODO Lägg som metod?
-                    if (listOfCustomerOrder[0].pizza.Count > 0 || listOfCustomerOrder[0].sallad.Count > 0 || listOfCustomerOrder[0].pasta.Count > 0
-                               || listOfCustomerOrder[0].drink.Count > 0 || listOfCustomerOrder[0].extra.Count > 0)
                     {
-                        Console.WriteLine($"\nSumma: {food.totalPrice}kr");
-                        Console.WriteLine("\n\n1.Bekräfta \n2.Gå tillbaka");
+                        foodOrder.ShowOrder();
+                        await foodOrder.FinishOrder();
+                        break;
                     }
-                    else
-                    {
-                        Console.WriteLine("Ingen order lagd ännu");
-                        Thread.Sleep(600);
-                        await PrintOrderMenu();
-                    }
-                    key = Console.ReadKey(true).KeyChar;
-                    switch (key)
-                    {
-                        case '1':
-                            await repo.UpdateOrderStatus(orderID);
-                            Console.WriteLine("Tack för din beställning\nVälkommen åter!");
-                            Thread.Sleep(600);
-                            await PrintMenu();
-                            break;
-                        case '2':
-                            await PrintOrderMenu();
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
                 default:
-                    await PrintOrderMenu();
                     break;
+
             }
         }
     }
