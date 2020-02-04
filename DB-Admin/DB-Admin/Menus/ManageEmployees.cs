@@ -10,7 +10,7 @@ namespace DB_Admin
     public class Employees
     {
         public static AdminRepository repo = new AdminRepository();
-        public MainMenu MainMenu;
+        
         public async Task ManageEmployeesAsync()//Hanterar menyvalen för de menyn för anställda
         {
             Console.Clear();
@@ -36,7 +36,8 @@ namespace DB_Admin
                     await ManageEmployeesAsync();
                     break;
                 case '4':
-                    await MainMenu.AdminStartMenuAsync();
+                    MainMenu mainMenu = new MainMenu();
+                    await mainMenu.AdminStartMenuAsync();
                     break;
                 default:
                     Console.WriteLine("Fel inmatning!");

@@ -10,7 +10,6 @@ namespace DB_Admin
     public class PastaMenu//Pasta menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public FoodMenu FoodMenu;
         public async Task PastaAsync()//Hanterar valen i pasta menyn
         {
             Console.Clear();
@@ -41,7 +40,8 @@ namespace DB_Admin
 
                 case '5':
                 {
-                    await FoodMenu.ManageMenuAsync();
+                    FoodMenu foodMenu = new FoodMenu();
+                    await foodMenu.ManageMenuAsync();
                     break;
                 }
                 default:

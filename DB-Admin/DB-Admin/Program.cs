@@ -9,6 +9,7 @@ namespace DB_Admin
     public class Program
     {
         public static AdminRepository repo = new AdminRepository();
+        
         static public async Task Main()
         {
             do

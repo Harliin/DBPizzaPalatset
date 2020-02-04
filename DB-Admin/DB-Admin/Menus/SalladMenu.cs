@@ -10,7 +10,6 @@ namespace DB_Admin
     public class SalladMenu//Sallad menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public FoodMenu FoodMenu;
         public async Task SalladAsync()//Huvud meny för sallad
         {
             
@@ -38,7 +37,8 @@ namespace DB_Admin
                     break;
                 case '5':
                 {
-                    await FoodMenu.ManageMenuAsync();
+                    FoodMenu foodMenu = new FoodMenu();
+                    await foodMenu.ManageMenuAsync();
                     break;
                 }
                 default:

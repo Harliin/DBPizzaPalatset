@@ -10,7 +10,7 @@ namespace DB_Admin
     public class PizzaMenu//Pizza menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public FoodMenu FoodMenu;
+        
         public async Task PizzaAsync()//Hanterar menyval för Pizzamenyn
         {
             
@@ -57,7 +57,8 @@ namespace DB_Admin
 
                 case '5':
                     {
-                        await FoodMenu.ManageMenuAsync();
+                        FoodMenu foodMenu= new FoodMenu();
+                        await foodMenu.ManageMenuAsync();
                         break;
                     }
                 default:

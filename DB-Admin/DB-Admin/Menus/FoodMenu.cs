@@ -7,12 +7,20 @@ namespace DB_Admin
 {
     public class FoodMenu//Hantera styrningen mellan alla mat menyer
     {
-        public MainMenu MainMenu;
         public PizzaMenu PizzaMenu;
         public PastaMenu PastaMenu;
         public SalladMenu SalladMenu;
         public DrinkMenu DrinkMenu;
         public ExtraMenu ExtraMenu;
+
+        public FoodMenu()
+        {
+            PizzaMenu = new PizzaMenu();
+            PastaMenu = new PastaMenu();
+            SalladMenu = new SalladMenu();
+            DrinkMenu = new DrinkMenu();
+            ExtraMenu = new ExtraMenu();
+        }
         public async Task ManageMenuAsync()
         {
             Console.Clear();
@@ -21,6 +29,7 @@ namespace DB_Admin
             switch (adminChoice)
             {
                 case '1':
+
                     await PizzaMenu.PizzaAsync();
                     break;
                 case '2':
@@ -36,7 +45,8 @@ namespace DB_Admin
                     await ExtraMenu.ExtrasAsync();
                     break;
                 case '6':
-                    await MainMenu.AdminStartMenuAsync();
+                    MainMenu mainMenu = new MainMenu();
+                    await mainMenu.AdminStartMenuAsync();
                     break;
 
                 default:

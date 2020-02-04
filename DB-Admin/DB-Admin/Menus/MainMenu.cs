@@ -7,8 +7,7 @@ namespace DB_Admin
 {
     public class MainMenu
     {
-        public Employees Employees;
-        public FoodMenu FoodMenu;
+        
         public async Task AdminStartMenuAsync()//Huvud meny
         {
             Console.Clear();
@@ -19,10 +18,12 @@ namespace DB_Admin
             switch (adminChoice)
             {
                 case '1':
-                    await Employees.ManageEmployeesAsync();//Hanterar Employees
+                    Employees employees = new Employees();
+                    await employees.ManageEmployeesAsync();//Hanterar Employees
                     break;
                 case '2':
-                    await FoodMenu.ManageMenuAsync();//Hanterar Mat meny
+                    FoodMenu foodMenu = new FoodMenu();
+                    await foodMenu.ManageMenuAsync();//Hanterar Mat meny
                     break;
                 case '3':
                 {

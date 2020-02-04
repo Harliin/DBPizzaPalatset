@@ -10,7 +10,6 @@ namespace DB_Admin
     public class ExtraMenu//Extra menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public FoodMenu FoodMenu;
         public async Task ExtrasAsync()//Meny för att hantera extra val
         {
             Console.Clear();
@@ -35,7 +34,8 @@ namespace DB_Admin
                     break;
                 case '5':
                 {
-                    await FoodMenu.ManageMenuAsync();
+                    FoodMenu foodMenu = new FoodMenu();
+                    await foodMenu.ManageMenuAsync();
                     break;
                 }
                 default:
