@@ -25,28 +25,28 @@ namespace DB_Kassörska
 
             Console.WriteLine("--Kassörterminal--");
             Console.WriteLine();
-            Console.WriteLine("Alla ordrar:");
+            Console.WriteLine("Pågående ordrar:");
             Console.WriteLine("-----------------------------------");
 
             foreach (var order in orders)
             {
                 if(order.Status!=eStatus.Avhämtat && order.Status!=eStatus.Klar)
                 {
-                    Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
+                    Console.WriteLine($"Order-ID: {order.ID}\tStatus: {order.Status}");
                 }
             }
 
             Console.WriteLine();
-            Console.WriteLine("Färdiga ordrar:");
+            Console.WriteLine("Ordrar färdiga att hämtas ut:");
             Console.WriteLine("-----------------------------------");
 
             foreach (var order in await repo.ShowOrderByStatusAsync(eStatus.Klar))
             {
-                Console.WriteLine($"Order-ID: {order.ID} Orderstatus: {order.Status}");
+                Console.WriteLine($"Order-ID: {order.ID}\tStatus: {order.Status}");
             }
 
             Console.WriteLine();
-            Console.Write("Välj Order-ID som har status \"Klar\": ");
+            Console.Write("Välj Order-ID som har status \"Klar\", när kunden hämtat ut den: ");
 
             IEnumerable<Order> ordersByStatus = await repo.ShowOrderByStatusAsync(eStatus.Klar);
 
