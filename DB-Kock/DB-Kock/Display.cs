@@ -13,7 +13,7 @@ namespace DB_Kock
     {
         public static ChefRepository repo = new ChefRepository();
 
-        public static async Task DrawMultipleChoiceMenu()
+        public async Task DrawMultipleChoiceMenu()
         {
             var repo = new ChefRepository();
 
@@ -46,6 +46,8 @@ namespace DB_Kock
 
                         Console.WriteLine("1. Tillaga");
                         Console.WriteLine("2. Återgå");
+                        Console.WriteLine("3. Logga ut");
+
                         int userInput2 = Console.ReadKey(true).KeyChar - '0';
 
                         if (userInput2 == 1)
@@ -59,10 +61,16 @@ namespace DB_Kock
                             await DrawMultipleChoiceMenu();
                             correctKey = false;
                         }
+                        if (userInput2 == 3)
+                        {
+                           await Program.Main();
+                           
+                           
+                        }
                         else
                         {
                             Console.Clear();
-                            Console.WriteLine("Skriv 1 eller 2");
+                            Console.WriteLine("Skriv 1, 2 eller 3");
                         }
                     } while (correctKey == true);
                 }
@@ -78,7 +86,7 @@ namespace DB_Kock
             Console.ReadKey();
             await DrawMultipleChoiceMenu();
         }
-        public static async Task DrawCookMenu(int orderID)//Simulerar att pizzan tillagas
+        public async Task DrawCookMenu(int orderID)//Simulerar att pizzan tillagas
         {
             var repo = new ChefRepository();
 
@@ -113,13 +121,13 @@ namespace DB_Kock
         }
 
 
-        public static async Task DrawConfirmationScreen(int orderID)
+        public async Task DrawConfirmationScreen(int orderID)
         {
             Console.Clear();
             var ordersIEnumerable = await repo.ShowFinishedOrderID();
             var firstOrder = ordersIEnumerable.First(x=> x.ID ==orderID);
 
-
+              
             Console.WriteLine($"Skriver ut ordernummer { firstOrder.ID}...");
             Console.WriteLine();
 
@@ -127,11 +135,8 @@ namespace DB_Kock
             await DrawMultipleChoiceMenu();
         }
 
-        
-      
-   
 
-        private static async Task ShowOrders()//Printar ut ordrar med status 2 == under tillagning
+        private async Task ShowOrders()//Printar ut ordrar med status 2 == under tillagning
         {
             IEnumerable<Order> orderByStatusIEnumerable = await repo.ShowOrderByStatus(eStatus.Tillagning);
             List<Order> ordersList = orderByStatusIEnumerable.ToList();
@@ -165,7 +170,7 @@ namespace DB_Kock
                 Console.WriteLine();
             }
         }
-        private static async Task ShowFoodInOrder(int orderID)//Printar ut en specifik orders innehåll
+        private async Task ShowFoodInOrder(int orderID)//Printar ut en specifik orders innehåll
         {
             Order order = await repo.ShowOrderByID(orderID);
 

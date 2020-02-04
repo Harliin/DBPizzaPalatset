@@ -9,14 +9,17 @@ using Food;
 
 namespace DB_Kock
 {
-    class Program
+    public class Program
     {
+
         public static ChefRepository repo = new ChefRepository();
-        static async Task Main(string[] args)
+        static public async Task Main()
         {
+            Display startMenu = new Display();
+
             if (await Login())
             {
-                await Display.DrawMultipleChoiceMenu();
+                await startMenu.DrawMultipleChoiceMenu();
             }
             else
             {
