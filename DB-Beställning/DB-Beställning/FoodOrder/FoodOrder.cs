@@ -12,16 +12,15 @@ namespace DB_Beställning
         public  int totalPrice;
         private char key;
         public static OrderRepository repo { get; set; }
-        private Dictionary<int, MenuItem> menuList { get; set; }
+        public Dictionary<int, MenuItem> menuList { get; set; }
         private Order order { get; set; }
         public Menus menus;
-        public int userChoice; //{ get; set; }
+        public int userChoice;
         public FoodOrder()
         {
-            //repo = new OrderRepository();
+
             menuList = new Dictionary<int, MenuItem>();
-            //menus = new Menus();
-            //order = repo.ShowOrderByID(menus.orderID).Result.First();
+            menus = new Menus();
             //int index = 1;
             //order.pizza.ForEach(pizza => { menuList.Add(index, new MenuItem { id = pizza.ID, type = "pizza" }); index++; });
             //order.pasta.ForEach(pasta => { menuList.Add(index, new MenuItem { id = pasta.ID, type = "pasta" }); index++; });
@@ -30,14 +29,15 @@ namespace DB_Beställning
             //order.drink.ForEach(drink => { menuList.Add(index, new MenuItem { id = drink.ID, type = "drink" }); index++; });
         }
 
-        public void Diction()
+        public Dictionary<int, MenuItem> Diction()
         {
             int index = 1;
-            order.pizza.ForEach(pizza => { menuList.Add(index, new MenuItem { id = pizza.ID, type = "pizza" }); index++; });
-            order.pasta.ForEach(pasta => { menuList.Add(index, new MenuItem { id = pasta.ID, type = "pasta" }); index++; });
-            order.sallad.ForEach(sallad => { menuList.Add(index, new MenuItem { id = sallad.ID, type = "sallad" }); index++; });
-            order.extra.ForEach(extra => { menuList.Add(index, new MenuItem { id = extra.ID, type = "extra" }); index++; });
-            order.drink.ForEach(drink => { menuList.Add(index, new MenuItem { id = drink.ID, type = "drink" }); index++; });
+            order.pizza.ForEach(pizza => { menuList.Add(index, new MenuItem { id = pizza.ID, name = pizza.Name, type ="pizza" }); index++; });
+            order.pasta.ForEach(pasta => { menuList.Add(index, new MenuItem { id = pasta.ID, name = pasta.Name, type ="pasta" }); index++; });
+            order.sallad.ForEach(sallad => { menuList.Add(index, new MenuItem { id = sallad.ID, name = sallad.Name, type ="sallad" }); index++; });
+            order.extra.ForEach(extra => { menuList.Add(index, new MenuItem { id = extra.ID, name = extra.Name, type ="extra" }); index++; });
+            order.drink.ForEach(drink => { menuList.Add(index, new MenuItem { id = drink.ID, name = drink.Name, type="drink" }); index++; });
+            return menuList;
         }
         // Metod som printar ut innehållet i nuvarande order
         public void ShowOrder()
@@ -237,6 +237,7 @@ namespace DB_Beställning
             {
                 case '1':
                     await repo.UpdateOrderStatus(Menus.orderID);
+                    await AddOrderToReceipt(totalPrice, DateTime.Now);
                     Console.WriteLine("Tack för din beställning\nVälkommen åter!");
                     Thread.Sleep(600);
                     await menus.PrintMenu();
@@ -247,6 +248,33 @@ namespace DB_Beställning
                 default:
                     break;
             }
+        }
+        public async Task RemoveOrder(MenuItem orderToRemove)
+        {
+            if(orderToRemove.type=="pizza")
+            {
+                await repo.RemovePizzaFromOrder(Menus.orderID, orderToRemove.id);
+            }
+            else if (orderToRemove.type == "pasta")
+            {
+                await repo.RemovePastaFromOrder(Menus.orderID, orderToRemove.id);
+            }
+            else if (orderToRemove.type == "sallad")
+            {
+                await repo.RemoveSalladFromOrder(Menus.orderID, orderToRemove.id);
+            }
+            else if (orderToRemove.type == "drink")
+            {
+                await repo.RemoveDrinkFromOrder(Menus.orderID, orderToRemove.id);
+            }
+            else if (orderToRemove.type == "extra")
+            {
+                await repo.RemoveExtraFromOrder(Menus.orderID, orderToRemove.id);
+            }
+        }
+        public async Task AddOrderToReceipt(int totalprice, DateTime date)
+        {
+            await repo.AddOrderToReceipt(totalprice, date);
         }
         
     }

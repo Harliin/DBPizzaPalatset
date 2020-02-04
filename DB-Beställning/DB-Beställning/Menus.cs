@@ -11,15 +11,10 @@ namespace DB_Beställning
     {
         bool correctKey { get; set; }
         char key;
-        
         public static int orderID { get; set; }
-        //public OrderRepository repo;
-        //public FoodOrder foodOrder;
         public Menus()
         {
             FoodOrder.repo = new OrderRepository();
-            //foodOrder = new FoodOrder();
-            orderID = 44;
         }
         public async Task PrintMenu()
         {
@@ -38,7 +33,7 @@ namespace DB_Beställning
                     //TA BORT SEN?
                     //List<Order> orders = order.ToList();
                     //orderID = orders.First().ID;
-                    //orderID = 44;
+                    orderID = 44;
                     await PrintOrderMenu();
                     correctKey = true;
                 }
@@ -93,7 +88,37 @@ namespace DB_Beställning
                         switch (key)
                         {
                             case '1':
-                                foodOrder.ShowOrder();
+                                Console.Clear();
+                                var orders = foodOrder.Diction();
+                                foreach (var item in orders)
+                                {
+                                    Console.WriteLine($"ID: {item.Key}, namn : {item.Value.name} ");
+                                }
+                                Console.WriteLine("\nTryck 0 för att gå tillbaka");
+                                Console.Write("\nVälj ID för att ta bort: ");
+                                if (int.TryParse(Console.ReadLine(), out int deleteChoice))
+                                {
+                                    if (deleteChoice== 0)
+                                    {
+                                        await PrintOrderMenu();
+                                    }
+                                    else if (orders.Keys.Count >= deleteChoice || orders.Keys.Count < 1)
+                                    {
+                                        if (orders.TryGetValue(deleteChoice, out MenuItem orderToRemove))
+                                        {
+                                            await foodOrder.RemoveOrder(orderToRemove);
+                                            Console.WriteLine("Varan borttagen.");
+                                            Thread.Sleep(600);
+                                            await PrintOrderMenu();
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("Ogiltigt ID");
+                                            Thread.Sleep(600);
+                                            await PrintOrderMenu();
+                                        }
+                                    }
+                                }
                                 break;
                             case '2':
                                 await PrintOrderMenu();
@@ -105,6 +130,24 @@ namespace DB_Beställning
                     {
                         foodOrder.ShowOrder();
                         await foodOrder.FinishOrder();
+                        //key = Console.ReadKey(true).KeyChar;
+                        //switch (key)
+                        //{
+                        //    case '1':
+                        //        {
+                        //            await foodOrder.AddOrderToReceipt(foodOrder.totalPrice, DateTime.Now);
+                        //            break;
+                        //        }
+                        //    case '2':
+                        //        {
+                        //            break;
+                        //        }
+                        //}
+                        break;
+                    }
+                case '9':
+                    {
+                        await PrintMenu();
                         break;
                     }
                 default:

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Food;
+using System;
 
 
 namespace DB_Beställning
@@ -20,6 +21,26 @@ namespace DB_Beställning
             connection.Open();
         }
         // Beställnings Repositorys
+        public async Task RemovePizzaFromOrder(int orderID, int pizzaID)
+        {
+            await connection.QueryAsync<Pizza>("RemovePizzaFromOrder", new { OrderID = orderID, PizzaID = pizzaID }, commandType: CommandType.StoredProcedure);
+        }
+        public async Task RemovePastaFromOrder(int orderID, int pastaID)
+        {
+            await connection.QueryAsync<Pasta>("RemovePastaFromOrder", new { OrderID = orderID, PastaID = pastaID }, commandType: CommandType.StoredProcedure);
+        }
+        public async Task RemoveSalladFromOrder(int orderID, int salladID)
+        {
+            await connection.QueryAsync<Sallad>("RemoveSalladFromOrder", new { OrderID = orderID, SalladID = salladID }, commandType: CommandType.StoredProcedure);
+        }
+        public async Task RemoveDrinkFromOrder(int orderID, int drinkID)
+        {
+            await connection.QueryAsync<Drink>("RemoveDrinkFromOrder", new { OrderID = orderID, DrinkID = drinkID }, commandType: CommandType.StoredProcedure);
+        }
+        public async Task RemoveExtraFromOrder(int orderID, int extraID)
+        {
+            await connection.QueryAsync<Extra>("RemoveExtraFromOrder", new { OrderID = orderID, ExtraID = extraID }, commandType: CommandType.StoredProcedure);
+        }
         public async Task<IEnumerable<Order>> CreateNewOrder()
         {
             IEnumerable<Order> order = (await connection.QueryAsync<Order>("CreateNewOrder", commandType: CommandType.StoredProcedure));
@@ -48,6 +69,10 @@ namespace DB_Beställning
         public async Task AddExtraToOrder(int orderID, int extraID)
         {
             await connection.QueryAsync<Extra>("sp_OrderExtra", new { OrderID = orderID, ExtraID = extraID }, commandType: CommandType.StoredProcedure);
+        }
+        public async Task AddOrderToReceipt(int totalprice, DateTime date)
+        {
+            await connection.QueryAsync<Order>("AddOrderToReceipt", new { TotalPrice = totalprice, Date = date }, commandType: CommandType.StoredProcedure);
         }
         public async Task<Pizza> GetPizza(int id)
         {
