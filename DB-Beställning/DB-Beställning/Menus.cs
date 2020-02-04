@@ -11,13 +11,13 @@ namespace DB_Beställning
     {
         bool correctKey { get; set; }
         char key;
-        public int userChoice;
+        
         public static int orderID { get; set; }
-        public OrderRepository repo;
+        //public OrderRepository repo;
         //public FoodOrder foodOrder;
         public Menus()
         {
-            repo = new OrderRepository();
+            FoodOrder.repo = new OrderRepository();
             //foodOrder = new FoodOrder();
             orderID = 44;
         }

@@ -11,10 +11,11 @@ namespace DB_Beställning
     {
         public  int totalPrice;
         private char key;
-        public  OrderRepository repo { get; set; }
+        public static OrderRepository repo { get; set; }
         private Dictionary<int, MenuItem> menuList { get; set; }
         private Order order { get; set; }
         public Menus menus;
+        public int userChoice; //{ get; set; }
         public FoodOrder()
         {
             //repo = new OrderRepository();
@@ -85,16 +86,16 @@ namespace DB_Beställning
             Console.Write($"\n9.Gå tillbaka");
             Console.Write("\n\nVal: ");
 
-            if (int.TryParse(Console.ReadLine(), out menus.userChoice))
+            if (int.TryParse(Console.ReadLine(), out userChoice))
             {
-                if (menus.userChoice == 9)
+                if (userChoice == 9)
                 {
                     await menus.PrintOrderMenu();
                 }
-                else if (listOfPizza.Exists(x => x.ID == menus.userChoice))
+                else if (listOfPizza.Exists(x => x.ID == userChoice))
                 {
-                    await repo.AddPizzaToOrder(Menus.orderID, menus.userChoice);
-                    foreach (Pizza pizza in await repo.ShowPizzaByID(menus.userChoice))
+                    await repo.AddPizzaToOrder(Menus.orderID, userChoice);
+                    foreach (Pizza pizza in await repo.ShowPizzaByID(userChoice))
                     {
                         Console.WriteLine($"{pizza.Name} tillagd.");
                     }
@@ -115,16 +116,16 @@ namespace DB_Beställning
             }
             Console.Write($"\n9. Gå tillbaka");
             Console.Write("\n\nVal: ");
-            if (int.TryParse(Console.ReadLine(), out menus.userChoice))
+            if (int.TryParse(Console.ReadLine(), out userChoice))
             {
-                if (menus.userChoice == 9)
+                if (userChoice == 9)
                 {
                     await menus.PrintOrderMenu();
                 }
-                else if(listOfPasta.Exists(x => x.ID == menus.userChoice))
+                else if(listOfPasta.Exists(x => x.ID == userChoice))
                 {
-                    await repo.AddPastaToOrder(Menus.orderID, menus.userChoice);
-                    foreach (Pasta pasta in await repo.ShowPastaByID(menus.userChoice))
+                    await repo.AddPastaToOrder(Menus.orderID, userChoice);
+                    foreach (Pasta pasta in await repo.ShowPastaByID(userChoice))
                     {
                         Console.WriteLine($"{pasta.Name} tillagd.");
                     }
@@ -145,15 +146,15 @@ namespace DB_Beställning
             }
             Console.Write($"\n9. Gå tillbaka");
             Console.Write("\n\nVal: ");
-            int.TryParse(Console.ReadLine(), out menus.userChoice);
-            if (menus.userChoice == 9)
+            int.TryParse(Console.ReadLine(), out userChoice);
+            if (userChoice == 9)
             {
                 await menus.PrintOrderMenu();
             }
-            else if (listOfSallads.Exists(x => x.ID == menus.userChoice))
+            else if (listOfSallads.Exists(x => x.ID == userChoice))
             {
-                await repo.AddSalladToOrder(Menus.orderID, menus.userChoice);
-                foreach (Sallad sallad in await repo.ShowSalladByID(menus.userChoice))
+                await repo.AddSalladToOrder(Menus.orderID, userChoice);
+                foreach (Sallad sallad in await repo.ShowSalladByID(userChoice))
                 {
                     Console.WriteLine($"{sallad.Name} tillagd.");
                 }
@@ -173,15 +174,15 @@ namespace DB_Beställning
             }
             Console.Write($"\n9. Gå tillbaka");
             Console.Write("\n\nVal: ");
-            int.TryParse(Console.ReadLine(), out menus.userChoice);
-            if (menus.userChoice == 9)
+            int.TryParse(Console.ReadLine(), out userChoice);
+            if (userChoice == 9)
             {
                 await menus.PrintOrderMenu();
             }
-            else if (listOfDrinks.Exists(x => x.ID == menus.userChoice))
+            else if (listOfDrinks.Exists(x => x.ID == userChoice))
             {
-                await repo.AddDrinkToOrder(Menus.orderID, menus.userChoice);
-                foreach (Drink drink in await repo.ShowDrinkByID(menus.userChoice))
+                await repo.AddDrinkToOrder(Menus.orderID, userChoice);
+                foreach (Drink drink in await repo.ShowDrinkByID(userChoice))
                 {
                     Console.WriteLine($"{drink.Name} tillagd.");
                 }
@@ -201,15 +202,15 @@ namespace DB_Beställning
             }
             Console.Write($"\n9. Gå tillbaka");
             Console.Write("\n\nVal: ");
-            int.TryParse(Console.ReadLine(), out menus.userChoice);
-            if (menus.userChoice == 9)
+            int.TryParse(Console.ReadLine(), out userChoice);
+            if (userChoice == 9)
             {
                 await menus.PrintOrderMenu();
             }
-            else if (listOfExtras.Exists(x => x.ID == menus.userChoice))
+            else if (listOfExtras.Exists(x => x.ID == userChoice))
             {
-                await repo.AddExtraToOrder(Menus.orderID, menus.userChoice);
-                foreach (Extra extra in await repo.ShowExtraByID(menus.userChoice))
+                await repo.AddExtraToOrder(Menus.orderID, userChoice);
+                foreach (Extra extra in await repo.ShowExtraByID(userChoice))
                 {
                     Console.WriteLine($"{extra.Name} tillagd.");
                 }
