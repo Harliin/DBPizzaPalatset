@@ -10,7 +10,8 @@ namespace DB_Admin
     public class PastaMenu//Pasta menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public static async Task PastaAsync()//Hanterar valen i pasta menyn
+        public FoodMenu FoodMenu;
+        public async Task PastaAsync()//Hanterar valen i pasta menyn
         {
             Console.Clear();
             Console.WriteLine("\t*Pasta Meny*\n\n[1]Lägg till Pasta\n[2]Ta bort Pasta\n[3]Visa Pastor\n\n[5]Tillbaka");
@@ -51,7 +52,7 @@ namespace DB_Admin
             }
         }
 
-        private static async Task CreatePasta()//Metod för att lägga till pasta i DB
+        private async Task CreatePasta()//Metod för att lägga till pasta i DB
         {
             Console.Write("Namn: ");
             string pizzaName = Console.ReadLine();
@@ -64,7 +65,7 @@ namespace DB_Admin
             await PastaAsync();
         }
 
-        private static async Task DeletePasta()//Metod för att ta bort en pasta från DB
+        private async Task DeletePasta()//Metod för att ta bort en pasta från DB
         {
             var pastas = await repo.ShowPastasAsync();
             List<Pasta> listOfPastas = pastas.ToList();

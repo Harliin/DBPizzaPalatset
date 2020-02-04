@@ -10,7 +10,8 @@ namespace DB_Admin
     public class PizzaMenu//Pizza menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public static async Task PizzaAsync()//Hanterar menyval för Pizzamenyn
+        public FoodMenu FoodMenu;
+        public async Task PizzaAsync()//Hanterar menyval för Pizzamenyn
         {
             
             Console.Clear();
@@ -67,7 +68,7 @@ namespace DB_Admin
             }
         }
 
-        private static async Task CreatePizza()//Metod för att lägga till pizza i DB
+        private async Task CreatePizza()//Metod för att lägga till pizza i DB
         {
             
             Console.Write("Namn: ");
@@ -102,7 +103,7 @@ namespace DB_Admin
 
         }
 
-        private static async Task DeletePizza()//Tar bort Pizza från DB
+        private async Task DeletePizza()//Tar bort Pizza från DB
         {
             var pizzas = await repo.ShowPizzasAsync();
             List<Pizza> listOfPizzas = pizzas.ToList();
@@ -131,7 +132,7 @@ namespace DB_Admin
             Console.ReadKey();
             await PizzaAsync();
         }
-        private static async Task UpdateIngredientsOnPizza()//Updaterar ingredienser på en pizza
+        private async Task UpdateIngredientsOnPizza()//Updaterar ingredienser på en pizza
         {
             Console.Clear();
             var repo = new AdminRepository();

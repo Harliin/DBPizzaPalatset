@@ -10,7 +10,8 @@ namespace DB_Admin
     public class SalladMenu//Sallad menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public static async Task SalladAsync()//Huvud meny för sallad
+        public FoodMenu FoodMenu;
+        public async Task SalladAsync()//Huvud meny för sallad
         {
             
             Console.Clear();
@@ -48,7 +49,7 @@ namespace DB_Admin
             }
         }
 
-        private static async Task CreateSallad()//Metod för att lägga till sallad i DB
+        private async Task CreateSallad()//Metod för att lägga till sallad i DB
         {
             Console.Write("Namn: ");
             string FoodName = Console.ReadLine();
@@ -61,7 +62,7 @@ namespace DB_Admin
             await SalladAsync();
         }
 
-        private static async Task DeleteSallad()//Metod för att ta bort sallad i DB
+        private async Task DeleteSallad()//Metod för att ta bort sallad i DB
         {
             var sallads = await repo.ShowSalladsAsync();
             List<Sallad> listOfSallads = sallads.ToList();

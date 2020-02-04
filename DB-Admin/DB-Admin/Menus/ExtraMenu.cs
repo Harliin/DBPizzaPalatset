@@ -7,30 +7,31 @@ using System.Linq;
 
 namespace DB_Admin
 {
-    public class DrinkMenu//Drink menyn hanterar menyn och dess funktioner
+    public class ExtraMenu//Extra menyn hanterar menyn och dess funktioner
     {
         public static AdminRepository repo = new AdminRepository();
-        public static async Task DrinksAsync()//Hanterar menyn för Drinks
+        public FoodMenu FoodMenu;
+        public async Task ExtrasAsync()//Meny för att hantera extra val
         {
             Console.Clear();
-            Console.WriteLine("\t*Dryckes Meny*\n\n[1]Lägg till Dryck\n[2]Ta bort Dryck\n[3]Visa Drycker\n\n[5]Tillbaka");
+            Console.WriteLine("\t*Tillbehörs Meny*\n\n[1]Lägg till Tillbehör\n[2]Ta bort Tillbehör\n[3]Visa Tillbehör\n\n[5]Tillbaka");
             char adminChoice = Console.ReadKey(true).KeyChar;
             Console.Clear();
             switch (adminChoice)
             {
                 case '1':
-                    await CreateDrink();
+                    await CreateExtra();
                     break;
                 case '2':
-                    await DeleteDrink();
+                    await DeleteExtra();
                     break;
                 case '3':
-                    foreach (var drink in await repo.ShowDrinksAsync())
+                    foreach (var extra in await repo.ShowExtraAsync())
                     {
-                        Console.WriteLine($"Namn:{drink.Name}  Pris:{drink.Price}");
+                        Console.WriteLine($"Namn:{extra.Name}  Pris:{extra.Price}");
                     }
                     Console.ReadKey();
-                    await DrinksAsync();
+                    await ExtrasAsync();
                     break;
                 case '5':
                 {
@@ -40,43 +41,43 @@ namespace DB_Admin
                 default:
                     Console.WriteLine("Fel inmatning!");
                     Console.ReadKey(true);
-                    await DrinksAsync();
+                    await ExtrasAsync();
                     break;
             }
         }
-        private static async Task CreateDrink()//Lägger till en dricka i DB
+        private async Task CreateExtra()//Lägger till tillbehör i DB
         {
             Console.Write("Namn: ");
             string FoodName = Console.ReadLine();
             Console.Write("Pris: ");
             int FoodPrice = Convert.ToInt32(Console.ReadLine());
-            await repo.AddDrinkAsync(FoodName, FoodPrice);
+            await repo.AddExtraAsync(FoodName, FoodPrice);
 
-            Console.WriteLine("Dricka tillagd!");
+            Console.WriteLine("Tillbehör tillagd!");
             Console.ReadKey();
-            await DrinksAsync();
+            await ExtrasAsync();
         }
 
-        private static async Task DeleteDrink()//Metod för att ta bort Drickor från databasen
+        private async Task DeleteExtra()//Tar bort ett tillbehör från DB
         {
-            var drinks = await repo.ShowDrinksAsync();
-            List<Drink> listOfDrinks = drinks.ToList();
-            foreach (var drink in listOfDrinks)
+            var extras = await repo.ShowExtraAsync();
+            List<Extra> listOfExtras = extras.ToList();
+            foreach (var extra in listOfExtras)
             {
-                Console.WriteLine($"ID:{drink.ID}  Dricka:{drink.Name}");
+                Console.WriteLine($"ID:{extra.ID}  Tillbehör:{extra.Name}");
             }
 
-            Console.Write("Ange drickans ID för att ta bort: ");
+            Console.Write("Ange tillbehörets ID för att ta bort: ");
             if (int.TryParse(Console.ReadLine(), out int userChoice))
             {
-                if (listOfDrinks.Exists(x => x.ID == userChoice))//Kollar om id finns
+                if (listOfExtras.Exists(x => x.ID == userChoice))//Kollar om id finns
                 {
                     await repo.DeleteDrinkAsync(userChoice);
-                    Console.WriteLine("Drycken är borttagen");
+                    Console.WriteLine("Tillbehöret togs bort!");
                 }
                 else
                 {
-                    Console.WriteLine("Finns ingen dryck med det IDet!");
+                    Console.WriteLine("Finns ingen tillbehör med det IDet!");
                 }
             }
             else
@@ -84,7 +85,7 @@ namespace DB_Admin
                 Console.WriteLine("Fel inmatning!");
             }
             Console.ReadKey();
-            await DrinksAsync();
+            await ExtrasAsync();
         }
     }
 }

@@ -7,7 +7,13 @@ namespace DB_Admin
 {
     public class FoodMenu//Hantera styrningen mellan alla mat menyer
     {
-        public static async Task ManageMenuAsync()
+        public MainMenu MainMenu;
+        public PizzaMenu PizzaMenu;
+        public PastaMenu PastaMenu;
+        public SalladMenu SalladMenu;
+        public DrinkMenu DrinkMenu;
+        public ExtraMenu ExtraMenu;
+        public async Task ManageMenuAsync()
         {
             Console.Clear();
             Console.WriteLine("\t*Matmeny*\n\n[1]Hantera Pizzor\n[2]Hantera Pastarätter\n[3]Hantera Sallader\n[4]Hantera Drycker\n[5]Hantera Tillbehör\n\n[6]Tillbaka till Huvudmeny");
@@ -30,7 +36,7 @@ namespace DB_Admin
                     await ExtraMenu.ExtrasAsync();
                     break;
                 case '6':
-                    await Program.AdminStartMenuAsync();
+                    await MainMenu.AdminStartMenuAsync();
                     break;
 
                 default:
