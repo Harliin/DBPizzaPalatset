@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace DB_Beställning
 {
-    class Menus
+    public class Menus
     {
         bool correctKey { get; set; }
         char key;

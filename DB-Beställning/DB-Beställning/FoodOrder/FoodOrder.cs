@@ -4,7 +4,7 @@ using Food;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Menus;
+//using DB_Beställning.Menus;
 
 namespace DB_Beställning
 {
@@ -15,6 +15,7 @@ namespace DB_Beställning
         public  OrderRepository repo { get; set; }
         private Dictionary<int, MenuItem> menuList { get; set; }
         private Order order { get; set; }
+        public Menus Menus;
         public FoodOrder()
         {
             repo = new OrderRepository();
@@ -25,15 +26,14 @@ namespace DB_Beställning
             order.pasta.ForEach(pasta => { menuList.Add(index, new MenuItem { id = pasta.ID, type = "pasta" }); index++; });
             order.sallad.ForEach(sallad => { menuList.Add(index, new MenuItem { id = sallad.ID, type = "sallad" }); index++; });
             order.extra.ForEach(extra => { menuList.Add(index, new MenuItem { id = extra.ID, type = "extra" }); index++; });
-            order.drink.ForEach(extra => { menuList.Add(index, new MenuItem { id = drink.ID, type = "drink" }); index++; });
-
+            order.drink.ForEach(drink => { menuList.Add(index, new MenuItem { id = drink.ID, type = "drink" }); index++; });
         }
         // Metod som printar ut innehållet i nuvarande order
         public void ShowOrder()
         {
             totalPrice = 0;
             Console.Clear();
-            
+
             Console.WriteLine($"Ordernummer | {Menus.orderID}\n");
             foreach (Pizza pizzaItem in order.pizza)
             {
@@ -73,7 +73,7 @@ namespace DB_Beställning
             {
                 Console.WriteLine("Ingen order lagd ännu");
                 Thread.Sleep(600);
-                await Menus.PrintOrderMenu();
+                await Menus.PrintMenu();
             }
             key = Console.ReadKey(true).KeyChar;
             switch (key)
@@ -85,7 +85,7 @@ namespace DB_Beställning
                     await Menus.PrintMenu();
                     break;
                 case '2':
-                    await PrintOrderMenu();
+                    await Menus.PrintOrderMenu();
                     break;
                 default:
                     break;
