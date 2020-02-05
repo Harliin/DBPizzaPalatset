@@ -18,17 +18,10 @@ namespace DB_Beställning
         public int userChoice;
         public FoodOrder()
         {
-
             menuList = new Dictionary<int, MenuItem>();
             menus = new Menus();
-            //int index = 1;
-            //order.pizza.ForEach(pizza => { menuList.Add(index, new MenuItem { id = pizza.ID, type = "pizza" }); index++; });
-            //order.pasta.ForEach(pasta => { menuList.Add(index, new MenuItem { id = pasta.ID, type = "pasta" }); index++; });
-            //order.sallad.ForEach(sallad => { menuList.Add(index, new MenuItem { id = sallad.ID, type = "sallad" }); index++; });
-            //order.extra.ForEach(extra => { menuList.Add(index, new MenuItem { id = extra.ID, type = "extra" }); index++; });
-            //order.drink.ForEach(drink => { menuList.Add(index, new MenuItem { id = drink.ID, type = "drink" }); index++; });
         }
-
+        // Skapar ett Dictionary som innehåller hela ordern, varje order får ett specifikt index
         public Dictionary<int, MenuItem> Diction()
         {
             int index = 1;
@@ -40,42 +33,51 @@ namespace DB_Beställning
             return menuList;
         }
         // Metod som printar ut innehållet i nuvarande order
-        public void ShowOrder()
+        public async Task ShowOrder()
         {
-            //menus = new Menus();
             order = repo.ShowOrderByID(Menus.orderID).Result.First();
             totalPrice = 0;
             Console.Clear();
-            Console.WriteLine($"Ordernummer | {Menus.orderID}\n");
-            foreach (Pizza pizzaItem in order.pizza)
+            if (order.pizza.Count > 0 || order.sallad.Count > 0 || order.pasta.Count > 0
+               || order.drink.Count > 0 || order.extra.Count > 0)
             {
-                Console.Write($"{pizzaItem.Name} {pizzaItem.Price}kr\n");
-                totalPrice += pizzaItem.Price;
+                Console.WriteLine($"Ordernummer | {Menus.orderID}\n");
+                foreach (Pizza pizzaItem in order.pizza)
+                {
+                    Console.Write($"{pizzaItem.Name} {pizzaItem.Price}kr\n");
+                    totalPrice += pizzaItem.Price;
+                }
+                foreach (Pasta pastaItem in order.pasta)
+                {
+                    Console.Write($"{pastaItem.Name} {pastaItem.Price}kr\n");
+                    totalPrice += pastaItem.Price;
+                }
+                foreach (Sallad salladItem in order.sallad)
+                {
+                    Console.Write($"{salladItem.Name} {salladItem.Price}kr\n");
+                    totalPrice += salladItem.Price;
+                }
+                foreach (Drink drinkItem in order.drink)
+                {
+                    Console.Write($"{drinkItem.Name} {drinkItem.Price}kr\n");
+                    totalPrice += drinkItem.Price;
+                }
+                foreach (Extra extraItem in order.extra)
+                {
+                    Console.Write($"{extraItem.Name} {extraItem.Price}kr\n");
+                    totalPrice += extraItem.Price;
+                }
             }
-            foreach (Pasta pastaItem in order.pasta)
+            else
             {
-                Console.Write($"{pastaItem.Name} {pastaItem.Price}kr\n");
-                totalPrice += pastaItem.Price;
-            }
-            foreach (Sallad salladItem in order.sallad)
-            {
-                Console.Write($"{salladItem.Name} {salladItem.Price}kr\n");
-                totalPrice += salladItem.Price;
-            }
-            foreach (Drink drinkItem in order.drink)
-            {
-                Console.Write($"{drinkItem.Name} {drinkItem.Price}kr\n");
-                totalPrice += drinkItem.Price;
-            }
-            foreach (Extra extraItem in order.extra)
-            {
-                Console.Write($"{extraItem.Name} {extraItem.Price}kr\n");
-                totalPrice += extraItem.Price;
+                Console.WriteLine("Ingen order lagd ännu");
+                Thread.Sleep(600);
+                await menus.PrintOrderMenu();
             }
         }
+        // Metod som skriver ut Pizzas
         public async Task ShowPizzas()
         {
-           // Menus menus = new Menus();
             var pizzas = await repo.ShowPizzasAsync();
             List<Pizza> listOfPizza = pizzas.ToList();
             Console.Clear();
@@ -102,11 +104,23 @@ namespace DB_Beställning
                     Thread.Sleep(600);
                     await menus.PrintOrderMenu();
                 }
+                else
+                {
+                    Console.WriteLine("Ogiltigt val.");
+                    Thread.Sleep(600);
+                    await ShowPizzas();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Felaktig inmatning");
+                Thread.Sleep(600);
+                await ShowPizzas();
             }
         }
+        // Metod som skriver ut Pastas
         public async Task ShowPastas()
         {
-           // menus = new Menus();
             var pastas = await repo.ShowPastasAsync();
             List<Pasta> listOfPasta = pastas.ToList();
             Console.Clear();
@@ -132,11 +146,23 @@ namespace DB_Beställning
                     Thread.Sleep(600);
                     await menus.PrintOrderMenu();
                 }
+                else
+                {
+                    Console.WriteLine("Ogiltigt val.");
+                    Thread.Sleep(600);
+                    await ShowPastas();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Felaktig inmatning");
+                Thread.Sleep(600);
+                await ShowPastas();
             }
         }
+        // Metod som skriver ut Sallads
         public async Task ShowSallads()
         {
-            //menus = new Menus();
             var sallads = await repo.ShowSalladsAsync();
             List<Sallad> listOfSallads = sallads.ToList();
             Console.Clear();
@@ -146,25 +172,39 @@ namespace DB_Beställning
             }
             Console.Write($"\n9. Gå tillbaka");
             Console.Write("\n\nVal: ");
-            int.TryParse(Console.ReadLine(), out userChoice);
-            if (userChoice == 9)
+            if (int.TryParse(Console.ReadLine(), out userChoice))
             {
-                await menus.PrintOrderMenu();
-            }
-            else if (listOfSallads.Exists(x => x.ID == userChoice))
-            {
-                await repo.AddSalladToOrder(Menus.orderID, userChoice);
-                foreach (Sallad sallad in await repo.ShowSalladByID(userChoice))
+                if (userChoice == 9)
                 {
-                    Console.WriteLine($"{sallad.Name} tillagd.");
+                    await menus.PrintOrderMenu();
                 }
+                else if (listOfSallads.Exists(x => x.ID == userChoice))
+                {
+                    await repo.AddSalladToOrder(Menus.orderID, userChoice);
+                    foreach (Sallad sallad in await repo.ShowSalladByID(userChoice))
+                    {
+                        Console.WriteLine($"{sallad.Name} tillagd.");
+                    }
+                    Thread.Sleep(600);
+                    await menus.PrintOrderMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt val.");
+                    Thread.Sleep(600);
+                    await ShowSallads();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Felaktig inmatning");
                 Thread.Sleep(600);
-                await menus.PrintOrderMenu();
+                await ShowSallads();
             }
         }
+        // Metod som skriver ut Drinks
         public async Task ShowDrinks()
         {
-           // menus = new Menus();
             var drinks = await repo.ShowDrinksAsync();
             List<Drink> listOfDrinks = drinks.ToList();
             Console.Clear();
@@ -174,25 +214,39 @@ namespace DB_Beställning
             }
             Console.Write($"\n9. Gå tillbaka");
             Console.Write("\n\nVal: ");
-            int.TryParse(Console.ReadLine(), out userChoice);
-            if (userChoice == 9)
+            if (int.TryParse(Console.ReadLine(), out userChoice))
             {
-                await menus.PrintOrderMenu();
-            }
-            else if (listOfDrinks.Exists(x => x.ID == userChoice))
-            {
-                await repo.AddDrinkToOrder(Menus.orderID, userChoice);
-                foreach (Drink drink in await repo.ShowDrinkByID(userChoice))
+                if (userChoice == 9)
                 {
-                    Console.WriteLine($"{drink.Name} tillagd.");
+                    await menus.PrintOrderMenu();
                 }
+                else if (listOfDrinks.Exists(x => x.ID == userChoice))
+                {
+                    await repo.AddDrinkToOrder(Menus.orderID, userChoice);
+                    foreach (Drink drink in await repo.ShowDrinkByID(userChoice))
+                    {
+                        Console.WriteLine($"{drink.Name} tillagd.");
+                    }
+                    Thread.Sleep(600);
+                    await menus.PrintOrderMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Ogiltigt val.");
+                    Thread.Sleep(600);
+                    await ShowDrinks();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Felaktig inmatning");
                 Thread.Sleep(600);
-                await menus.PrintOrderMenu();
+                await ShowDrinks();
             }
         }
+        // Metod som skriver ut Extras
         public async Task ShowExtras()
         {
-           // menus = new Menus();
             var extras = await repo.ShowExtraAsync();
             List<Extra> listOfExtras = extras.ToList();
             Console.Clear();
@@ -202,7 +256,8 @@ namespace DB_Beställning
             }
             Console.Write($"\n9. Gå tillbaka");
             Console.Write("\n\nVal: ");
-            int.TryParse(Console.ReadLine(), out userChoice);
+            if(int.TryParse(Console.ReadLine(), out userChoice))
+            { 
             if (userChoice == 9)
             {
                 await menus.PrintOrderMenu();
@@ -217,7 +272,21 @@ namespace DB_Beställning
                 Thread.Sleep(600);
                 await menus.PrintOrderMenu();
             }
+                else
+                {
+                    Console.WriteLine("Ogiltigt val.");
+                    Thread.Sleep(600);
+                    await ShowExtras();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Felaktig inmatning");
+                Thread.Sleep(600);
+                await ShowExtras();
+            }
         }
+        // Metod som kollar om det finns varor i beställningen, och om det finns skickas man vidare till bekräftning
         public async Task FinishOrder()
         {
             if (order.pizza.Count > 0 || order.sallad.Count > 0 || order.pasta.Count > 0
@@ -228,7 +297,7 @@ namespace DB_Beställning
             }
             else
             {
-                Console.WriteLine("Ingen order lagd ännu");
+                Console.WriteLine("\nIngen order lagd ännu");
                 Thread.Sleep(600);
                 await menus.PrintMenu();
             }
@@ -236,10 +305,11 @@ namespace DB_Beställning
             switch (key)
             {
                 case '1':
+                    Console.Clear();
                     await repo.UpdateOrderStatus(Menus.orderID);
                     await AddOrderToReceipt(totalPrice, DateTime.Now);
-                    Console.WriteLine("Tack för din beställning\nVälkommen åter!");
-                    Thread.Sleep(600);
+                    Console.WriteLine("\nTack för din beställning\nVälkommen åter!");
+                    Thread.Sleep(900);
                     await menus.PrintMenu();
                     break;
                 case '2':
@@ -249,6 +319,7 @@ namespace DB_Beställning
                     break;
             }
         }
+        // Metod som tar bort valt objekt från order
         public async Task RemoveOrder(MenuItem orderToRemove)
         {
             if(orderToRemove.type=="pizza")
@@ -272,6 +343,7 @@ namespace DB_Beställning
                 await repo.RemoveExtraFromOrder(Menus.orderID, orderToRemove.id);
             }
         }
+        // Metod som lägger till order till kvitto
         public async Task AddOrderToReceipt(int totalprice, DateTime date)
         {
             await repo.AddOrderToReceipt(totalprice, date);

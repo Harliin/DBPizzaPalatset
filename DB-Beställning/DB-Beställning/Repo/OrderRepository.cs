@@ -127,7 +127,6 @@ namespace DB_Beställning
             }
             return orders;
         }
-    
         // Slut Beställning
 
         // Interface
@@ -157,19 +156,16 @@ namespace DB_Beställning
             IEnumerable<Ingredient> ingredients = await connection.QueryAsync<Ingredient>("ShowIngredients", commandType: CommandType.StoredProcedure);
             return ingredients;
         }
-
         public async Task<IEnumerable<Pasta>> ShowPastasAsync()
         {
             IEnumerable<Pasta> pastas = await connection.QueryAsync<Pasta>("ShowPastas", commandType: CommandType.StoredProcedure);
             return pastas;
         }
-
         public async Task<IEnumerable<Sallad>> ShowSalladsAsync()
         {
             IEnumerable<Sallad> sallads = await connection.QueryAsync<Sallad>("ShowSallads", commandType: CommandType.StoredProcedure);
             return sallads;
         }
-
         public async Task<IEnumerable<Drink>> ShowDrinksAsync()
         {
             IEnumerable<Drink> drinks = await connection.QueryAsync<Drink>("ShowDrinks", commandType: CommandType.StoredProcedure);
@@ -180,6 +176,5 @@ namespace DB_Beställning
             IEnumerable<Extra> drinks = await connection.QueryAsync<Extra>("ShowExtras", commandType: CommandType.StoredProcedure);
             return drinks;
         }
-    
     }
 }
