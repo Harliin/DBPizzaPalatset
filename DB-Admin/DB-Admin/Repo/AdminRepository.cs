@@ -10,7 +10,7 @@ using Food;
 
 namespace DB_Admin
 {
-    public class AdminRepository : IRepository
+    public class AdminRepository : IRepository, IDisposable
     {
         private string ConnectionString { get; }
         private SqlConnection connection { get; }
@@ -174,6 +174,11 @@ namespace DB_Admin
                     await connection.QueryAsync<Pizza>("INSERT INTO PizzaIngredients(PizzaID, IngredientsID) VALUES (@PizzaID, @IngredientID)", new { PizzaID = pizzaID, IngredientID = ingredient });
                 }
             }
+
+        public void Dispose()
+        {
+            connection.Dispose();
+        }
 
         //Slut Interface specifik
     }
