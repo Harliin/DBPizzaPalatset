@@ -289,6 +289,7 @@ namespace DB_Beställning
         // Metod som kollar om det finns varor i beställningen, och om det finns skickas man vidare till bekräftning
         public async Task FinishOrder()
         {
+            await ShowOrder();
             if (order.pizza.Count > 0 || order.sallad.Count > 0 || order.pasta.Count > 0
                 || order.drink.Count > 0 || order.extra.Count > 0)
             {
@@ -316,6 +317,9 @@ namespace DB_Beställning
                     await menus.PrintOrderMenu();
                     break;
                 default:
+                    Console.WriteLine("Ogiltigt val!");
+                    Console.ReadKey(true);
+                    await FinishOrder();
                     break;
             }
         }

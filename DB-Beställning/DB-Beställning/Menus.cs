@@ -133,7 +133,6 @@ namespace DB_Beställning
                     }
                 case '7':
                     {
-                        await foodOrder.ShowOrder();
                         await foodOrder.FinishOrder();
                         break;
                     }
