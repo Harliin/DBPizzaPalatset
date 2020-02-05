@@ -15,10 +15,11 @@ namespace DB_Admin
     {
         private string ConnectionString { get; }
         private IDbConnection connection { get; }
+        public static int Backend { get; set; }
         public AdminRepository()
         {
-            int backend = 2;
-            if (backend == 1)//Backend == MSSQL
+            
+            if (Backend == 1)//Backend == MSSQL
             {
                 ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
                 connection = new SqlConnection(ConnectionString);

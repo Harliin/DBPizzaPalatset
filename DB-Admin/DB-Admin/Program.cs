@@ -9,9 +9,9 @@ namespace DB_Admin
     public class Program
     {
         public static AdminRepository repo = new AdminRepository();
-        
         static public async Task Main()
         {
+            await ChooseBackend();
             do
             {
                 if (await Login())
@@ -26,6 +26,37 @@ namespace DB_Admin
                     Console.Clear();
                 }
             } while (true);
+        }
+        private static async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL
+        {
+            Console.Clear();
+            Console.WriteLine("[1]MSSQL\n[2]PostgreSQL");
+            Console.Write("Välj Backend: ");
+            if (int.TryParse(Console.ReadLine(), out int backend))
+            {
+                if (backend == 1)//MSSQL
+                {
+                    AdminRepository.Backend = backend;
+                    return;
+                }
+                else if (backend == 2)//PostgreSQL
+                {
+                    AdminRepository.Backend = backend;
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Ange en korrekt siffra!");
+                    Console.ReadKey(true);
+                    await ChooseBackend();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Fel inmatat!");
+                Console.ReadKey(true);
+                await ChooseBackend();
+            }
         }
 
         private static async Task<bool> Login()//Inloggnings metod  Användarnamn: VD  Lösen: 123    eller använd: Tony    lösen:admin123
