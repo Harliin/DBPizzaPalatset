@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Food;
 using System;
+using Npgsql;
 
 
 namespace DB_Beställning
@@ -13,12 +14,24 @@ namespace DB_Beställning
     public class OrderRepository : IRepository
     {
         private string ConnectionString { get; }
-        private SqlConnection connection { get; }
+        private IDbConnection connection { get; }
+        public static int Backend { get; set; }
         public OrderRepository()
         {
-            ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
-            connection = new SqlConnection(ConnectionString);
-            connection.Open();
+
+            if (Backend == 1)//Backend == MSSQL
+            {
+                ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
+                connection = new SqlConnection(ConnectionString);
+                connection.Open();
+            }
+            else//Backend == PostgreSQL
+            {
+                ConnectionString = "Host=weboholics-demo.dyndns-ip.com;Port=5433;Username=grupp1;Password=grupp1;Database=grupp1";
+                connection = new NpgsqlConnection(ConnectionString);
+                connection.Open();
+            }
+
         }
         // Beställnings Repositorys
         public async Task RemovePizzaFromOrder(int orderID, int pizzaID)
@@ -91,27 +104,27 @@ namespace DB_Beställning
         }
         public async Task<IEnumerable<Pizza>> ShowPizzaByID(int pizzaID)
         {
-            IEnumerable<Pizza> pizza = await connection.QueryAsync<Pizza>("\"ShowPizzaByID\"", new { id = pizzaID }, commandType: CommandType.StoredProcedure);
+            IEnumerable<Pizza> pizza = await connection.QueryAsync<Pizza>("\"ShowPizzaByID\"", new { inid = pizzaID }, commandType: CommandType.StoredProcedure);
             return pizza;
         }
         public async Task<IEnumerable<Pasta>> ShowPastaByID(int pastaID)
         {
-            IEnumerable<Pasta> pasta = await connection.QueryAsync<Pasta>("\"ShowPastaByID\"", new { id = pastaID }, commandType: CommandType.StoredProcedure);
+            IEnumerable<Pasta> pasta = await connection.QueryAsync<Pasta>("\"ShowPastaByID\"", new { inid = pastaID }, commandType: CommandType.StoredProcedure);
             return pasta;
         }
         public async Task<IEnumerable<Sallad>> ShowSalladByID(int salladID)
         {
-            IEnumerable<Sallad> sallad = await connection.QueryAsync<Sallad>("\"ShowSalladByID\"", new { id = salladID }, commandType: CommandType.StoredProcedure);
+            IEnumerable<Sallad> sallad = await connection.QueryAsync<Sallad>("\"ShowSalladByID\"", new { inid = salladID }, commandType: CommandType.StoredProcedure);
             return sallad;
         }
         public async Task<IEnumerable<Drink>> ShowDrinkByID(int drinkID)
         {
-            IEnumerable<Drink> drink = await connection.QueryAsync<Drink>("\"ShowDrinkByID\"", new { id = drinkID }, commandType: CommandType.StoredProcedure);
+            IEnumerable<Drink> drink = await connection.QueryAsync<Drink>("\"ShowDrinkByID\"", new { inid = drinkID }, commandType: CommandType.StoredProcedure);
             return drink;
         }
         public async Task<IEnumerable<Extra>> ShowExtraByID(int extraID)
         {
-            IEnumerable<Extra> extra = await connection.QueryAsync<Extra>("\"ShowExtraByID\"", new { id = extraID }, commandType: CommandType.StoredProcedure);
+            IEnumerable<Extra> extra = await connection.QueryAsync<Extra>("\"ShowExtraByID\"", new { inid = extraID }, commandType: CommandType.StoredProcedure);
             return extra;
         }
         public async Task<IEnumerable<Order>> ShowOrderByID(int orderID)

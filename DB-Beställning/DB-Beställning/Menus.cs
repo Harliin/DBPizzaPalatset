@@ -12,13 +12,51 @@ namespace DB_Beställning
         bool correctKey { get; set; }
         char key;
         public static int orderID { get; set; }
-        public Menus()
-        {
-            FoodOrder.repo = new OrderRepository();
-        }
+
+        //public Menus()
+        //{
+        //    FoodOrder.repo = new OrderRepository();
+        //}
         // Metod som skriver ut Välkomsmeny, skapar nytt ordernummer som används tills programemt stängs
+        public async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL
+        {
+            Console.Clear();
+            Console.WriteLine("************DATABSMENYVAL***************");
+            Console.WriteLine("[1]MSSQL\n[2]PostgreSQL");
+            Console.Write("Välj Backend: ");
+            if (int.TryParse(Console.ReadLine(), out int backend))
+            {
+                if (backend == 1)//MSSQL
+                {
+                    OrderRepository.Backend = backend;
+                    FoodOrder.repo = new OrderRepository();
+                    await PrintMenu();
+                    return;
+                }
+                else if (backend == 2)//PostgreSQL
+                {
+                    OrderRepository.Backend = backend;
+                    FoodOrder.repo = new OrderRepository();
+                    await PrintMenu();
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Ange en korrekt siffra!");
+                    Console.ReadKey(true);
+                    await ChooseBackend();
+                }
+            }
+            else
+            {
+                Console.WriteLine("Fel inmatat!");
+                Console.ReadKey(true);
+                await ChooseBackend();
+            }
+        }
         public async Task PrintMenu()
         {
+            
             while (correctKey == false)
             {
                 FoodOrder foodOrder = new FoodOrder();
@@ -138,7 +176,7 @@ namespace DB_Beställning
                     }
                 case '9':
                     {
-                        await PrintMenu();
+                        await ChooseBackend();
                         break;
                     }
                 default:

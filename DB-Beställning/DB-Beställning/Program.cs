@@ -15,7 +15,7 @@ namespace DB_Beställning
         static async Task Main(string[] args)
         {
             Menus meny = new Menus();
-            await meny.PrintMenu();
+            await meny.ChooseBackend();
         }
     }
 }
