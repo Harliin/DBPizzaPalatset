@@ -13,10 +13,6 @@ namespace DB_Beställning
         char key;
         public static int orderID { get; set; }
 
-        //public Menus()
-        //{
-        //    FoodOrder.repo = new OrderRepository();
-        //}
         public async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL
         {
             Console.Clear();
