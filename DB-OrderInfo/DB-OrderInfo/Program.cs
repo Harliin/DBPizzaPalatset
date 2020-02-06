@@ -12,9 +12,13 @@ namespace DB_OrderInfo
 
             do
             {
-                Console.WriteLine("Välkommen till PIZZERIA PALATSET !\n");
+                string pizzalogo = "\t|\tPIZZERIA PALATSET\t    |";
+                Console.WriteLine("\t ___________________________________");
+                Console.WriteLine("\t|                                   |");
+                Console.WriteLine(pizzalogo);
+                Console.WriteLine("\t|___________________________________|\n");
                 await Run();
-                Thread.Sleep(1500);
+                Thread.Sleep(1550);  // Sidan uppdateras varje 1,5 sekunder
                 Console.Clear();
             } while (true);
         }
@@ -22,6 +26,7 @@ namespace DB_OrderInfo
         {
             OrderInfoRepository repository = new OrderInfoRepository();
 
+            // Printar ut pågående och färdiga ordrar
             Console.WriteLine("Pågående ordrar:\n");
             foreach (Order ongoingOrder in await repository.OngoingOrder())
             {
