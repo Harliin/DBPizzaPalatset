@@ -7,6 +7,7 @@ namespace DB_Beställning
     {
         public int ID { get; set; }
         public eStatus Status { get; set; }
+        public int EmployeeID {get;set;}
         public enum eStatus { UnderBeställning = 1, Tillagning = 2, Klar = 3, Avhämtad = 4}
         public List<Pizza> pizza { get; set; }
         public List<Pasta> pasta { get; set; }

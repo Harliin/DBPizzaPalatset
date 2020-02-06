@@ -17,7 +17,6 @@ namespace DB_Beställning
         //{
         //    FoodOrder.repo = new OrderRepository();
         //}
-        // Metod som skriver ut Välkomsmeny, skapar nytt ordernummer som används tills programemt stängs
         public async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL
         {
             Console.Clear();
@@ -54,6 +53,7 @@ namespace DB_Beställning
                 await ChooseBackend();
             }
         }
+        // Metod som skriver ut Välkomsmeny, skapar nytt ordernummer som används tills programemt stängs
         public async Task PrintMenu()
         {
             
@@ -66,9 +66,9 @@ namespace DB_Beställning
                 key = Console.ReadKey(true).KeyChar;
                 if (key == 13)
                 {
-                    //IEnumerable<Order> order = await FoodOrder.repo.CreateNewOrder();
-                    //orderID = order.First().ID;
-                    orderID = 44; // Test ordernummer
+                    IEnumerable<Order> order = await FoodOrder.repo.CreateNewOrder();
+                    orderID = order.First().ID;
+                    //orderID = 44; // Test ordernummer
                     await PrintOrderMenu();
                     correctKey = true;
                 }
