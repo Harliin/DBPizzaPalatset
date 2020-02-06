@@ -25,6 +25,7 @@ namespace DB_Admin
                         Console.WriteLine($"Namn:{employee.Name}  Lösenord:{employee.Password} Typ:{employee.EmployeeType}");
                     }
                     Console.ReadKey();
+                    
                     await ManageEmployeesAsync();
                     break;
                 case '2':
@@ -65,7 +66,7 @@ namespace DB_Admin
             }
             else
             {
-                await repo.AddEmployee(eName, ePassword, employeeType);
+                await repo.AddEmployee(eName, ePassword, employeeType); 
                 Console.WriteLine("\nAnställd tillagd!");
             }
 
@@ -75,7 +76,7 @@ namespace DB_Admin
 
         private async Task DeleteEmployee()//Metod för att ta bort en anställd i DB
         {
-            var tempEmployee = await repo.ShowEmployees();
+            var tempEmployee = await repo.ShowEmployees(); 
             List<Employee> listOfEmployees = tempEmployee.ToList();
             foreach (var employee in listOfEmployees)
             {
@@ -87,7 +88,7 @@ namespace DB_Admin
             {
                 if (listOfEmployees.Exists(x => x.ID == userChoice))//Kollar om id finns
                 {
-                    await repo.DeleteEmployee(userChoice);
+                    await repo.DeleteEmployee(userChoice); 
                     Console.WriteLine("\nAnställd borttagen...");
                 }
                 else

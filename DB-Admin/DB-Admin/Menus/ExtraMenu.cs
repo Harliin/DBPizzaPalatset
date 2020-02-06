@@ -24,7 +24,7 @@ namespace DB_Admin
                 case '2':
                     await DeleteExtra();
                     break;
-                case '3':
+                case '3':  
                     foreach (var extra in await repo.ShowExtraAsync())
                     {
                         Console.WriteLine($"Namn:{extra.Name}  Pris:{extra.Price}");
@@ -51,6 +51,7 @@ namespace DB_Admin
             string FoodName = Console.ReadLine();
             Console.Write("Pris: ");
             int FoodPrice = Convert.ToInt32(Console.ReadLine());
+            
             await repo.AddExtraAsync(FoodName, FoodPrice);
 
             Console.WriteLine("Tillbehör tillagd!");
@@ -60,6 +61,7 @@ namespace DB_Admin
 
         private async Task DeleteExtra()//Tar bort ett tillbehör från DB
         {
+            
             var extras = await repo.ShowExtraAsync();
             List<Extra> listOfExtras = extras.ToList();
             foreach (var extra in listOfExtras)

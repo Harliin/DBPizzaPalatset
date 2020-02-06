@@ -8,7 +8,7 @@ namespace DB_Admin
 {
     public class Program
     {
-        public static AdminRepository repo = new AdminRepository();
+        public static AdminRepository repo;
         static public async Task Main()
         {
             await ChooseBackend();
@@ -25,6 +25,7 @@ namespace DB_Admin
                     Console.ReadLine();
                     Console.Clear();
                 }
+                
             } while (true);
         }
         private static async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL
@@ -37,11 +38,13 @@ namespace DB_Admin
                 if (backend == 1)//MSSQL
                 {
                     AdminRepository.Backend = backend;
+                    repo = new AdminRepository();
                     return;
                 }
                 else if (backend == 2)//PostgreSQL
                 {
                     AdminRepository.Backend = backend;
+                    repo = new AdminRepository();
                     return;
                 }
                 else

@@ -29,11 +29,13 @@ namespace DB_Admin
 
 
                 case '3':
+                    
                     foreach (var pasta in await repo.ShowPastasAsync())
                     {
                         Console.WriteLine($"Namn:{pasta.Name}  Pris:{pasta.Price}");
                     }
                     Console.ReadKey();
+                    
                     await PastaAsync();
                     break;
 
@@ -67,6 +69,7 @@ namespace DB_Admin
 
         private async Task DeletePasta()//Metod för att ta bort en pasta från DB
         {
+            
             var pastas = await repo.ShowPastasAsync();
             List<Pasta> listOfPastas = pastas.ToList();
             foreach (var pasta in listOfPastas)

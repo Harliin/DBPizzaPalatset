@@ -32,7 +32,8 @@ namespace DB_Admin
 
 
                 case '3':
-                    IEnumerable<Pizza> pizzaList = await repo.GetPizzas();
+                    IEnumerable<Pizza> pizzaList;
+                    using (repo) { pizzaList = await repo.GetPizzas(); }
 
                     foreach (Pizza pizza in pizzaList)
                     {
@@ -77,7 +78,7 @@ namespace DB_Admin
             Console.Write("Pris: ");
             int pizzaPrice = Convert.ToInt32(Console.ReadLine());
 
-            await repo.AddPizzaAsync(pizzaName, pizzaPrice);
+            using (repo) { await repo.AddPizzaAsync(pizzaName, pizzaPrice); }
 
             Console.WriteLine("Pizza Tillagd!\n\n");
 
@@ -106,7 +107,8 @@ namespace DB_Admin
 
         private async Task DeletePizza()//Tar bort Pizza från DB
         {
-            var pizzas = await repo.ShowPizzasAsync();
+            IEnumerable<Pizza> pizzas;
+            using (repo) { pizzas = await repo.ShowPizzasAsync(); }
             List<Pizza> listOfPizzas = pizzas.ToList();
             foreach (var pizza in pizzas)
             {
@@ -117,7 +119,7 @@ namespace DB_Admin
             {
                 if (listOfPizzas.Exists(x => x.ID == userChoice))//Kollar om id finns
                 {
-                    await repo.DeletePizzaAsync(userChoice);
+                    using (repo) { await repo.DeletePizzaAsync(userChoice); }
                     Console.WriteLine("Pizzan är borttagen");
                 }
                 else
@@ -136,10 +138,10 @@ namespace DB_Admin
         private async Task UpdateIngredientsOnPizza()//Updaterar ingredienser på en pizza
         {
             Console.Clear();
-            var repo = new AdminRepository();
-            IEnumerable<Pizza> temp = await repo.ShowPizzasAsync();
+            var temp = await repo.ShowPizzasAsync();
+            var ing = await repo.ShowIngredientsAsync();
+           
             List<Pizza> pizzas = temp.ToList();
-            IEnumerable<Ingredient> ing = await repo.ShowIngredientsAsync();
             List<Ingredient> ingredients = ing.ToList();
 
             foreach (var pizza in temp)

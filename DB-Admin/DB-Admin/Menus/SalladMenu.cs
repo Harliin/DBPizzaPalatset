@@ -33,6 +33,7 @@ namespace DB_Admin
                         Console.WriteLine($"Namn:{sallad.Name}  Pris:{sallad.Price}");
                     }
                     Console.ReadKey();
+                    
                     await SalladAsync();
                     break;
                 case '5':

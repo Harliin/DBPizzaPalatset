@@ -25,11 +25,11 @@ namespace DB_Admin
                     await DeleteDrink();
                     break;
                 case '3':
-                    foreach (var drink in await repo.ShowDrinksAsync())
-                    {
-                        Console.WriteLine($"Namn:{drink.Name}  Pris:{drink.Price}");
-                    }
-                    Console.ReadKey();
+                        foreach (var drink in await repo.ShowDrinksAsync())
+                        {
+                            Console.WriteLine($"Namn:{drink.Name}  Pris:{drink.Price}");
+                        }
+                        Console.ReadKey();
                     await DrinksAsync();
                     break;
                 case '5':
@@ -51,8 +51,9 @@ namespace DB_Admin
             string FoodName = Console.ReadLine();
             Console.Write("Pris: ");
             int FoodPrice = Convert.ToInt32(Console.ReadLine());
+            
             await repo.AddDrinkAsync(FoodName, FoodPrice);
-
+            
             Console.WriteLine("Dricka tillagd!");
             Console.ReadKey();
             await DrinksAsync();
@@ -61,6 +62,7 @@ namespace DB_Admin
         private async Task DeleteDrink()//Metod för att ta bort Drickor från databasen
         {
             var drinks = await repo.ShowDrinksAsync();
+            
             List<Drink> listOfDrinks = drinks.ToList();
             foreach (var drink in listOfDrinks)
             {
