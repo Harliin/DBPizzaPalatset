@@ -23,7 +23,7 @@ namespace DB_Kock
 
             await ShowOrders();//skriver ut ordarna som är under tillagning
 
-            Console.WriteLine("\nVälj ordernummer för att tillaga\nTryck [0] för att logga ut");
+            Console.WriteLine("\n~ Välj ordernummer för att tillaga\n~ Tryck [0] för att logga ut");
             Console.Write("\nDitt val: ");
 
             IEnumerable<Order> orderByStatusIEnumerable = await repo.ShowOrderByStatus(eStatus.Tillagning);
