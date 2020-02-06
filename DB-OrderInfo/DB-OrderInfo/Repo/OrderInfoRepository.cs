@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using DB_OrderInfo.Food;
 using Food;
+using Npgsql;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,22 +12,34 @@ namespace DB_OrderInfo
     public class OrderInfoRepository : IRepository
     {
         private string ConnectionString { get; }
-        private SqlConnection connection { get; }
+        private IDbConnection connection { get; }
+        public static int Backend { get; set; }
         public OrderInfoRepository()
         {
-            ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
-            connection = new SqlConnection(ConnectionString);
-            connection.Open();
+
+            if (Backend == 1)//Backend == MSSQL
+            {
+                ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
+                connection = new SqlConnection(ConnectionString);
+                connection.Open();
+            }
+            else//Backend == PostgreSQL
+            {
+                ConnectionString = "Host=weboholics-demo.dyndns-ip.com;Port=5433;Username=grupp1;Password=grupp1;Database=grupp1";
+                connection = new NpgsqlConnection(ConnectionString);
+                connection.Open();
+            }
+
         }
 
         public async Task<IEnumerable<Order>> OngoingOrder()
         {
-            IEnumerable<Order> ongoingOrder = (await connection.QueryAsync<Order>("DisplayOngoingOrder", commandType: CommandType.StoredProcedure));
+            IEnumerable<Order> ongoingOrder = (await connection.QueryAsync<Order>("\"DisplayOngoingOrder\"", commandType: CommandType.StoredProcedure));
             return ongoingOrder;
         }
         public async Task<IEnumerable<Order>> CompleteOrder()
         {
-            IEnumerable<Order> completeOrder = (await connection.QueryAsync<Order>("DisplayCompleteOrder", commandType: CommandType.StoredProcedure));
+            IEnumerable<Order> completeOrder = (await connection.QueryAsync<Order>("\"DisplayCompleteOrder\"", commandType: CommandType.StoredProcedure));
             return completeOrder;
         }
 
