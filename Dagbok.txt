@@ -42,3 +42,5 @@ Började med Grupp 1 Bagareterminal. Redogjorde lite i kod.
 Gjorde om programmet. Skapade skelettprogrammet. Lämnade tomma metoder bara. 
 28/1 2020 
 Uppdaterade programmet. Nu synkroniserar det med DB och hämtar infon direkt. 
+06-02-20 
+Raderade onödiga rad av kod. Adderade ett par kommentär
