@@ -4,6 +4,13 @@
 Pontus:
 10/1-2020
 Påbörjade Menyerna i Beställningsterminalen, Pizza,sallad,pasta och dryck är i stort sett färdig, kommer fyllas ut när databasen kopplas in.
+22-24/1-2020
+Skapade större delen av beställningsterminalen, lade till Stored Procedures som behövdes
+27-31/1-2020
+Färdigställde beställningsterminalen förutom Kvittot(Json) och felsäkrade systemet
+03-07/2-2020
+La till using i terminalen, fixade kopplingen till postgre databasen samt fixade till kvittot.
+Terminalen är nu felsäkrad och färdigställd.
 
 Jonathan:
 10/1-2020
@@ -20,7 +27,7 @@ Byggde upp en stor del av DB-Admin systemet med metoder för att lägga till ing
 27-31/1-2020
 Färdigställde admin programmet för MSSQL samt kommenterade koden, hjälpte sedan till lite på kockterminalen.
 03-07/2-2020
-Lade till using för att hantera resurser för connection string, samt fixade vi all aiordning postgresql med tabeller och 
+Lade till using för att hantera resurser för connection string, samt fixade vi alla iordning postgresql med tabeller och 
 stored procedures. Felhanterade sedan min terminal som nu är klar.
 
 
