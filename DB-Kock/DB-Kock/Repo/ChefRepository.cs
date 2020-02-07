@@ -18,8 +18,25 @@ namespace DB_Kock
         private IDbConnection connection { get; }
         public static int Backend { get; set; }
 
-        public ChefRepository()
+        private IDbConnection Connection
+        {
+            get
+            {
+                IDbConnection con;
+                if (Backend == 1)
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                else
+                {
+                    con = new NpgsqlConnection(ConnectionString);
+                }
+                con.Open();
+                return con;
+            }
+        }
 
+        public ChefRepository()
         {
             if (Backend == 1)//Backend == MSSQL
             {
@@ -41,6 +58,8 @@ namespace DB_Kock
             IEnumerable<Employee> chef = await connection.QueryAsync<Employee>("\"GetChefs\"", new { username = userName, passcode = Password }, commandType: CommandType.StoredProcedure);
             return chef;
         }
+        
+
 
         public async Task<Pizza> GetPizzaByID(int pizzaID)
         {
