@@ -353,14 +353,12 @@ namespace DB_Beställning
         public async Task StoreReceipt()
         {
             List<MenuItem> menuItems = menuList.Values.ToList();
-            //List<string> foodList = new List<string>();
-            //foodList.Add(Menus.orderID.ToString());
-            //foreach (var item in Menuitems)
-            //{
-            //    foodList.Add(item.name);
-            //}
-            //string json = foodList.ToString();
-            string json = JsonConvert.SerializeObject(order.pizza);
+            string json = ($"OrderID:{ Menus.orderID},");
+            json += JsonConvert.SerializeObject(order.pizza);
+            json += JsonConvert.SerializeObject(order.pasta);
+            json += JsonConvert.SerializeObject(order.sallad);
+            json += JsonConvert.SerializeObject(order.drink);
+            json += JsonConvert.SerializeObject(order.extra);
             await repo.AddOrderToReceipt(json, totalPrice, DateTime.Now);
             
         }
