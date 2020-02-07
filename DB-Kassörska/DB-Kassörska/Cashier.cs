@@ -84,12 +84,14 @@ namespace DB_Kassörska
                 {
                     CashierRepository.Backend = backend;
                     repo = new CashierRepository();
+                    await CashierManagement();
                     return;
                 }
                 else if (backend == 2)//PostgreSQL
                 {
                     CashierRepository.Backend = backend;
                     repo = new CashierRepository();
+                    await CashierManagement();
                     return;
                 }
                 else
