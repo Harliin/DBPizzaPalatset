@@ -352,14 +352,6 @@ namespace DB_Beställning
         // Metod som lägger till order till kvitto
         public async Task StoreReceipt()
         {
-            //List<MenuItem> menuItems = menuList.Values.ToList();
-            //string json = ($"OrderID:{ Menus.orderID},");
-            //json += JsonConvert.SerializeObject(order.pizza);
-            //json += JsonConvert.SerializeObject(order.pasta);
-            //json += JsonConvert.SerializeObject(order.sallad);
-            //json += JsonConvert.SerializeObject(order.drink);
-            //json += JsonConvert.SerializeObject(order.extra);
-            //await repo.AddOrderToReceipt(json, totalPrice, DateTime.Now);
             List<string> menuItems = new List<string>();
             menuItems.Add($"OrderID : {Menus.orderID.ToString()}");
             order.pizza.ForEach(pizza => { menuItems.Add(pizza.Name); });
@@ -369,7 +361,6 @@ namespace DB_Beställning
             order.extra.ForEach(extra => { menuItems.Add(extra.Name); });
             string json = JsonConvert.SerializeObject(menuItems);
             await repo.AddOrderToReceipt(json, totalPrice, DateTime.Now);
-
         }
         
     }
