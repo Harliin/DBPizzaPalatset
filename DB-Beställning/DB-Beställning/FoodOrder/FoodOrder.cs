@@ -360,8 +360,8 @@ namespace DB_Beställning
             //    foodList.Add(item.name);
             //}
             //string json = foodList.ToString();
-
-            await repo.AddOrderToReceipt( totalPrice, DateTime.Now);
+            string json = JsonConvert.SerializeObject(order.pizza);
+            await repo.AddOrderToReceipt(json, totalPrice, DateTime.Now);
             
         }
         

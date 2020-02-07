@@ -135,11 +135,11 @@ namespace DB_Beställning
                 await connection.QueryAsync<Extra>("\"sp_OrderExtra\"", new { orderid = orderID, extraid = extraID }, commandType: CommandType.StoredProcedure);
             }
         }
-        public async Task AddOrderToReceipt( /*MenuItem Json*/ int totalPrice, DateTime Date)
+        public async Task AddOrderToReceipt( string Json, int totalPrice, DateTime Date)
         {
             using (IDbConnection con = Connection)
             {
-                await connection.QueryAsync<Order>("\"AddOrderToReceipt\"", new { json = JsonConvert.SerializeObject(), totalprice = totalPrice, date = Date }, commandType: CommandType.StoredProcedure);
+                await connection.QueryAsync<Order>("\"AddOrderToReceipt\"", new { json = Json, totalprice = totalPrice, date = Date }, commandType: CommandType.StoredProcedure);
             }
         }
         public async Task<Pizza> GetPizza(int ID)
