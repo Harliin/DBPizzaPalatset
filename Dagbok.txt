@@ -19,6 +19,9 @@ logic för att visa nuvrande maträtter från servern i den.
 Byggde upp en stor del av DB-Admin systemet med metoder för att lägga till ingredienser på pizza m.m. Skapade en del stored procedures i databasen. 
 27-31/1-2020
 Färdigställde admin programmet för MSSQL samt kommenterade koden, hjälpte sedan till lite på kockterminalen.
+03-07/2-2020
+Lade till using för att hantera resurser för connection string, samt fixade vi all aiordning postgresql med tabeller och 
+stored procedures. Felhanterade sedan min terminal som nu är klar.
 
 
 Thomas:
