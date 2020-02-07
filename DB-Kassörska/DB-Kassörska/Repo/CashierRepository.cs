@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Food;
 using static DB_Kassörska.Order;
+using Npgsql;
 
 namespace DB_Kassörska
 {
@@ -15,12 +16,43 @@ namespace DB_Kassörska
     {
         private string ConnectionString { get; }
         private SqlConnection connection { get; }
+        
+        public static int Backend { get; set; }
         public CashierRepository()
         {
-            ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
-            connection = new SqlConnection(ConnectionString);
-            connection.Open();
+
+            if (Backend == 1)//Backend == MSSQL
+            {
+                ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
+                connection = new SqlConnection(ConnectionString);
+                connection.Open();
+            }
+            else//Backend == PostgreSQL
+            {
+                ConnectionString = "Host=weboholics-demo.dyndns-ip.com;Port=5433;Username=grupp1;Password=grupp1;Database=grupp1";
+                connection = new NpgsqlConnection(ConnectionString);
+                connection.Open();
+            }
         }
+
+        private IDbConnection Connection
+        {
+            get
+            {
+                IDbConnection con;
+                if (Backend == 1)
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                else
+                {
+                    con = new NpgsqlConnection(ConnectionString);
+                }
+                con.Open();
+                return con;
+            }
+        }
+
         public async Task<IEnumerable<Order>> ShowOrderByStatusAsync(eStatus status)
         {
             IEnumerable<Order> orders = await connection.QueryAsync<Order>("ShowOrderByStatus", new { STATUS = (int)status }, commandType: CommandType.StoredProcedure);
