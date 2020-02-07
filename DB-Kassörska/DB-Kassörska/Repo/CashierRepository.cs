@@ -57,15 +57,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Order> orders = await connection.QueryAsync<Order>("ShowOrderByStatus", new { STATUS = (int)status }, commandType: CommandType.StoredProcedure);
-                //foreach (Order order in orders)
-                //{
-                //    order.pizza = (await connection.QueryAsync<Pizza>("GetOrderPizzas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
-                //    order.pasta = (await connection.QueryAsync<Pasta>("GetOrderPastas", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
-                //    order.sallad = (await connection.QueryAsync<Sallad>("GetOrderSallads", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
-                //    order.drink = (await connection.QueryAsync<Drink>("GetOrderDrinks", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
-                //    order.extra = (await connection.QueryAsync<Extra>("GetOrderExtras", new { id = order.ID }, commandType: CommandType.StoredProcedure)).ToList();
-                //}
+                IEnumerable<Order> orders = await connection.QueryAsync<Order>("\"ShowOrderByStatus\"", new { STATUS = (int)status }, commandType: CommandType.StoredProcedure);
                 return orders;
             }
         }
@@ -73,7 +65,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                await connection.QueryAsync<Pizza>("UpdateOrderStatus",
+                await connection.QueryAsync<Pizza>("\"UpdateOrderStatus\"",
                 new { @ID = orderNumber }, commandType: CommandType.StoredProcedure);
             }
         }
@@ -82,7 +74,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-               await connection.QueryAsync<Pizza>("DeleteOrder",
+               await connection.QueryAsync<Pizza>("\"DeleteOrder\"",
                new { @ID = orderNumber }, commandType: CommandType.StoredProcedure);
             }    
         }
@@ -90,7 +82,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Order> allOrders = (await connection.QueryAsync<Order>("ShowOrders", commandType: CommandType.StoredProcedure));
+                IEnumerable<Order> allOrders = (await connection.QueryAsync<Order>("\"ShowOrders\"", commandType: CommandType.StoredProcedure));
                 return allOrders;
             }
                 
@@ -100,7 +92,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Order> ongoingOrders = (await connection.QueryAsync<Order>("ShowOrderByID", new { @ID = orderNumber }, commandType: CommandType.StoredProcedure));
+                IEnumerable<Order> ongoingOrders = (await connection.QueryAsync<Order>("\"ShowOrderByID\"", new { @ID = orderNumber }, commandType: CommandType.StoredProcedure));
                 return ongoingOrders;
             }
         }
@@ -109,7 +101,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                await connection.QueryAsync<Pizza>("AddPizza",
+                await connection.QueryAsync<Pizza>("\"AddPizza\"",
                 new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
             }
                 
@@ -120,7 +112,7 @@ namespace DB_Kassörska
             {
                 foreach (var ingredient in ingridients)
                 {
-                    await connection.QueryAsync<Pizza>("INSERT INTO PizzaIngredients(PizzaID, IngredientsID) VALUES (@PizzaID, @IngredientID)", new { PizzaID = pizzaID, IngredientID = ingredient });
+                    await connection.QueryAsync<Pizza>("\"INSERT INTO PizzaIngredients(PizzaID, IngredientsID) VALUES (@PizzaID, @IngredientID)\"", new { PizzaID = pizzaID, IngredientID = ingredient });
                 }
             }
         }
@@ -128,7 +120,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<PizzaIngredient> pizzaIngredients = await connection.QueryAsync<PizzaIngredient>("ShowPizzaIngredients", commandType: CommandType.StoredProcedure);
+                IEnumerable<PizzaIngredient> pizzaIngredients = await connection.QueryAsync<PizzaIngredient>("\"ShowPizzaIngredients\"", commandType: CommandType.StoredProcedure);
                 return pizzaIngredients;
             }
                 
@@ -137,7 +129,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Pizza> pizzas = await connection.QueryAsync<Pizza>("GetPizzas", commandType: CommandType.StoredProcedure);
+                IEnumerable<Pizza> pizzas = await connection.QueryAsync<Pizza>("\"GetPizzas\"", commandType: CommandType.StoredProcedure);
                 return pizzas;
             }
                 
@@ -146,7 +138,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Ingredient> ingredients = await connection.QueryAsync<Ingredient>("GetIngredients", commandType: CommandType.StoredProcedure);
+                IEnumerable<Ingredient> ingredients = await connection.QueryAsync<Ingredient>("\"GetIngredients\"", commandType: CommandType.StoredProcedure);
                 return ingredients;
             }
                 
@@ -155,7 +147,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Pasta> pastas = await connection.QueryAsync<Pasta>("GetPastas", commandType: CommandType.StoredProcedure);
+                IEnumerable<Pasta> pastas = await connection.QueryAsync<Pasta>("\"GetPastas\"", commandType: CommandType.StoredProcedure);
                 return pastas;
             }
                 
@@ -164,7 +156,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Sallad> sallads = await connection.QueryAsync<Sallad>("GetSallads", commandType: CommandType.StoredProcedure);
+                IEnumerable<Sallad> sallads = await connection.QueryAsync<Sallad>("\"GetSallads\"", commandType: CommandType.StoredProcedure);
                 return sallads;
             }
                 
@@ -173,7 +165,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Drink> drinks = await connection.QueryAsync<Drink>("GetDrinks", commandType: CommandType.StoredProcedure);
+                IEnumerable<Drink> drinks = await connection.QueryAsync<Drink>("\"GetDrinks\"", commandType: CommandType.StoredProcedure);
                 return drinks;
             }
                 
@@ -182,7 +174,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Extra> drinks = await connection.QueryAsync<Extra>("GetExtras", commandType: CommandType.StoredProcedure);
+                IEnumerable<Extra> drinks = await connection.QueryAsync<Extra>("\"GetExtras\"", commandType: CommandType.StoredProcedure);
                 return drinks;
             }
                 
