@@ -32,8 +32,7 @@ namespace DB_Admin
 
 
                 case '3':
-                    IEnumerable<Pizza> pizzaList;
-                    using (repo) { pizzaList = await repo.GetPizzas(); }
+                    var pizzaList = await repo.GetPizzas();
 
                     foreach (Pizza pizza in pizzaList)
                     {
@@ -72,13 +71,12 @@ namespace DB_Admin
 
         private async Task CreatePizza()//Metod för att lägga till pizza i DB
         {
-            
             Console.Write("Namn: ");
             string pizzaName = Console.ReadLine();
             Console.Write("Pris: ");
             int pizzaPrice = Convert.ToInt32(Console.ReadLine());
 
-            using (repo) { await repo.AddPizzaAsync(pizzaName, pizzaPrice); }
+            await repo.AddPizzaAsync(pizzaName, pizzaPrice);
 
             Console.WriteLine("Pizza Tillagd!\n\n");
 
@@ -107,8 +105,7 @@ namespace DB_Admin
 
         private async Task DeletePizza()//Tar bort Pizza från DB
         {
-            IEnumerable<Pizza> pizzas;
-            using (repo) { pizzas = await repo.ShowPizzasAsync(); }
+            var pizzas = await repo.ShowPizzasAsync();
             List<Pizza> listOfPizzas = pizzas.ToList();
             foreach (var pizza in pizzas)
             {
@@ -119,7 +116,7 @@ namespace DB_Admin
             {
                 if (listOfPizzas.Exists(x => x.ID == userChoice))//Kollar om id finns
                 {
-                    using (repo) { await repo.DeletePizzaAsync(userChoice); }
+                    await repo.DeletePizzaAsync(userChoice);
                     Console.WriteLine("Pizzan är borttagen");
                 }
                 else
