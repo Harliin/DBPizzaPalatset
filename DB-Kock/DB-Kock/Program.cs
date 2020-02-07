@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Food;
+using System.Data;
 
 namespace DB_Kock
 {
@@ -13,6 +14,7 @@ namespace DB_Kock
     {
 
         public static ChefRepository repo;
+
 
         private static async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL
         {
@@ -47,6 +49,7 @@ namespace DB_Kock
                 await ChooseBackend();
             }
         }
+
         static public async Task Main()
         {
             await ChooseBackend();
