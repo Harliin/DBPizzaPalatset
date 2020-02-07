@@ -13,7 +13,7 @@ namespace DB_Beställning
         public  int totalPrice;
         private char key;
         public static OrderRepository repo { get; set; }
-        public Dictionary<int, MenuItem> menuList { get; set; }
+        public static Dictionary<int, MenuItem> menuList { get; set; }
         private Order order { get; set; }
         public Menus menus;
         public int userChoice;
@@ -32,6 +32,7 @@ namespace DB_Beställning
             order.extra.ForEach(extra => { menuList.Add(index, new MenuItem { id = extra.ID, name = extra.Name, type ="extra" }); index++; });
             order.drink.ForEach(drink => { menuList.Add(index, new MenuItem { id = drink.ID, name = drink.Name, type="drink" }); index++; });
             return menuList;
+            
         }
         // Metod som printar ut innehållet i nuvarande order
         public async Task ShowOrder()
@@ -309,7 +310,7 @@ namespace DB_Beställning
                 case '1':
                     Console.Clear();
                     await repo.UpdateOrderStatus(Menus.orderID);
-                    await AddOrderToReceipt(totalPrice, DateTime.Now);
+                    await StoreReceipt();
                     Console.WriteLine("\nTack för din beställning\nVälkommen åter!");
                     Thread.Sleep(900);
                     await menus.PrintMenu();
@@ -349,9 +350,19 @@ namespace DB_Beställning
             }
         }
         // Metod som lägger till order till kvitto
-        public async Task AddOrderToReceipt(int totalprice, DateTime date)
+        public async Task StoreReceipt()
         {
-            await repo.AddOrderToReceipt(totalprice, date);
+            List<MenuItem> menuItems = menuList.Values.ToList();
+            //List<string> foodList = new List<string>();
+            //foodList.Add(Menus.orderID.ToString());
+            //foreach (var item in Menuitems)
+            //{
+            //    foodList.Add(item.name);
+            //}
+            //string json = foodList.ToString();
+
+            await repo.AddOrderToReceipt( totalPrice, DateTime.Now);
+            
         }
         
     }
