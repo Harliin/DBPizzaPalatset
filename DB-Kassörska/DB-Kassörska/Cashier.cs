@@ -10,10 +10,6 @@ namespace DB_Kassörska
 {
     class Cashier
     {
-        /*TODO
-         * Gör så att kassörskan bara kan markera ordrar som står som "Klar"
-         */
-
         CashierRepository repo = new CashierRepository();
         public int correctKey { get; set; }
         public async Task CashierManagement() //Kassörskans meny
