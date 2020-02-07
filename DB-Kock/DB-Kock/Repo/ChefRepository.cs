@@ -55,8 +55,11 @@ namespace DB_Kock
 
         public async Task<IEnumerable<Employee>> GetChefs(string userName, string Password)
         {
-            IEnumerable<Employee> chef = await connection.QueryAsync<Employee>("\"GetChefs\"", new { username = userName, passcode = Password }, commandType: CommandType.StoredProcedure);
-            return chef;
+            using (IDbConnection con = Connection)
+            {
+                IEnumerable<Employee> chef = await connection.QueryAsync<Employee>("\"GetChefs\"", new { username = userName, passcode = Password }, commandType: CommandType.StoredProcedure);
+                return chef;
+            }
         }
         
 
