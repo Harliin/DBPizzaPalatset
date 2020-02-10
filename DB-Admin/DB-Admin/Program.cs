@@ -1,21 +1,23 @@
 using System;
 using System.Threading.Tasks;
 using Food;
+using System.Linq;
 
 
 namespace DB_Admin
 {
     public class Program
     {
-        static async Task Main(string[] args)
+        public static AdminRepository repo;
+        static public async Task Main()
         {
+            await ChooseBackend();
             do
             {
-                Console.Write("\nSkriv in lösenord:");
-                string password = Console.ReadLine();
-                if (password == "Admin123")
+                if (await Login())
                 {
-                    await AdminStartMenu();
+                    MainMenu menu = new MainMenu();
+                    await menu.AdminStartMenuAsync();
                 }
                 else
                 {
@@ -23,33 +25,65 @@ namespace DB_Admin
                     Console.ReadLine();
                     Console.Clear();
                 }
+                
             } while (true);
-            
-            
-            
         }
-
-        public static async Task AdminStartMenu()
+        private static async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL
         {
             Console.Clear();
-            Console.WriteLine("Välkommen Admin!");
-            Console.WriteLine("[1]Hantera Anställda\n[2]Hantera Matmeny");
-            char adminChoice = Console.ReadKey(true).KeyChar;
-            
-            switch (adminChoice)
+            Console.WriteLine("[1]MSSQL\n[2]PostgreSQL");
+            Console.Write("Välj Backend: ");
+            if (int.TryParse(Console.ReadLine(), out int backend))
             {
-                case '1':
-                    await Employees.ManageEmployees();
-                    break;
-                case '2':
-                    await FoodMenu.ManageMenu();
-                    break;
-                default:
-                    Console.WriteLine("Fel inmatning!");
+                if (backend == 1)//MSSQL
+                {
+                    AdminRepository.Backend = backend;
+                    repo = new AdminRepository();
+                    return;
+                }
+                else if (backend == 2)//PostgreSQL
+                {
+                    AdminRepository.Backend = backend;
+                    repo = new AdminRepository();
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Ange en korrekt siffra!");
                     Console.ReadKey(true);
-                    await AdminStartMenu();
-                    break;
+                    await ChooseBackend();
+                }
             }
+            else
+            {
+                Console.WriteLine("Fel inmatat!");
+                Console.ReadKey(true);
+                await ChooseBackend();
+            }
+        }
+
+        private static async Task<bool> Login()//Inloggnings metod  Användarnamn: VD  Lösen: 123    eller använd: Tony    lösen:admin123
+        {
+            Console.Clear();
+            Console.WriteLine("*Inloggnings Meny*");
+            Console.Write("\nSkriv in Användarnamn: ");
+            string AdminName = Console.ReadLine();
+
+            Console.Write("\nLösenord: ");
+            string password = Console.ReadLine();
+            var admins = await repo.GetAdmins(AdminName, password);
+
+            if (admins.Count() == 0)
+            {
+                Console.WriteLine("Felaktigt inloggning!");
+                Console.ReadKey();
+                await Login();
+            }
+            else
+            {
+                return true;
+            }
+            return true;
         }
     }
 

@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Food
+namespace DB_Admin
 {
-    class Employee
+    public class Employee
     {
         public int ID { get; set; }
 
         public string Name { get; set; }
         public string Password { get; set; }
 
-        public enum EmployeeType { VD = 1, Bagare = 2, Kassörska = 3 }
+        public EType EmployeeType { get; set; }
+        public enum EType { Admin = 1, Bagare = 2, Kassörska = 3}
 
     }
 }
