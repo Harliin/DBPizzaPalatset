@@ -10,6 +10,7 @@ namespace DB_Kassörska
         public static CashierRepository repo;
         static public async Task Main()
         {
+            Console.SetWindowSize(170, 40);
             await ChooseBackend();
             Cashier cashier = new Cashier();
             await cashier.CashierManagement();

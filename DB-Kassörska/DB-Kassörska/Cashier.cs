@@ -10,72 +10,87 @@ namespace DB_Kassörska
 {
     class Cashier
     {
+        /* TODO
+        *  Gör metod av input för ordernummer, skriv den inom en do-while-loop
+        *  
+        */ 
         public static CashierRepository repo = new CashierRepository();
         public int correctKey { get; set; }
         public async Task CashierManagement() //Kassörskans meny
         {
-            var orders = await repo.ShowAllOrdersAsync();
-            List<Order> orderList = orders.ToList();
-
-            Console.Clear();
-
-            Console.WriteLine("--Kassörterminal--");
-            Console.WriteLine();
-            Console.WriteLine("Pågående ordrar:");
-            Console.WriteLine("-----------------------------------");
-
-            foreach (var order in orders)
+            do
             {
-                if(order.Status!=eStatus.Avhämtat && order.Status!=eStatus.Klar)
+                var orders = await repo.ShowAllOrdersAsync();
+                List<Order> orderList = orders.ToList();
+
+                Console.Clear();
+
+                Console.WriteLine("--Kassörterminal--");
+                Console.WriteLine();
+                Console.WriteLine("Pågående ordrar:");
+                Console.WriteLine("-----------------------------------");
+
+                foreach (var order in orders)
+                {
+                    if (order.Status != eStatus.Avhämtat && order.Status != eStatus.Klar)
+                    {
+                        Console.WriteLine($"Order-ID: {order.ID}\tStatus: {order.Status}");
+                    }
+                } //Skriver ut pågående ordrar
+
+                Console.WriteLine();
+                Console.WriteLine("Ordrar färdiga att hämtas ut:");
+                Console.WriteLine("-----------------------------------");
+
+                foreach (var order in await repo.ShowOrderByStatusAsync(eStatus.Klar))
                 {
                     Console.WriteLine($"Order-ID: {order.ID}\tStatus: {order.Status}");
-                }
-            } //Skriver ut pågående ordrar
+                } // Skriver ut färdiga ordrar
 
-            Console.WriteLine();
-            Console.WriteLine("Ordrar färdiga att hämtas ut:");
-            Console.WriteLine("-----------------------------------");
+                Console.WriteLine();
+                Console.Write("Välj Order-ID som har status \"Klar\", när kunden hämtat ut den: ");
 
-            foreach (var order in await repo.ShowOrderByStatusAsync(eStatus.Klar))
-            {
-                Console.WriteLine($"Order-ID: {order.ID}\tStatus: {order.Status}");
-            } // Skriver ut färdiga ordrar
+                IEnumerable<Order> ordersByStatus = await repo.ShowOrderByStatusAsync(eStatus.Klar);
 
-            Console.WriteLine();
-            Console.Write("Välj Order-ID som har status \"Klar\", när kunden hämtat ut den: ");
+                List<Order> listOfOrders = ordersByStatus.ToList();
 
-            IEnumerable<Order> ordersByStatus = await repo.ShowOrderByStatusAsync(eStatus.Klar);
-
-            List<Order> listOfOrders = ordersByStatus.ToList();
-
-            //do
-            //{
-
-            //}
-            //while (true);
-
-            if (int.TryParse(Console.ReadLine(), out int cashierOrderChoice))
-            {
-                if ((listOfOrders.Exists(x => x.ID == cashierOrderChoice)))
-                {
-                    await repo.UpdateOrderStatus(cashierOrderChoice);
-                    Console.WriteLine($"Markerar order {cashierOrderChoice} som uthämtad");
-                    Thread.Sleep(2000);
-                    await CashierManagement();
-                }
-                else
-                {
-                    Console.WriteLine("Ordernumret är ogiltigt!");
-                    Thread.Sleep(2000);
-                    await CashierManagement();
-                }
-            }
-            else
-            {
-                Console.WriteLine("Skriv endast siffror!");
+                int orderid = GetValidOrderID(listOfOrders);
+                await repo.UpdateOrderStatus(orderid);
+                Console.WriteLine($"Markerar order {orderid} som uthämtad");
                 Thread.Sleep(2000);
                 await CashierManagement();
             }
+            while (true);
+        }
+
+        //Syftet med funktionen är att returnera ett giltigt orderID.
+        //Giltigt orderID är ett nummer som finns i listan över färdiga ordrar
+        private int GetValidOrderID(List<Order> listOfOrders)
+        {
+            bool isValid;
+            int orderID = -1;
+            do
+            {
+                isValid = int.TryParse(Console.ReadLine(), out int cashierOrderChoice);
+                if (isValid)
+                {
+                    if ((listOfOrders.Exists(x => x.ID == cashierOrderChoice)))
+                    {
+                        orderID = cashierOrderChoice;
+                    }
+                    else
+                    {
+                        isValid = false;
+                    }
+                }
+                
+                if(isValid==false)
+                {
+                    Console.WriteLine("Ordernumret är ogiltigt! Ange nytt ordernummer.");
+                }
+            }
+            while (isValid == false);
+            return orderID;
         }
     }
 }
