@@ -42,14 +42,14 @@ namespace DB_Kassörska
             if (Backend == 1)//Backend == MSSQL
             {
                 ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
-                connection = new SqlConnection(ConnectionString);
-                connection.Open();
+                //connection = new SqlConnection(ConnectionString);
+                //connection.Open();
             }
             else//Backend == PostgreSQL
             {
                 ConnectionString = "Host=weboholics-demo.dyndns-ip.com;Port=5433;Username=grupp1;Password=grupp1;Database=grupp1";
-                connection = new NpgsqlConnection(ConnectionString);
-                connection.Open();
+                //connection = new NpgsqlConnection(ConnectionString);
+                //connection.Open();
             }
         }
 
@@ -57,7 +57,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Order> orders = await connection.QueryAsync<Order>("\"ShowOrderByStatus\"", new { STATUS = (int)status }, commandType: CommandType.StoredProcedure);
+                IEnumerable<Order> orders = await connection.QueryAsync<Order>("\"ShowOrderByStatus\"", new { status = (int)status }, commandType: CommandType.StoredProcedure);
                 return orders;
             }
         }
@@ -66,7 +66,7 @@ namespace DB_Kassörska
             using (IDbConnection con = Connection)
             {
                 await connection.QueryAsync<Pizza>("\"UpdateOrderStatus\"",
-                new { @ID = orderNumber }, commandType: CommandType.StoredProcedure);
+                new { @inid = orderNumber }, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -75,7 +75,7 @@ namespace DB_Kassörska
             using (IDbConnection con = Connection)
             {
                await connection.QueryAsync<Pizza>("\"DeleteOrder\"",
-               new { @ID = orderNumber }, commandType: CommandType.StoredProcedure);
+               new { @inid = orderNumber }, commandType: CommandType.StoredProcedure);
             }    
         }
         public async Task<IEnumerable<Order>> ShowAllOrdersAsync()
@@ -92,7 +92,7 @@ namespace DB_Kassörska
         {
             using (IDbConnection con = Connection)
             {
-                IEnumerable<Order> ongoingOrders = (await connection.QueryAsync<Order>("\"ShowOrderByID\"", new { @ID = orderNumber }, commandType: CommandType.StoredProcedure));
+                IEnumerable<Order> ongoingOrders = (await connection.QueryAsync<Order>("\"ShowOrderByID\"", new { @inid = orderNumber }, commandType: CommandType.StoredProcedure));
                 return ongoingOrders;
             }
         }
@@ -102,7 +102,7 @@ namespace DB_Kassörska
             using (IDbConnection con = Connection)
             {
                 await connection.QueryAsync<Pizza>("\"AddPizza\"",
-                new { Name = name, Price = price }, commandType: CommandType.StoredProcedure);
+                new { name = name, price = price }, commandType: CommandType.StoredProcedure);
             }
                 
         }
