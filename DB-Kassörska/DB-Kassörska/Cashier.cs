@@ -10,7 +10,7 @@ namespace DB_Kassörska
 {
     class Cashier
     {
-        CashierRepository repo = new CashierRepository();
+        public static CashierRepository repo = new CashierRepository();
         public int correctKey { get; set; }
         public async Task CashierManagement() //Kassörskans meny
         {
@@ -72,38 +72,5 @@ namespace DB_Kassörska
             }
         }
 
-        public async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL
-        {
-            CashierRepository repo;
-            Console.Clear();
-            Console.WriteLine("[1]MSSQL\n[2]PostgreSQL");
-            Console.Write("Välj Backend: ");
-            if (int.TryParse(Console.ReadLine(), out int backend))
-            {
-                if (backend == 1)//MSSQL
-                {
-                    CashierRepository.Backend = backend;
-                    repo = new CashierRepository();
-                    return;
-                }
-                else if (backend == 2)//PostgreSQL
-                {
-                    CashierRepository.Backend = backend;
-                    repo = new CashierRepository();
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("Ange en korrekt siffra!");
-                    Console.ReadKey(true);
-                }
-            }
-            else
-            {
-                Console.WriteLine("Fel inmatat!");
-                Console.ReadKey(true);
-                await ChooseBackend();
-            }
-        }
     }
 }

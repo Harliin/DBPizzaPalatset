@@ -42,13 +42,13 @@ namespace DB_Kassörska
             if (Backend == 1)//Backend == MSSQL
             {
                 ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
-                //connection = new SqlConnection(ConnectionString);
+                connection = new SqlConnection(ConnectionString);
                 //connection.Open();
             }
             else//Backend == PostgreSQL
             {
                 ConnectionString = "Host=weboholics-demo.dyndns-ip.com;Port=5433;Username=grupp1;Password=grupp1;Database=grupp1";
-                //connection = new NpgsqlConnection(ConnectionString);
+                connection = new NpgsqlConnection(ConnectionString);
                 //connection.Open();
             }
         }
