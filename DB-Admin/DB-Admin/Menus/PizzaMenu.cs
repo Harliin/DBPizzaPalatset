@@ -15,7 +15,7 @@ namespace DB_Admin
         {
             
             Console.Clear();
-            Console.WriteLine("\t*Pizza Meny*\n\n[1]Lägg till Pizza\n[2]Ta bort Pizza\n[3]Visa pizzor med ingrediens\n[4]Ändra ingredienser på pizza\n\n[5]Tillbaka");
+            Console.WriteLine("\t*Pizza Meny*\n\n[1]Lägg till Pizza\n[2]Ta bort Pizza\n[3]Visa pizzor med ingrediens\n[4]Lägg till ingredienser på pizza\n\n[5]Tillbaka");
             char adminChoice = Console.ReadKey(true).KeyChar;
             Console.Clear();
             switch (adminChoice)
