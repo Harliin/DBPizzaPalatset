@@ -11,7 +11,7 @@ namespace DB_OrderInfo
         static async Task Main(string[] args)
         {
             await ChooseBackend();
-
+            Console.Clear();
             do
             {
                 string pizzalogo = "\t|\tPIZZERIA PALATSET\t    |";
@@ -19,13 +19,14 @@ namespace DB_OrderInfo
                 Console.WriteLine("\t|                                   |");
                 Console.WriteLine(pizzalogo);
                 Console.WriteLine("\t|___________________________________|\n");
+                Thread.Sleep(1550);// Sidan uppdateras varje 1,5 sekunder
                 await Run();
-                Thread.Sleep(1550);  // Sidan uppdateras varje 1,5 sekunder
                 Console.Clear();
             } while (true);
         }
         static async Task Run()
         {
+            Console.Clear();
             OrderInfoRepository repository = new OrderInfoRepository();
 
             // Printar ut pågående och färdiga ordrar
@@ -40,6 +41,8 @@ namespace DB_OrderInfo
             {
                 Console.WriteLine(completeOrder.ID);
             }
+            Thread.Sleep(3000);
+            await Run();
         }
         private static async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL
         {
