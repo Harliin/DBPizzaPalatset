@@ -10,12 +10,7 @@ namespace DB_Kassörska
 {
     class Cashier
     {
-        /* TODO
-        *  Gör metod av input för ordernummer, skriv den inom en do-while-loop
-        *  
-        */ 
         public static CashierRepository repo = new CashierRepository();
-        public int correctKey { get; set; }
         public async Task CashierManagement() //Kassörskans meny
         {
             do
