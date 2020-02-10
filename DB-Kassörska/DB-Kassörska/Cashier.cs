@@ -86,7 +86,7 @@ namespace DB_Kassörska
                 
                 if(isValid==false)
                 {
-                    Console.WriteLine("Ordernumret är ogiltigt! Ange nytt ordernummer.");
+                    Console.Write("Ordernumret är ogiltigt! Ange nytt ordernummer: ");
                 }
             }
             while (isValid == false);
