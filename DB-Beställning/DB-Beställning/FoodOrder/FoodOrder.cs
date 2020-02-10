@@ -77,12 +77,13 @@ namespace DB_Beställning
                 await menus.PrintOrderMenu();
             }
         }
-        // Metod som skriver ut Pizzas
+        // Metod som skriver ut Pizza
         public async Task ShowPizzas()
         {
             var pizzas = await repo.ShowPizzasAsync();
             List<Pizza> listOfPizza = pizzas.ToList();
             Console.Clear();
+            Console.WriteLine("************Pizzameny***************");
             foreach (Pizza pizza in pizzas)
             {
                 Console.WriteLine($"{pizza.ID}. {pizza.Name}: {pizza.Price}kr");
@@ -120,12 +121,13 @@ namespace DB_Beställning
                 await ShowPizzas();
             }
         }
-        // Metod som skriver ut Pastas
+        // Metod som skriver ut Pasta
         public async Task ShowPastas()
         {
             var pastas = await repo.ShowPastasAsync();
             List<Pasta> listOfPasta = pastas.ToList();
             Console.Clear();
+            Console.WriteLine("************Pastameny***************");
             foreach (Pasta pasta in pastas)
             {
                 Console.WriteLine($"{pasta.ID}. {pasta.Name} {pasta.Price} kr");
@@ -162,12 +164,13 @@ namespace DB_Beställning
                 await ShowPastas();
             }
         }
-        // Metod som skriver ut Sallads
+        // Metod som skriver ut Sallad
         public async Task ShowSallads()
         {
             var sallads = await repo.ShowSalladsAsync();
             List<Sallad> listOfSallads = sallads.ToList();
             Console.Clear();
+            Console.WriteLine("************Salladsmeny***************");
             foreach (Sallad sallad in sallads)
             {
                 Console.WriteLine($"{sallad.ID}. {sallad.Name} {sallad.Price} kr");
@@ -210,6 +213,7 @@ namespace DB_Beställning
             var drinks = await repo.ShowDrinksAsync();
             List<Drink> listOfDrinks = drinks.ToList();
             Console.Clear();
+            Console.WriteLine("************Dryckesmeny***************");
             foreach (Drink drink in drinks)
             {
                 Console.WriteLine($"{drink.ID}. {drink.Name} {drink.Price} kr");
@@ -252,6 +256,7 @@ namespace DB_Beställning
             var extras = await repo.ShowExtraAsync();
             List<Extra> listOfExtras = extras.ToList();
             Console.Clear();
+            Console.WriteLine("************Extrameny***************");
             foreach (Extra extra in await repo.ShowExtraAsync())
             {
                 Console.WriteLine($"{extra.ID}. {extra.Name} {extra.Price} kr");
@@ -350,6 +355,75 @@ namespace DB_Beställning
             }
         }
         // Metod som lägger till order till kvitto
+        public async Task ChangeOrder()
+        {
+            await ShowOrder();
+            Console.WriteLine($"\nSumma: {totalPrice} kr");
+            Console.WriteLine("\n1.Ta bort beställning\n2.Gå tillbaka");
+            char key = Console.ReadKey(true).KeyChar;
+            switch (key)
+            {
+                case '1':
+                    {
+                        bool check = true;
+                        var orders = Diction();
+                        do
+                        {
+                            Console.Clear();
+                            foreach (var item in orders)
+                            {
+                                Console.WriteLine($"ID: {item.Key}, namn : {item.Value.name} ");
+                            }
+                            Console.WriteLine("\nTryck 0 för att gå tillbaka");
+                            Console.Write("\nVälj ID för att ta bort: ");
+                            if (int.TryParse(Console.ReadLine(), out int deleteChoice))
+                            {
+                                if (deleteChoice == 0)
+                                {
+                                    check = false;
+                                }
+                                else if (orders.Keys.Count >= deleteChoice || orders.Keys.Count < 1)
+                                {
+                                    if (orders.TryGetValue(deleteChoice, out MenuItem orderToRemove))
+                                    {
+                                        await RemoveOrder(orderToRemove);
+                                        Console.WriteLine("\nVaran borttagen.");
+                                        Thread.Sleep(600);
+                                        check = false;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\nOgiltigt ID");
+                                        Thread.Sleep(600);
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Felaktig inmatning.");
+                                Thread.Sleep(600);
+                            }
+                            break;
+
+                        } while (check);
+                        await menus.PrintOrderMenu();
+                        break;
+                    }
+                case '2':
+                    {
+                        await menus.PrintOrderMenu();
+                        break;
+                    }
+                default:
+                    {
+                        Console.WriteLine("\nFelaktig inmatning");
+                        Thread.Sleep(600);
+                        await menus.PrintOrderMenu();
+                        break;
+                    }
+            }
+            
+        }
         public async Task StoreReceipt()
         {
             List<string> menuItems = new List<string>();

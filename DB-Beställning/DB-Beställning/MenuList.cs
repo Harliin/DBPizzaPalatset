@@ -10,6 +10,7 @@ namespace DB_Beställning
         // Lista som visar maträttsmenyn
         public static List<string> FoodMenu = new List<string>
         {
+            "************Matmeny***************\n",
             "Välj den typ av mat som du vill beställa:",
             "-------------",
             "1. Pizza",

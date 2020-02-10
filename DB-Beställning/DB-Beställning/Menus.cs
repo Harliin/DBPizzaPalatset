@@ -109,60 +109,7 @@ namespace DB_Beställning
                     }
                 case '6':
                     {
-                        await foodOrder.ShowOrder();
-                        Console.WriteLine($"\nSumma: {foodOrder.totalPrice} kr");
-                        Console.WriteLine("\n1.Ta bort beställning\n2.Gå tillbaka");
-                        key = Console.ReadKey(true).KeyChar;
-                        switch (key)
-                        {
-                            case '1':
-                                {
-                                    Console.Clear();
-                                    var orders = foodOrder.Diction();
-                                    foreach (var item in orders)
-                                    {
-                                        Console.WriteLine($"ID: {item.Key}, namn : {item.Value.name} ");
-                                    }
-                                    Console.WriteLine("\nTryck 0 för att gå tillbaka");
-                                    Console.Write("\nVälj ID för att ta bort: ");
-                                    if (int.TryParse(Console.ReadLine(), out int deleteChoice))
-                                    {
-                                        if (deleteChoice == 0)
-                                        {
-                                            await PrintOrderMenu();
-                                        }
-                                        else if (orders.Keys.Count >= deleteChoice || orders.Keys.Count < 1)
-                                        {
-                                            if (orders.TryGetValue(deleteChoice, out MenuItem orderToRemove))
-                                            {
-                                                await foodOrder.RemoveOrder(orderToRemove);
-                                                Console.WriteLine("\nVaran borttagen.");
-                                                Thread.Sleep(600);
-                                                await PrintOrderMenu();
-                                            }
-                                            else
-                                            {
-                                                Console.WriteLine("\nOgiltigt ID");
-                                                Thread.Sleep(600);
-                                                await PrintOrderMenu();
-                                            }
-                                        }
-                                    }
-                                    break;
-                                }
-                            case '2':
-                                {
-                                    await PrintOrderMenu();
-                                    break;
-                                }
-                            default:
-                                {
-                                    Console.WriteLine("\nFelaktig inmatning");
-                                    Thread.Sleep(600);
-                                    await PrintOrderMenu();
-                                    break;
-                                }
-                        }
+                        await foodOrder.ChangeOrder();
                         break;
                     }
                 case '7':
@@ -180,6 +127,7 @@ namespace DB_Beställning
                         await PrintOrderMenu();
                         break;
                     }
+                    
             }
         }
     }
