@@ -8,7 +8,6 @@ namespace DB_Admin
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var drink = new Drink();
         }
     }
 }
