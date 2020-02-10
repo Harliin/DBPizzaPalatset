@@ -41,9 +41,22 @@ Började lägga in data i databasen
 
 Aata:
 11/1 2020
-Uppdaterar terminalen.
+Uppdaterade gamla kod i kock terminalen.
 14/1 2020
 Uppdaterat terminal med sallad och pasta men den saknar fortfarande "logga ut" -knappen.
+15/1 2020
+Fixade att koden funkar bra utan databas koppling.
+21/1 2020
+Implementerade Food bibliotek till min kod som Jonathan skapade och började med MSSQL Stored Procedures.
+22-24/1 2020
+Forsatt med MSSQL Stored Procedures och uppdaterade databas tabeller i MSSQL.
+27-31/1 2020
+Färdigställde kock programmet för MSSQL.
+03-07/2 2020
+Skapade tabeller och Stored Procedures i Postgre och implementerade de till mitt kod för kock terminalen. 
+10/2 2020
+Färdigställde kock programmet.
+
 
 Elchin:
 11/1 2020 
