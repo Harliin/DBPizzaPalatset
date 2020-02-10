@@ -13,7 +13,6 @@ namespace DB_Kassörska
             await ChooseBackend();
             Cashier cashier = new Cashier();
             await cashier.CashierManagement();
-        
         }
 
         public static async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL

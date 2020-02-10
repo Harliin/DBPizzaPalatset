@@ -71,7 +71,7 @@ namespace DB_Kassörska
                await connection.QueryAsync<Pizza>("\"DeleteOrder\"",
                new { @inid = orderNumber }, commandType: CommandType.StoredProcedure);
             }    
-        }
+        } //Ta bort order
         public async Task<IEnumerable<Order>> ShowAllOrdersAsync()
         {
             using (IDbConnection con = Connection)
