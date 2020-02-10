@@ -31,16 +31,40 @@ namespace DB_OrderInfo
             }
 
         }
+        private IDbConnection Connection
+        {
+            get
+            {
+                IDbConnection con;
+                if (Backend == 1)
+                {
+                    con = new SqlConnection(ConnectionString);
+                }
+                else
+                {
+                    con = new NpgsqlConnection(ConnectionString);
+                }
+                con.Open();
+                return con;
+            }
+        }
+
 
         public async Task<IEnumerable<Order>> OngoingOrder()
         {
-            IEnumerable<Order> ongoingOrder = (await connection.QueryAsync<Order>("\"DisplayOngoingOrder\"", commandType: CommandType.StoredProcedure));
-            return ongoingOrder;
+            using (IDbConnection con = Connection)
+            {
+                IEnumerable<Order> ongoingOrder = (await connection.QueryAsync<Order>("\"DisplayOngoingOrder\"", commandType: CommandType.StoredProcedure));
+                return ongoingOrder;
+            }
         }
         public async Task<IEnumerable<Order>> CompleteOrder()
         {
-            IEnumerable<Order> completeOrder = (await connection.QueryAsync<Order>("\"DisplayCompleteOrder\"", commandType: CommandType.StoredProcedure));
-            return completeOrder;
+            using (IDbConnection con = Connection)
+            {
+                IEnumerable<Order> completeOrder = (await connection.QueryAsync<Order>("\"DisplayCompleteOrder\"", commandType: CommandType.StoredProcedure));
+                return completeOrder;
+            }
         }
 
         public Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients)
