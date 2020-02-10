@@ -16,9 +16,7 @@ namespace DB_Kassörska
     {
         private string ConnectionString { get; }
         private IDbConnection connection { get; }
-        
         public static int Backend { get; set; }
-
         private IDbConnection Connection
         {
             get
@@ -43,16 +41,13 @@ namespace DB_Kassörska
             {
                 ConnectionString = "Data Source=SQL6009.site4now.net;Initial Catalog=DB_A53DDD_Grupp1;User Id=DB_A53DDD_Grupp1_admin;Password=Password123;";
                 connection = new SqlConnection(ConnectionString);
-                //connection.Open();
             }
             else//Backend == PostgreSQL
             {
                 ConnectionString = "Host=weboholics-demo.dyndns-ip.com;Port=5433;Username=grupp1;Password=grupp1;Database=grupp1";
                 connection = new NpgsqlConnection(ConnectionString);
-                //connection.Open();
             }
         }
-
         public async Task<IEnumerable<Order>> ShowOrderByStatusAsync(eStatus status)
         {
             using (IDbConnection con = Connection)
@@ -69,7 +64,6 @@ namespace DB_Kassörska
                 new { @inid = orderNumber }, commandType: CommandType.StoredProcedure);
             }
         }
-
         public async Task DeleteOrder(int orderNumber)
         {
             using (IDbConnection con = Connection)
@@ -87,7 +81,6 @@ namespace DB_Kassörska
             }
                 
         } //Visa alla ordrar
-
         public async Task<IEnumerable<Order>> ShowOrderByIDAsync(int orderNumber) //Visa ordrar baserat på ID
         {
             using (IDbConnection con = Connection)
@@ -96,7 +89,6 @@ namespace DB_Kassörska
                 return ongoingOrders;
             }
         }
-
         public async Task AddPizzaAsync(string name, int price) //Lägg till pizza
         {
             using (IDbConnection con = Connection)
