@@ -60,8 +60,6 @@ namespace DB_Kock
             }
         }
         
-
-
         public async Task<Pizza> GetPizzaByID(int pizzaID)
         {
             using (IDbConnection con = Connection)
@@ -89,7 +87,6 @@ namespace DB_Kock
             }
         }
 
-
         public async Task<Order> ShowOrderByID(int id)
         {
             using (IDbConnection con = Connection)
@@ -116,33 +113,11 @@ namespace DB_Kock
             }
         }
 
-
         public async Task UpdateOrderStatus(int id)
         {
             using (IDbConnection con = Connection)
             {
                 await connection.QueryAsync<Order>("\"UpdateOrderStatus\"", new { inid = id }, commandType: CommandType.StoredProcedure);
-            }
-        }
-
-
-        public async Task AddPizzaAsync(string Name, int Price)
-        {
-            using (IDbConnection con = Connection)
-            {
-                await connection.QueryAsync<Pizza>("\"AddPizza\"",
-                new { name1 = Name, price = Price }, commandType: CommandType.StoredProcedure);
-            }
-        }
-
-        public async Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients)
-        {
-            using (IDbConnection con = Connection)
-            {
-                foreach (var ingredient in ingridients)
-                {
-                    await connection.QueryAsync<Pizza>("INSERT INTO PizzaIngredients(PizzaID, IngredientsID) VALUES (@PizzaID, @IngredientID)", new { PizzaID = pizzaID, IngredientID = ingredient });
-                }
             }
         }
 

@@ -6,7 +6,6 @@ namespace DB_Kock
 {
     public interface IRepository
     {
-        Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients);
         Task<IEnumerable<Drink>> ShowDrinksAsync();
         Task<IEnumerable<Extra>> ShowExtraAsync();
         Task<IEnumerable<Ingredient>> ShowIngredientsAsync();
