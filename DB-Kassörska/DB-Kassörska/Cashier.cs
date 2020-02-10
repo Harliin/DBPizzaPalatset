@@ -48,10 +48,11 @@ namespace DB_Kassörska
 
             List<Order> listOfOrders = ordersByStatus.ToList();
 
-            do
-            {
+            //do
+            //{
 
-            }
+            //}
+            //while (true);
 
             if (int.TryParse(Console.ReadLine(), out int cashierOrderChoice))
             {

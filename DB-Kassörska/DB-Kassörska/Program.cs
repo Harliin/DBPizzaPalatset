@@ -38,6 +38,7 @@ namespace DB_Kassörska
                 {
                     Console.WriteLine("Ange en korrekt siffra!");
                     Console.ReadKey(true);
+                    await ChooseBackend();
                 }
             }
             else
