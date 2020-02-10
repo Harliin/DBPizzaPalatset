@@ -12,7 +12,7 @@ using Npgsql;
 
 namespace DB_Kassörska
 {
-    public class CashierRepository : IRepository
+    public class CashierRepository
     {
         private string ConnectionString { get; }
         private IDbConnection connection { get; }
@@ -81,95 +81,5 @@ namespace DB_Kassörska
             }
                 
         } //Visa alla ordrar
-        public async Task<IEnumerable<Order>> ShowOrderByIDAsync(int orderNumber) //Visa ordrar baserat på ID
-        {
-            using (IDbConnection con = Connection)
-            {
-                IEnumerable<Order> ongoingOrders = (await connection.QueryAsync<Order>("\"ShowOrderByID\"", new { @inid = orderNumber }, commandType: CommandType.StoredProcedure));
-                return ongoingOrders;
-            }
-        }
-        public async Task AddPizzaAsync(string name, int price) //Lägg till pizza
-        {
-            using (IDbConnection con = Connection)
-            {
-                await connection.QueryAsync<Pizza>("\"AddPizza\"",
-                new { name = name, price = price }, commandType: CommandType.StoredProcedure);
-            }
-                
-        }
-        public async Task AddIngredientToPizzaAsync(int pizzaID, int[] ingridients) //Lägg till ingrediens till pizza
-        {
-            using (IDbConnection con = Connection)
-            {
-                foreach (var ingredient in ingridients)
-                {
-                    await connection.QueryAsync<Pizza>("\"INSERT INTO PizzaIngredients(PizzaID, IngredientsID) VALUES (@PizzaID, @IngredientID)\"", new { PizzaID = pizzaID, IngredientID = ingredient });
-                }
-            }
-        }
-        public async Task<IEnumerable<PizzaIngredient>> ShowPizzaAndIngredients() //Visa pizzans ingredienser
-        {
-            using (IDbConnection con = Connection)
-            {
-                IEnumerable<PizzaIngredient> pizzaIngredients = await connection.QueryAsync<PizzaIngredient>("\"ShowPizzaIngredients\"", commandType: CommandType.StoredProcedure);
-                return pizzaIngredients;
-            }
-                
-        }
-        public async Task<IEnumerable<Pizza>> ShowPizzasAsync() //Visa vilka pizzor som finns att köpa
-        {
-            using (IDbConnection con = Connection)
-            {
-                IEnumerable<Pizza> pizzas = await connection.QueryAsync<Pizza>("\"GetPizzas\"", commandType: CommandType.StoredProcedure);
-                return pizzas;
-            }
-                
-        }
-        public async Task<IEnumerable<Ingredient>> ShowIngredientsAsync() //Visa vilka ingredienser som finns att använda
-        {
-            using (IDbConnection con = Connection)
-            {
-                IEnumerable<Ingredient> ingredients = await connection.QueryAsync<Ingredient>("\"GetIngredients\"", commandType: CommandType.StoredProcedure);
-                return ingredients;
-            }
-                
-        }
-        public async Task<IEnumerable<Pasta>> ShowPastasAsync() //Visa vilka pastor som finns att köpa
-        {
-            using (IDbConnection con = Connection)
-            {
-                IEnumerable<Pasta> pastas = await connection.QueryAsync<Pasta>("\"GetPastas\"", commandType: CommandType.StoredProcedure);
-                return pastas;
-            }
-                
-        }
-        public async Task<IEnumerable<Sallad>> ShowSalladsAsync() //Visa vilka sallader som finns att köpa
-        {
-            using (IDbConnection con = Connection)
-            {
-                IEnumerable<Sallad> sallads = await connection.QueryAsync<Sallad>("\"GetSallads\"", commandType: CommandType.StoredProcedure);
-                return sallads;
-            }
-                
-        }
-        public async Task<IEnumerable<Drink>> ShowDrinksAsync() //Visa vilka drycker som finns att köpa
-        {
-            using (IDbConnection con = Connection)
-            {
-                IEnumerable<Drink> drinks = await connection.QueryAsync<Drink>("\"GetDrinks\"", commandType: CommandType.StoredProcedure);
-                return drinks;
-            }
-                
-        }
-        public async Task<IEnumerable<Extra>> ShowExtraAsync() //Visa vilka tillägg som finns att köpa
-        {
-            using (IDbConnection con = Connection)
-            {
-                IEnumerable<Extra> drinks = await connection.QueryAsync<Extra>("\"GetExtras\"", commandType: CommandType.StoredProcedure);
-                return drinks;
-            }
-                
-        }
     } 
 }

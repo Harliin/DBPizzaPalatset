@@ -30,7 +30,7 @@ namespace DB_Kassörska
                 {
                     Console.WriteLine($"Order-ID: {order.ID}\tStatus: {order.Status}");
                 }
-            }
+            } //Skriver ut pågående ordrar
 
             Console.WriteLine();
             Console.WriteLine("Ordrar färdiga att hämtas ut:");
@@ -39,7 +39,7 @@ namespace DB_Kassörska
             foreach (var order in await repo.ShowOrderByStatusAsync(eStatus.Klar))
             {
                 Console.WriteLine($"Order-ID: {order.ID}\tStatus: {order.Status}");
-            }
+            } // Skriver ut färdiga ordrar
 
             Console.WriteLine();
             Console.Write("Välj Order-ID som har status \"Klar\", när kunden hämtat ut den: ");
@@ -47,6 +47,11 @@ namespace DB_Kassörska
             IEnumerable<Order> ordersByStatus = await repo.ShowOrderByStatusAsync(eStatus.Klar);
 
             List<Order> listOfOrders = ordersByStatus.ToList();
+
+            do
+            {
+
+            }
 
             if (int.TryParse(Console.ReadLine(), out int cashierOrderChoice))
             {
@@ -71,6 +76,5 @@ namespace DB_Kassörska
                 await CashierManagement();
             }
         }
-
     }
 }
