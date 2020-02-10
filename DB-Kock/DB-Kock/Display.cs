@@ -143,9 +143,7 @@ namespace DB_Kock
 
         private async Task ShowOrders()//Printar ut ordrar med status 2 == under tillagning
         {
-            IEnumerable<Order> orderByStatusIEnumerable = await repo.ShowOrderByStatus(eStatus.Tillagning);
-            List<Order> ordersList = orderByStatusIEnumerable.ToList();
-            foreach (Order orderByStatus in ordersList)//Printar ut alla ordrar under tillagning
+            foreach (Order orderByStatus in await repo.ShowOrderByStatus(eStatus.Tillagning))//Printar ut alla ordrar under tillagning
             {
                 int orderID = orderByStatus.ID;
                 Console.Write($"Order #: {orderByStatus.ID} \n");
