@@ -13,16 +13,17 @@ namespace DB_Beställning
             "************Matmeny***************\n",
             "Välj den typ av mat som du vill beställa:",
             "-------------",
-            "1. Pizza",
-            "2. Pasta",
-            "3. Sallad",
-            "4. Dryck",
-            "5. Extra\n",
-            "6. Ändra order",
-            "7. Betala",
+            "[1] Pizza",
+            "[2] Pasta",
+            "[3] Sallad",
+            "[4] Dryck",
+            "[5] Extra",
+            "-------------",
+            "[6] Visa / Ändra order",
+            "[7] Betala",
 
             "-------------",
-            "9. Avsluta"
+            "[9] Avsluta"
         };
 
     }

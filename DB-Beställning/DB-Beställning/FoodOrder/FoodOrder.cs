@@ -86,9 +86,9 @@ namespace DB_Beställning
             Console.WriteLine("************Pizzameny***************");
             foreach (Pizza pizza in pizzas)
             {
-                Console.WriteLine($"{pizza.ID}. {pizza.Name}: {pizza.Price}kr");
+                Console.WriteLine($"[{pizza.ID}] {pizza.Name}: {pizza.Price}kr");
             }
-            Console.Write($"\n9.Gå tillbaka");
+            Console.Write($"\n[9] Gå tillbaka");
             Console.Write("\n\nVal: ");
 
             if (int.TryParse(Console.ReadLine(), out userChoice))
@@ -130,9 +130,9 @@ namespace DB_Beställning
             Console.WriteLine("************Pastameny***************");
             foreach (Pasta pasta in pastas)
             {
-                Console.WriteLine($"{pasta.ID}. {pasta.Name} {pasta.Price} kr");
+                Console.WriteLine($"[{pasta.ID}] {pasta.Name} {pasta.Price} kr");
             }
-            Console.Write($"\n9. Gå tillbaka");
+            Console.Write($"\n[9] Gå tillbaka");
             Console.Write("\n\nVal: ");
             if (int.TryParse(Console.ReadLine(), out userChoice))
             {
@@ -173,9 +173,9 @@ namespace DB_Beställning
             Console.WriteLine("************Salladsmeny***************");
             foreach (Sallad sallad in sallads)
             {
-                Console.WriteLine($"{sallad.ID}. {sallad.Name} {sallad.Price} kr");
+                Console.WriteLine($"[{sallad.ID}] {sallad.Name} {sallad.Price} kr");
             }
-            Console.Write($"\n9. Gå tillbaka");
+            Console.Write($"\n[9] Gå tillbaka");
             Console.Write("\n\nVal: ");
             if (int.TryParse(Console.ReadLine(), out userChoice))
             {
@@ -216,9 +216,9 @@ namespace DB_Beställning
             Console.WriteLine("************Dryckesmeny***************");
             foreach (Drink drink in drinks)
             {
-                Console.WriteLine($"{drink.ID}. {drink.Name} {drink.Price} kr");
+                Console.WriteLine($"[{drink.ID}] {drink.Name} {drink.Price} kr");
             }
-            Console.Write($"\n9. Gå tillbaka");
+            Console.Write($"\n[9] Gå tillbaka");
             Console.Write("\n\nVal: ");
             if (int.TryParse(Console.ReadLine(), out userChoice))
             {
@@ -259,9 +259,9 @@ namespace DB_Beställning
             Console.WriteLine("************Extrameny***************");
             foreach (Extra extra in await repo.ShowExtraAsync())
             {
-                Console.WriteLine($"{extra.ID}. {extra.Name} {extra.Price} kr");
+                Console.WriteLine($"[{extra.ID}] {extra.Name} {extra.Price} kr");
             }
-            Console.Write($"\n9. Gå tillbaka");
+            Console.Write($"\n[9] Gå tillbaka");
             Console.Write("\n\nVal: ");
             if(int.TryParse(Console.ReadLine(), out userChoice))
             { 
@@ -301,7 +301,7 @@ namespace DB_Beställning
                 || order.drink.Count > 0 || order.extra.Count > 0)
             {
                 Console.WriteLine($"\nSumma: {totalPrice}kr");
-                Console.WriteLine("\n\n1.Bekräfta \n2.Gå tillbaka");
+                Console.WriteLine("\n\n[1] Bekräfta \n[2] Gå tillbaka");
             }
             else
             {
@@ -316,8 +316,8 @@ namespace DB_Beställning
                     Console.Clear();
                     await repo.UpdateOrderStatus(Menus.orderID);
                     await StoreReceipt();
-                    Console.WriteLine("\nTack för din beställning\nVälkommen åter!");
-                    Thread.Sleep(900);
+                    Console.WriteLine("Tack för din beställning\nVälkommen åter!");
+                    Thread.Sleep(1200);
                     await menus.PrintMenu();
                     break;
                 case '2':
@@ -359,7 +359,7 @@ namespace DB_Beställning
         {
             await ShowOrder();
             Console.WriteLine($"\nSumma: {totalPrice} kr");
-            Console.WriteLine("\n1.Ta bort beställning\n2.Gå tillbaka");
+            Console.WriteLine("\n[1] Ta bort beställning\n[2] Gå tillbaka");
             char key = Console.ReadKey(true).KeyChar;
             switch (key)
             {
@@ -372,9 +372,9 @@ namespace DB_Beställning
                             Console.Clear();
                             foreach (var item in orders)
                             {
-                                Console.WriteLine($"ID: {item.Key}, namn : {item.Value.name} ");
+                                Console.WriteLine($"ID: [{item.Key}] namn: {item.Value.name} ");
                             }
-                            Console.WriteLine("\nTryck 0 för att gå tillbaka");
+                            Console.WriteLine("\nTryck [0] för att gå tillbaka");
                             Console.Write("\nVälj ID för att ta bort: ");
                             if (int.TryParse(Console.ReadLine(), out int deleteChoice))
                             {
@@ -387,13 +387,13 @@ namespace DB_Beställning
                                     if (orders.TryGetValue(deleteChoice, out MenuItem orderToRemove))
                                     {
                                         await RemoveOrder(orderToRemove);
-                                        Console.WriteLine("\nVaran borttagen.");
+                                        Console.WriteLine("Varan borttagen.");
                                         Thread.Sleep(600);
                                         check = false;
                                     }
                                     else
                                     {
-                                        Console.WriteLine("\nOgiltigt ID");
+                                        Console.WriteLine("Ogiltigt ID");
                                         Thread.Sleep(600);
                                     }
                                 }
