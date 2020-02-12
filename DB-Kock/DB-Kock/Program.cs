@@ -19,7 +19,8 @@ namespace DB_Kock
         private static async Task ChooseBackend()//Väljer backend mellan MSSQL och PostgreSQL
         {
             Console.Clear();
-            Console.WriteLine("[1]MSSQL\n[2]PostgreSQL");
+            Console.WriteLine("************DATABASMENYVAL************");
+            Console.WriteLine("[1] MSSQL\n[2] PostgreSQL");
             Console.Write("Välj Backend: ");
             if (int.TryParse(Console.ReadLine(), out int backend))
             {
@@ -83,7 +84,7 @@ namespace DB_Kock
         public static async Task<bool> Login()//Login. Användarnamn: ba1  Lösen: ba1          
         {                                    //Alternativ inlogg användarnamn: Giovanni  Lösen: bagare2
             Console.Clear();
-            Console.WriteLine("*Inloggnings Meny*");
+            Console.WriteLine("************INLOGGNINGS MENY************");
             Console.Write("\nSkriv in Användarnamn: ");
             string AdminName = Console.ReadLine();
 

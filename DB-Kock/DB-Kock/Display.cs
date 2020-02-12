@@ -18,11 +18,12 @@ namespace DB_Kock
             var repo = new ChefRepository();
 
             Console.Clear();
-            Console.WriteLine("Välj den order som du vill tillaga");
+            Console.WriteLine("************INKOMMANDE ORDER************");
             Console.WriteLine("-------------\n");
 
             await ShowOrders();//Skriver ut ordarna som är under tillagning
 
+            Console.WriteLine("-------------");
             Console.WriteLine("\n~ Välj ordernummer för att tillaga\n~ Tryck [0] för att logga ut");
             Console.Write("\nDitt val: ");
 
