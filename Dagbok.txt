@@ -1,3 +1,69 @@
 
  *Skriv vad ni gjort i denna fil.(med datum)*
 
+Pontus:
+10/1-2020
+Påbörjade Menyerna i Beställningsterminalen, Pizza,sallad,pasta och dryck är i stort sett färdig, kommer fyllas ut när databasen kopplas in.
+22-24/1-2020
+Skapade större delen av beställningsterminalen, lade till Stored Procedures som behövdes
+27-31/1-2020
+Färdigställde beställningsterminalen förutom Kvittot(Json) och felsäkrade systemet
+03-07/2-2020
+La till using i terminalen, fixade kopplingen till postgre databasen samt fixade till kvittot.
+Terminalen är nu felsäkrad och färdigställd.
+
+Jonathan:
+10/1-2020
+Gjorde klart skalet för admin menyn.
+13/1-2020
+Skapade en loggin för admin
+15/1-2020
+Uppdaterade balsamiq skissen
+21/1-2020
+Skapade class library "Food", och gjorde några stored procedures. Skapade även Repository för admin terminal och la till
+logic för att visa nuvrande maträtter från servern i den.
+22-24/1-2020
+Byggde upp en stor del av DB-Admin systemet med metoder för att lägga till ingredienser på pizza m.m. Skapade en del stored procedures i databasen. 
+27-31/1-2020
+Färdigställde admin programmet för MSSQL samt kommenterade koden, hjälpte sedan till lite på kockterminalen.
+03-07/2-2020
+Lade till using för att hantera resurser för connection string, samt fixade vi alla iordning postgresql med tabeller och 
+stored procedures. Felhanterade sedan min terminal som nu är klar.
+
+
+Thomas:
+10/1 2020
+Började skriva på kassörprogrammet. Måste få till en bättre felhantering av användarens input. Fortsätter i helgen.
+14/1 2020
+Uppdaterade layouten och lade till hantering av felinmatning
+20/1 2020
+Började lägga in data i databasen
+
+Aata:
+11/1 2020
+Uppdaterade gamla kod i kock terminalen.
+14/1 2020
+Uppdaterat terminal med sallad och pasta men den saknar fortfarande "logga ut" -knappen.
+15/1 2020
+Fixade att koden funkar bra utan databas koppling.
+21/1 2020
+Implementerade Food bibliotek till min kod som Jonathan skapade och började med MSSQL Stored Procedures.
+22-24/1 2020
+Forsatt med MSSQL Stored Procedures och uppdaterade databas tabeller i MSSQL.
+27-31/1 2020
+Färdigställde kock programmet för MSSQL.
+03-07/2 2020
+Skapade tabeller och Stored Procedures i Postgre och implementerade de till mitt kod för kock terminalen. 
+10/2 2020
+Färdigställde kock programmet.
+
+
+Elchin:
+11/1 2020 
+Började med Grupp 1 Bagareterminal. Redogjorde lite i kod. 
+14/1 2020 
+Gjorde om programmet. Skapade skelettprogrammet. Lämnade tomma metoder bara. 
+28/1 2020 
+Uppdaterade programmet. Nu synkroniserar det med DB och hämtar infon direkt. 
+06-02-20 
+Raderade onödiga rad av kod. Adderade ett par kommentär
