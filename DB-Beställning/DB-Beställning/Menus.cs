@@ -17,7 +17,7 @@ namespace DB_Beställning
         {
             Console.Clear();
             Console.WriteLine("************DATABSMENYVAL***************");
-            Console.WriteLine("[1]MSSQL\n[2]PostgreSQL");
+            Console.WriteLine("[1] MSSQL\n[2] PostgreSQL");
             Console.Write("Välj Backend: ");
             if (int.TryParse(Console.ReadLine(), out int backend))
             {

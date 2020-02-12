@@ -77,7 +77,7 @@ namespace DB_Beställning
                 await menus.PrintOrderMenu();
             }
         }
-        // Metod som skriver ut Pizza
+        // Metod som skriver ut Pizza och kollar så att userChoice passar med ett befintligt id
         public async Task ShowPizzas()
         {
             var pizzas = await repo.ShowPizzasAsync();
@@ -121,7 +121,7 @@ namespace DB_Beställning
                 await ShowPizzas();
             }
         }
-        // Metod som skriver ut Pasta
+        // Metod som skriver ut Pasta och kollar så att userChoice passar med ett befintligt id
         public async Task ShowPastas()
         {
             var pastas = await repo.ShowPastasAsync();
@@ -164,7 +164,7 @@ namespace DB_Beställning
                 await ShowPastas();
             }
         }
-        // Metod som skriver ut Sallad
+        // Metod som skriver ut Sallad och kollar så att userChoice passar med ett befintligt id
         public async Task ShowSallads()
         {
             var sallads = await repo.ShowSalladsAsync();
@@ -207,7 +207,7 @@ namespace DB_Beställning
                 await ShowSallads();
             }
         }
-        // Metod som skriver ut Drinks
+        // Metod som skriver ut Drinks och kollar så att userChoice passar med ett befintligt id
         public async Task ShowDrinks()
         {
             var drinks = await repo.ShowDrinksAsync();
@@ -250,7 +250,7 @@ namespace DB_Beställning
                 await ShowDrinks();
             }
         }
-        // Metod som skriver ut Extras
+        // Metod som skriver ut Extras och kollar så att userChoice passar med ett befintligt id
         public async Task ShowExtras()
         {
             var extras = await repo.ShowExtraAsync();
@@ -316,8 +316,9 @@ namespace DB_Beställning
                     Console.Clear();
                     await repo.UpdateOrderStatus(Menus.orderID);
                     await StoreReceipt();
-                    Console.WriteLine("Tack för din beställning\nVälkommen åter!");
-                    Thread.Sleep(1200);
+                    Console.WriteLine("Tack för din beställning och välkommen åter!");
+                    Console.WriteLine("Ditt kvitto skrivs ut.");
+                    Thread.Sleep(1500);
                     await menus.PrintMenu();
                     break;
                 case '2':
@@ -359,7 +360,7 @@ namespace DB_Beställning
         {
             await ShowOrder();
             Console.WriteLine($"\nSumma: {totalPrice} kr");
-            Console.WriteLine("\n[1] Ta bort beställning\n[2] Gå tillbaka");
+            Console.WriteLine("\n[1] Ta bort vara från beställning\n[2] Gå tillbaka");
             char key = Console.ReadKey(true).KeyChar;
             switch (key)
             {
