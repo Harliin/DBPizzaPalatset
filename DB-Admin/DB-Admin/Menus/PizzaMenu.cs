@@ -9,11 +9,11 @@ namespace DB_Admin
 {
     public class PizzaMenu//Pizza menyn hanterar menyn och dess funktioner
     {
-        public static AdminRepository repo = new AdminRepository();
+        public static AdminRepository repo;
         
         public async Task PizzaAsync()//Hanterar menyval för Pizzamenyn
         {
-            
+            repo = Program.repo;
             Console.Clear();
             Console.WriteLine("\t*Pizza Meny*\n\n[1]Lägg till Pizza\n[2]Ta bort Pizza\n[3]Visa pizzor med ingrediens\n[4]Lägg till ingredienser på pizza\n\n[5]Tillbaka");
             char adminChoice = Console.ReadKey(true).KeyChar;

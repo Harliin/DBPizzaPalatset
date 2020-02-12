@@ -9,9 +9,10 @@ namespace DB_Admin
 {
     public class PastaMenu//Pasta menyn hanterar menyn och dess funktioner
     {
-        public static AdminRepository repo = new AdminRepository();
+        public static AdminRepository repo;
         public async Task PastaAsync()//Hanterar valen i pasta menyn
         {
+            repo = Program.repo;
             Console.Clear();
             Console.WriteLine("\t*Pasta Meny*\n\n[1]Lägg till Pasta\n[2]Ta bort Pasta\n[3]Visa Pastor\n\n[5]Tillbaka");
             char adminChoice = Console.ReadKey(true).KeyChar;

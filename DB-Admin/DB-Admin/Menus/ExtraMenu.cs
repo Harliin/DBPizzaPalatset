@@ -9,9 +9,10 @@ namespace DB_Admin
 {
     public class ExtraMenu//Extra menyn hanterar menyn och dess funktioner
     {
-        public static AdminRepository repo = new AdminRepository();
+        public static AdminRepository repo;
         public async Task ExtrasAsync()//Meny för att hantera extra val
         {
+            repo = Program.repo;
             Console.Clear();
             Console.WriteLine("\t*Tillbehörs Meny*\n\n[1]Lägg till Tillbehör\n[2]Ta bort Tillbehör\n[3]Visa Tillbehör\n\n[5]Tillbaka");
             char adminChoice = Console.ReadKey(true).KeyChar;

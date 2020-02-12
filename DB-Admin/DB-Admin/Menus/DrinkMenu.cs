@@ -9,9 +9,10 @@ namespace DB_Admin
 {
     public class DrinkMenu//Drink menyn hanterar menyn och dess funktioner
     {
-        public static AdminRepository repo = new AdminRepository();
+        public static AdminRepository repo;
         public async Task DrinksAsync()//Hanterar menyn för Drinks
         {
+            repo = Program.repo;
             Console.Clear();
             Console.WriteLine("\t*Dryckes Meny*\n\n[1]Lägg till Dryck\n[2]Ta bort Dryck\n[3]Visa Drycker\n\n[5]Tillbaka");
             char adminChoice = Console.ReadKey(true).KeyChar;
