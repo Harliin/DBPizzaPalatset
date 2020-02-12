@@ -9,10 +9,11 @@ namespace DB_Admin
 {
     public class Employees
     {
-        public static AdminRepository repo = new AdminRepository();
+        public static AdminRepository repo;
         
         public async Task ManageEmployeesAsync()//Hanterar menyvalen för de menyn för anställda
         {
+            repo = Program.repo;
             Console.Clear();
             Console.WriteLine("\t*Meny för anställda*\n\n[1]Visa anställda\n[2]Lägg till en ny anställd\n[3]Ta bort en anställd\n\n[4]Tillbaka till huvudmeny");
             char adminChoice = Console.ReadKey(true).KeyChar;
@@ -22,7 +23,9 @@ namespace DB_Admin
                 case '1':
                     foreach (var employee in await repo.ShowEmployees())
                     {
-                        Console.WriteLine($"Namn:{employee.Name}  Lösenord:{employee.Password} Typ:{employee.EmployeeType}");
+                        Console.WriteLine($"Namn:{employee.Name}");
+                        Console.WriteLine($"\tLösenord:{employee.Password}");
+                        Console.WriteLine($"\tTyp:{employee.EmployeeType}\n");
                     }
                     Console.ReadKey();
                     

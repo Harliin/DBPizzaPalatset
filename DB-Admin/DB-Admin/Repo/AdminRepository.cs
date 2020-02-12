@@ -62,7 +62,6 @@ namespace DB_Admin
                         await connection.QueryAsync<Pizza>("\"AddPizza\"",
                         new { name1 = name, price = Price }, commandType: CommandType.StoredProcedure);
                     }
-                
                 }
                 public async Task AddPastaAsync(string name, int Price)
                 {
@@ -236,7 +235,6 @@ namespace DB_Admin
                         return ingredients;
                     }
                 }
-
                 public async Task<IEnumerable<Pasta>> ShowPastasAsync()
                 {
                     using (IDbConnection con = Connection)
@@ -245,7 +243,6 @@ namespace DB_Admin
                         return pastas;
                     }
                 }
-
                 public async Task<IEnumerable<Sallad>> ShowSalladsAsync()
                 {
                     using (IDbConnection con = Connection)
@@ -254,7 +251,6 @@ namespace DB_Admin
                         return sallads;
                     }
                 }
-
                 public async Task<IEnumerable<Drink>> ShowDrinksAsync()
                 {
                     using (IDbConnection con = Connection)

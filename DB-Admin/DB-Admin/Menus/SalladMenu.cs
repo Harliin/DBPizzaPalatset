@@ -9,10 +9,10 @@ namespace DB_Admin
 {
     public class SalladMenu//Sallad menyn hanterar menyn och dess funktioner
     {
-        public static AdminRepository repo = new AdminRepository();
+        public static AdminRepository repo;
         public async Task SalladAsync()//Huvud meny för sallad
         {
-            
+            repo = Program.repo;
             Console.Clear();
             Console.WriteLine("\t*Sallad Meny*\n\n[1]Lägg till Sallad\n[2]Ta bort Sallad\n[3]Visa Sallader\n\n[5]Tillbaka");
             char adminChoice = Console.ReadKey(true).KeyChar;
