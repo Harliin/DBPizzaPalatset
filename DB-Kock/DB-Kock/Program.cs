@@ -50,10 +50,24 @@ namespace DB_Kock
             }
         }
 
-        static public async Task Main()
+        static public async Task Main() //Startar programmet
         {
             await ChooseBackend();
 
+            Display startMenu = new Display();
+
+            if (await Login())
+            {
+                await startMenu.DrawMultipleChoiceMenu();
+            }
+            else
+            {
+                Console.WriteLine();
+            }
+        }
+
+        public static async Task Start() //Börjar om programmet utan att man måste välja backend
+        {
             Display startMenu = new Display();
 
             if (await Login())

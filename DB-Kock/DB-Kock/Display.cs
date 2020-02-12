@@ -13,7 +13,7 @@ namespace DB_Kock
     {
         public static ChefRepository repo = new ChefRepository();
 
-        public async Task DrawMultipleChoiceMenu()
+        public async Task DrawMultipleChoiceMenu() //Visar kockens display menu 
         {
             var repo = new ChefRepository();
 
@@ -21,7 +21,7 @@ namespace DB_Kock
             Console.WriteLine("Välj den order som du vill tillaga");
             Console.WriteLine("-------------\n");
 
-            await ShowOrders();//skriver ut ordarna som är under tillagning
+            await ShowOrders();//Skriver ut ordarna som är under tillagning
 
             Console.WriteLine("\n~ Välj ordernummer för att tillaga\n~ Tryck [0] för att logga ut");
             Console.Write("\nDitt val: ");
@@ -33,14 +33,14 @@ namespace DB_Kock
             {
                 if (userInput == 0)
                 {
-                    await Program.Main();
+                    await Program.Start();
                 }
                 else if (listOfOrders.Exists(x => x.ID == userInput))
                 {
                     Order orderFood = await repo.ShowOrderByID(userInput);
                     bool correctKey = true;
 
-                    do//Hanterar val för att tillaga en order eller gå tillbaka
+                    do//Hanterar val för att tillaga en order, gå tillbaka eller att logga ut
                     {
                         Console.Clear();
                         Console.WriteLine($"Du har valt order # {orderFood.ID}");
@@ -57,18 +57,18 @@ namespace DB_Kock
 
                         if (userInput2 == 1)
                         {
-                            await repo.UpdateOrderStatus(userInput);
+                            await repo.UpdateOrderStatus(userInput); //Uppdaterar orderstatus till 3 == klar
                             await DrawCookMenu(orderFood.ID);
                             correctKey = false;
                         }
                         if (userInput2 == 2)
                         {
-                            await DrawMultipleChoiceMenu();
+                            await DrawMultipleChoiceMenu(); //Visar orderlista
                             correctKey = false;
                         }
                         if (userInput2 == 3)
                         {
-                           await Program.Main();
+                           await Program.Start(); //Går tillbaka till inloggningen 
                            
                            
                         }
@@ -91,19 +91,17 @@ namespace DB_Kock
             Console.ReadKey();
             await DrawMultipleChoiceMenu();
         }
-        public async Task DrawCookMenu(int orderID)//Simulerar att pizzan tillagas
+        public async Task DrawCookMenu(int orderID)//Simulerar att maten tillagas
         {
-            var repo = new ChefRepository();
-
 
             Console.Clear();
             Console.WriteLine("Maten tillagas");
             Console.WriteLine("-------------\n");
 
-            // simulering av att pizzan tillagas
+            // Simulering av att pizzan tillagas
             System.Threading.Thread.Sleep(1500);
 
-            // pizzan klar
+            // Pizzan klar
             Console.Clear();
             Console.WriteLine("Pizzan färdig");
             Console.WriteLine("-------------\n");
@@ -111,11 +109,11 @@ namespace DB_Kock
 
             Console.WriteLine("Klicka Enter när du är färdig och redo att skicka maten till servering");
 
-            // väntar tills kocken bekräftat att maten är klar för servering
+            // Väntar tills kocken bekräftat att maten är klar för servering
             while (true)
             {
                 char key = Console.ReadKey(true).KeyChar;
-                // om kocken klickar på enter så skickas den tillbaka till startsidan för att kunna ta nya ordrar
+                // Om kocken klickar på enter så skickas den tillbaka till startsidan för att kunna ta nya ordrar
                 if (key == 13)
                 {
                     await DrawConfirmationScreen(orderID);
@@ -125,8 +123,7 @@ namespace DB_Kock
 
         }
 
-
-        public async Task DrawConfirmationScreen(int orderID) 
+        public async Task DrawConfirmationScreen(int orderID) //Skriver ut ordernummer som kocken har tillagat
         {
             Console.Clear();
             var ordersIEnumerable = await repo.ShowFinishedOrderID();
@@ -139,7 +136,6 @@ namespace DB_Kock
             System.Threading.Thread.Sleep(2000);
             await DrawMultipleChoiceMenu();
         }
-
 
         private async Task ShowOrders()//Printar ut ordrar med status 2 == under tillagning
         {
