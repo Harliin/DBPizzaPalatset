@@ -45,6 +45,7 @@ namespace DB_Kassörska
                 Console.WriteLine();
                 Console.Write("Välj Order-ID som har status \"Klar\", när kunden hämtat ut den: ");
 
+                //Markera order som uthämtad
                 IEnumerable<Order> ordersByStatus = await repo.ShowOrderByStatusAsync(eStatus.Klar);
 
                 List<Order> listOfOrders = ordersByStatus.ToList();
